@@ -1,5 +1,3 @@
-/// @file
-/// @brief Hello examples/ file
 #include "GnuPlotScripting/hello.hpp"
 #include <iostream>
 
