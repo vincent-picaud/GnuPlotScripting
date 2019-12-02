@@ -1,6 +1,7 @@
 #include "GnuPlotScripting/script.hpp"
 
 #include <fstream>
+#include <iostream>
 
 namespace GnuPlotScripting
 {
@@ -54,6 +55,14 @@ namespace GnuPlotScripting
       ~Script_File_Pimpl()
       {
         _file.close();
+
+        const std::string command = fmt::format("gnuplot -p \"{0}\"", _filename.c_str());
+        int error = std::system(command.c_str());
+        if (error)
+        {
+          std::cerr << "*** Error: " << command;
+        }
+
         // if (_run_gnuplot)
         // {
         //   std::stringstream command;
