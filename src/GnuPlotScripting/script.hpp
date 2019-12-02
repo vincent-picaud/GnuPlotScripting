@@ -14,7 +14,8 @@ namespace GnuPlotScripting
    public:
     struct Implementation
     {
-      virtual void write(std::string&&) = 0;
+      virtual void write(const std::string&) = 0;
+      virtual void writeln(const std::string&) = 0;
       virtual void flush() = 0;
       virtual ~Implementation() = default;
     };
@@ -35,7 +36,7 @@ namespace GnuPlotScripting
     template <typename... ARGS>
     void free_form(ARGS&&... args)
     {
-      write(fmt::format(args...));
+      _pimpl->writeln(fmt::format(std::forward<ARGS>(args)...));
     }
   };
 

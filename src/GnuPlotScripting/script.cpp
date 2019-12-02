@@ -33,9 +33,14 @@ namespace GnuPlotScripting
       std::filesystem::path _filename;
       std::ofstream _file;
 
-      void write(std::string&& s)
+      void write(const std::string& s)
       {
         _file << s;
+      }
+      void writeln(const std::string& s)
+      {
+        write(s);
+        write("\n");
       }
       void flush()
       {
