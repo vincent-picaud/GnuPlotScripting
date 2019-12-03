@@ -4,4 +4,4 @@
 
 using namespace GnuPlotScripting;
 
-TEST(Data, demo) { ASSERT_FALSE(true); }
+TEST(Data, uuid) { ASSERT_FALSE(Data_Uuid().as_string_view() == Data_Uuid().as_string_view()); }

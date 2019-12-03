@@ -40,7 +40,13 @@ namespace GnuPlotScripting
   // Data_Uuid //
   ///////////////
   //
-  Data_Uuid::Data_Uuid() : _uuid(generate_uuid(5)) {}
+  Data_Uuid::Data_Uuid() : _uuid("data_" + generate_uuid(5)) {}
+
+  std::string_view
+  Data_Uuid::as_string_view() const
+  {
+    return std::string_view(_uuid);
+  }
 
   bool
   Data_Uuid::operator<(const Data_Uuid& other) const
