@@ -1,10 +1,12 @@
 GnuPlotScripting_headers = [
   'hello.hpp',
   'script.hpp',
+  'data.hpp',
 ]
 GnuPlotScripting_sources = [
   'hello.cpp',
   'script.cpp',
+  'data.cpp',
 ]
 
 GnuPlotScripting_lib = library('GnuPlotScripting',
