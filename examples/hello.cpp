@@ -18,11 +18,21 @@ foo(ARGS&&... args)
   };
   (register_data(args), ...);
 }
+
+struct A
+{
+};
+
 int
 main()
 {
   std::vector<double> v1(10, 5);
   Data_Std_Vector test_1(v1);
+
+  //  Data_Vector tt(A(), std::string(), A());
+  A a;
+  std::string s;
+  Data_Vector tt(a);
 
   // foo(4, test_1, 7, std::vector<double>(), test_1);
   // return 0;

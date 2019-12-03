@@ -49,7 +49,7 @@ namespace GnuPlotScripting
 
   namespace
   {
-    struct Script_File_Interface : public Script::Interface
+    struct Script_File_Interface_Impl : public Script::Interface
     {
       std::filesystem::path _filename;
       std::ofstream _file;
@@ -66,12 +66,12 @@ namespace GnuPlotScripting
         _file << std::flush;
       }
 
-      Script_File_Interface(const std::filesystem::path& filename)
+      Script_File_Interface_Impl(const std::filesystem::path& filename)
           : _filename(filename), _file{_filename.c_str()}
       {
         assert(_file.is_open());
       }
-      ~Script_File_Interface()
+      ~Script_File_Interface_Impl()
       {
         _file.close();
 
@@ -87,7 +87,7 @@ namespace GnuPlotScripting
   }
 
   Script_File::Script_File(const std::filesystem::path& filename)
-      : Script(std::make_unique<Script_File_Interface>(filename))
+      : Script(std::make_unique<Script_File_Interface_Impl>(filename))
   {
   }
 
