@@ -1,19 +1,30 @@
 #pragma once
 
+#include <memory>
 #include <string>
 
 namespace GnuPlotScripting
 {
-  class Data_Uuid
+  class Data
   {
-    std::string _uuid;
+   public:
+    struct Interface
+    {
+      virtual const std::string& uuid() const = 0;
+      virtual const std::string& data() const = 0;
+
+      virtual ~Interface() = default;
+    };
+
+   protected:
+    using pimpl_type = std::shared_ptr<const Interface>;
+    pimpl_type _pimpl;
+
+    Data(std::string&& embedded_data);
 
    public:
-    Data_Uuid();
-
-    std::string_view as_string_view() const;
-
-    bool operator<(const Data_Uuid& other) const;
+    const std::string& uuid() const;
+    const std::string& data() const;
   };
 
 }

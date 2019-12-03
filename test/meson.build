@@ -1,5 +1,6 @@
 test_array = [
   ['data_test','data_exe','data.cpp'],
+  ['data_std_vector_test','data_std_vector_exe','data_std_vector.cpp'],
 ]
 
 foreach test : test_array

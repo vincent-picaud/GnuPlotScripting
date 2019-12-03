@@ -34,23 +34,43 @@ namespace GnuPlotScripting
       }
       return ss.str();
     }
+
+    class Interface_Impl : public Data::Interface
+    {
+      std::string _uuid;
+      std::string _data;
+
+     public:
+      Interface_Impl(std::string&& embedded_data)
+          : _uuid("data_" + generate_uuid(5)), _data(std::move(embedded_data)){};
+
+      const std::string&
+      uuid() const final
+      {
+        return _uuid;
+      }
+      const std::string&
+      data() const final
+      {
+        return _data;
+      }
+    };
   }
 
-  ///////////////
-  // Data_Uuid //
-  ///////////////
-  //
-  Data_Uuid::Data_Uuid() : _uuid("data_" + generate_uuid(5)) {}
-
-  std::string_view
-  Data_Uuid::as_string_view() const
+  Data::Data(std::string&& embedded_data)
+      : _pimpl(std::make_shared<const Interface_Impl>(std::move(embedded_data)))
   {
-    return std::string_view(_uuid);
   }
 
-  bool
-  Data_Uuid::operator<(const Data_Uuid& other) const
+  const std::string&
+  Data::uuid() const
   {
-    return _uuid < other._uuid;
+    return _pimpl->uuid();
   }
+  const std::string&
+  Data::data() const
+  {
+    return _pimpl->data();
+  }
+
 }
