@@ -42,7 +42,7 @@ namespace GnuPlotScripting
 
      public:
       Interface_Impl(std::string&& embedded_data)
-          : _uuid("data_" + generate_uuid(5)), _data(std::move(embedded_data)){};
+          : _uuid("$" + generate_uuid(5)), _data(std::move(embedded_data)){};
 
       const std::string&
       uuid() const final

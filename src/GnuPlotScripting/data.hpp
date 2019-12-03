@@ -25,6 +25,10 @@ namespace GnuPlotScripting
    public:
     const std::string& uuid() const;
     const std::string& data() const;
+
+    // used by fmt
+    operator const char* const() const { return uuid().c_str(); };
   };
 
 }
+
