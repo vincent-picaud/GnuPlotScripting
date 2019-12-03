@@ -19,20 +19,54 @@ foo(ARGS&&... args)
   (register_data(args), ...);
 }
 
+template <typename T>
+void
+printType()
+{
+  std::cerr << __PRETTY_FUNCTION__ << std::endl;
+}
+
+struct Test
+{
+  Test() = delete;
+
+  // template <typename T, typename... Ts>
+  // Test(const T& t, const Ts&... ts)
+  // {
+  //   printType<T>();
+  // }
+
+  // template <typename T>
+  // Test(const T& t)
+  // {
+  //   printType<T>();
+  // }
+};
+
 struct A
 {
+  size_t
+  size() const
+  {
+    return 1;
+  }
+
+  double operator[](size_t) const { return 1; }
+  // double operator[](size_t)  { return 1; }
 };
 
 int
 main()
 {
   std::vector<double> v1(10, 5);
-  Data_Std_Vector test_1(v1);
+  Data_Vector test_1(v1);
 
   //  Data_Vector tt(A(), std::string(), A());
+  using Type = std::vector<double>;
   A a;
-  std::string s;
-  Data_Vector tt(a);
+  Type s;
+  Data_Vector tt{Type(), s, A()};
+  //Data_Vector tt{A()};
 
   // foo(4, test_1, 7, std::vector<double>(), test_1);
   // return 0;

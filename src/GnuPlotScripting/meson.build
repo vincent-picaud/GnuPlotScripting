@@ -2,6 +2,7 @@ GnuPlotScripting_headers = [
   'hello.hpp',
   'script.hpp',
   'data.hpp',
+  'detection_idiom.hpp',
   'data_std_vector.hpp',
 ]
 GnuPlotScripting_sources = [
