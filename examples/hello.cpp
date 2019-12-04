@@ -19,11 +19,10 @@ main()
   Script_File script("script.gp");
 
   auto png = PNG();
-  png.set_color(false);
+  png.set_enhanced(false);
 
-  script.fmt_free_form("plot sin(x) t \"super\"");
-  script.fmt_free_form("replot {} w l t \"ca marche?\"", data);
-  script.fmt_free_form("replot {} u ($1)+2 w l lw 3 t \"oui!?\"", data);
-  script.export_as(PNG().set_color(false), "test.png");
+  script.free_form("plot sin(x) t \"super\"");
+  script.free_form("replot {} w l t \"ca marche?\"", data);
+  script.free_form("replot {} u ($1)+2 w l lw 3 t \"oui!?\"", data);
   script.export_as(png, fmt::format("{}.png", "test2"));
 }

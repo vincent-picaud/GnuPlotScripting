@@ -45,7 +45,7 @@ namespace GnuPlotScripting
    public:
     template <typename... ARGS>
     Script&
-    fmt_free_form(ARGS&&... args)
+    free_form(ARGS&&... args)
     {
       auto register_data_if_any = [this](const auto& arg) {
         using arg_type = std::decay_t<decltype(arg)>;

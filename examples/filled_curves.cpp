@@ -8,7 +8,7 @@ main()
   Script_File script("filled_curve.gp");
 
   script.set_title("Some sqrt stripes on filled graph background")
-      .fmt_free_form(
+      .free_form(
           "plot [0:10] [-8:6] "
           "-8 with filledcurve x2 lt 15, "
           "sqrt(x) with filledcurves y1=-0.5, "
