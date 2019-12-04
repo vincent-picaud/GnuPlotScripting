@@ -43,37 +43,11 @@ struct Test
   // }
 };
 
-struct A
-{
-  size_t
-  size() const
-  {
-    return 1;
-  }
-
-  double operator[](size_t) const { return 1; }
-  // double operator[](size_t)  { return 1; }
-};
-
 int
 main()
 {
   std::vector<double> v1(10, 5);
   Data_Vector test_1(v1);
-
-  //  Data_Vector tt(A(), std::string(), A());
-  using Type = std::vector<double>;
-  A a;
-  Type s;
-  Data_Vector tt{Type(), s, A()};
-  //Data_Vector tt{A()};
-
-  // foo(4, test_1, 7, std::vector<double>(), test_1);
-  // return 0;
-
-  // std::string s = fmt::format("I'd rather be \"{}\" than.", test_1);
-
-  // std::cout << "\n s= " << s;
 
   Script_File test("test.gp");
 
