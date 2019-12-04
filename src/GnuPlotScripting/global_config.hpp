@@ -33,12 +33,10 @@ namespace GnuPlotScripting
     Global_Config& operator=(Global_Config&&) = delete;
 
    public:
-    // action logging
     Global_Config& set_log(bool on_off);
     bool log() const;
     Global_Config& set_log_message(const char* const msg);
 
-    // run file scripts
     Global_Config& set_file_script_mode(Script_File_Mode_Enum mode);
     Script_File_Mode_Enum file_script_mode() const;
   };

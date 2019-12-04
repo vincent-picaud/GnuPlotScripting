@@ -99,11 +99,30 @@ namespace GnuPlotScripting
       {
         _file.close();
 
-        const std::string command = fmt::format("gnuplot -p \"{0}\"", _filename.c_str());
-        int error                 = std::system(command.c_str());
+        std::string command;
+        switch (global_config().file_script_mode())
+        {
+          case Script_File_Mode_Enum::Persistent:
+            command = fmt::format("gnuplot -p \"{}\"", _filename.c_str());
+            break;
+          case Script_File_Mode_Enum::Silent:
+            command = fmt::format("gnuplot \"{}\"", _filename.c_str());
+            break;
+          default:
+            return;
+        }
+
+        if (global_config().log())
+        {
+          global_config().set_log_message(fmt::format("Running : {}", command).c_str());
+        }
+        int error = std::system(command.c_str());
         if (error)
         {
-          std::cerr << "*** Error: " << command;
+          if (global_config().log())
+          {
+            global_config().set_log_message(fmt::format("Got error code : {}", error).c_str());
+          }
         }
       }
     };
@@ -116,8 +135,7 @@ namespace GnuPlotScripting
     if (global_config().log())
     {
       global_config().set_log_message(
-          fmt::format("Creating gnuplot script: {}\n", filename.c_str()).c_str());
+          fmt::format("Creating : {}", filename.c_str()).c_str());
     }
   }
-
 }

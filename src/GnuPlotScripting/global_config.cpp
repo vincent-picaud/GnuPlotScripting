@@ -8,7 +8,7 @@ namespace GnuPlotScripting
   struct Global_Config::Interface
   {
     bool _log                               = true;
-    Script_File_Mode_Enum _script_file_mode = Script_File_Mode_Enum::None;
+    Script_File_Mode_Enum _script_file_mode = Script_File_Mode_Enum::Persistent;
   };
 
   Global_Config::Global_Config() : _pimpl(std::make_unique<Interface>()) {}
@@ -26,11 +26,11 @@ namespace GnuPlotScripting
     return _pimpl->_log;
   }
   Global_Config&
-  Global_Config::set_log_message(const char* const msg) 
+  Global_Config::set_log_message(const char* const msg)
   {
     assert(log());
 
-    std::cerr << "[GnuPlotScripting] : " << msg << std::endl;
+    std::cerr << "[GnuPlotScripting] " << msg << std::endl;
 
     return *this;
   }
