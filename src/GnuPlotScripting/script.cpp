@@ -43,6 +43,18 @@ namespace GnuPlotScripting
     }
   }
 
+  void
+  Script::export_as(const Export_As& export_as, const char* const output)
+  {
+    _pimpl->write(export_as.scripted(output));
+  }
+
+  void
+  Script::export_as(const Export_As& export_as_, const std::string& output)
+  {
+    export_as(export_as_, output.c_str());
+  }
+  
   /////////////////
   // Script_File //
   /////////////////

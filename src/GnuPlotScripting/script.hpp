@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GnuPlotScripting/data.hpp"
+#include "GnuPlotScripting/export_as.hpp"
 
 #include "fmt/format.h"
 
@@ -44,7 +45,7 @@ namespace GnuPlotScripting
    public:
     template <typename... ARGS>
     void
-    free_form(ARGS&&... args)
+    fmt_free_form(ARGS&&... args)
     {
       auto register_data_if_any = [this](const auto& arg) {
         using arg_type = std::decay_t<decltype(arg)>;
@@ -57,6 +58,9 @@ namespace GnuPlotScripting
 
       _pimpl->writeln(fmt::format(std::forward<ARGS>(args)...));
     }
+
+    void export_as(const Export_As& export_as, const char* const output);
+    void export_as(const Export_As& export_as, const std::string& output);
   };
 
   /////////////////
