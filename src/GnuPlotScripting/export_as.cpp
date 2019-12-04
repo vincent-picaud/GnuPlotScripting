@@ -68,6 +68,16 @@ namespace GnuPlotScripting
     //////////////// Common Options ////////////////
     //
     std::string
+    free_form(const std::optional<std::string>& option)
+    {
+      if (option.has_value())
+      {
+        return (*option) + " ";
+      }
+      return "";
+    }
+
+    std::string
     enhanced(const std::optional<bool>& option)
     {
       if (option.has_value())
@@ -83,6 +93,40 @@ namespace GnuPlotScripting
       }
       return "";
     }
+
+    std::string
+    transparent(const std::optional<bool>& option)
+    {
+      if (option.has_value())
+      {
+        if (*option)
+        {
+          return "transparent ";
+        }
+        else
+        {
+          return "notransparent ";
+        }
+      }
+      return "";
+    }
+
+    std::string
+    interlace(const std::optional<bool>& option)
+    {
+      if (option.has_value())
+      {
+        if (*option)
+        {
+          return "interlace ";
+        }
+        else
+        {
+          return "nointerlace ";
+        }
+      }
+      return "";
+    }
   }
 
   ///////////////////
@@ -91,13 +135,16 @@ namespace GnuPlotScripting
   //
   struct PNG::PNG_Interface final : public Export_As::Interface
   {
-    std::string _free_options;
+    std::optional<std::string> _free_form;
     std::optional<bool> _enhanced;
+    std::optional<bool> _transparent;
+    std::optional<bool> _interlace;
 
     std::string
     export_as(const std::filesystem::path& filename) const
     {
-      std::string options = (enhanced(_enhanced));
+      std::string options = (free_form(_free_form) + enhanced(_enhanced) +
+                             transparent(_transparent) + interlace(_interlace));
 
       return scripting_helper("png", filename, options);
     }
@@ -114,6 +161,21 @@ namespace GnuPlotScripting
   PNG::PNG() : Export_As{std::make_unique<PNG_Interface>()} {}
 
   PNG&
+  PNG::set_free_form(const std::string& free_form)
+  {
+    impl()._free_form = free_form;
+
+    return *this;
+  }
+  PNG&
+  PNG::set_free_form()
+  {
+    impl()._free_form.reset();
+
+    return *this;
+  }
+
+  PNG&
   PNG::set_enhanced(bool yes_no)
   {
     impl()._enhanced = yes_no;
@@ -124,6 +186,36 @@ namespace GnuPlotScripting
   PNG::set_enhanced()
   {
     impl()._enhanced.reset();
+
+    return *this;
+  }
+
+  PNG&
+  PNG::set_transparent(bool yes_no)
+  {
+    impl()._transparent = yes_no;
+
+    return *this;
+  }
+  PNG&
+  PNG::set_transparent()
+  {
+    impl()._transparent.reset();
+
+    return *this;
+  }
+
+  PNG&
+  PNG::set_interlace(bool yes_no)
+  {
+    impl()._interlace = yes_no;
+
+    return *this;
+  }
+  PNG&
+  PNG::set_interlace()
+  {
+    impl()._interlace.reset();
 
     return *this;
   }

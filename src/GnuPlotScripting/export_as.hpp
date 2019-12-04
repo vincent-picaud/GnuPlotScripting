@@ -34,8 +34,17 @@ namespace GnuPlotScripting
    public:
     PNG();
 
+    PNG& set_free_form(const std::string& free_form);
+    PNG& set_free_form();  // back to default
+
     PNG& set_enhanced(bool yes_no);
     PNG& set_enhanced();  // back to default
+
+    PNG& set_transparent(bool yes_no);
+    PNG& set_transparent();  // back to default
+
+    PNG& set_interlace(bool yes_no);
+    PNG& set_interlace();  // back to default
 
     // PNG& set_truecolor(bool yes_no);
     // PNG& set_truecolor();
