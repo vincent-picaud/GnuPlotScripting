@@ -34,8 +34,9 @@ namespace GnuPlotScripting
 
    public:
     // action logging
-    Global_Config& set_cerr_log(bool on_off);
-    bool cerr_log() const;
+    Global_Config& set_log(bool on_off);
+    bool log() const;
+    Global_Config& set_log_message(const char* const msg);
 
     // run file scripts
     Global_Config& set_file_script_mode(Script_File_Mode_Enum mode);

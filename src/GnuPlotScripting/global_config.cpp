@@ -1,10 +1,13 @@
 #include "GnuPlotScripting/global_config.hpp"
 
+#include <cassert>
+#include <iostream>
+
 namespace GnuPlotScripting
 {
   struct Global_Config::Interface
   {
-    bool _cerr_log                          = true;
+    bool _log                               = true;
     Script_File_Mode_Enum _script_file_mode = Script_File_Mode_Enum::None;
   };
 
@@ -12,15 +15,24 @@ namespace GnuPlotScripting
   Global_Config::~Global_Config() {}
 
   Global_Config&
-  Global_Config::set_cerr_log(bool on_off)
+  Global_Config::set_log(bool on_off)
   {
-    _pimpl->_cerr_log = on_off;
+    _pimpl->_log = on_off;
     return *this;
   }
   bool
-  Global_Config::cerr_log() const
+  Global_Config::log() const
   {
-    return _pimpl->_cerr_log;
+    return _pimpl->_log;
+  }
+  Global_Config&
+  Global_Config::set_log_message(const char* const msg) 
+  {
+    assert(log());
+
+    std::cerr << "[GnuPlotScripting] : " << msg << std::endl;
+
+    return *this;
   }
 
   Global_Config&

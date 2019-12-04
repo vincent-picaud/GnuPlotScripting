@@ -1,5 +1,6 @@
 
 #include "GnuPlotScripting/data_vector.hpp"
+#include "GnuPlotScripting/global_config.hpp"
 #include "GnuPlotScripting/script.hpp"
 
 #include <iostream>
@@ -11,6 +12,8 @@ using namespace GnuPlotScripting;
 int
 main()
 {
+  global_config().set_log(true);
+
   std::vector<double> v1(10, 5);
   std::valarray<int> v2(10);
   std::string v3("0123456789");

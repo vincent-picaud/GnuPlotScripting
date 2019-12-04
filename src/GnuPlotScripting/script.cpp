@@ -1,4 +1,5 @@
 #include "GnuPlotScripting/script.hpp"
+#include "GnuPlotScripting/global_config.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -54,7 +55,7 @@ namespace GnuPlotScripting
   {
     export_as(export_as_, output.c_str());
   }
-  
+
   /////////////////
   // Script_File //
   /////////////////
@@ -101,6 +102,11 @@ namespace GnuPlotScripting
   Script_File::Script_File(const std::filesystem::path& filename)
       : Script(std::make_unique<Script_File_Interface_Impl>(filename))
   {
+    if (global_config().log())
+    {
+      global_config().set_log_message(
+          fmt::format("Creating gnuplot script: {}\n", filename.c_str()).c_str());
+    }
   }
 
 }
