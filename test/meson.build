@@ -1,6 +1,7 @@
 test_array = [
   ['data_test','data_exe','data.cpp'],
-  ['data_std_vector_test','data_std_vector_exe','data_std_vector.cpp'],
+  ['data_vector_test','data_vector_exe','data_vector.cpp'],
+  ['export_as_test','export_as_exe','export_as.cpp'],
 ]
 
 foreach test : test_array
