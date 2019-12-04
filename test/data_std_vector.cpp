@@ -1,4 +1,4 @@
-#include "GnuPlotScripting/data_std_vector.hpp"
+#include "GnuPlotScripting/data_vector.hpp"
 
 #include <gtest/gtest.h>
 

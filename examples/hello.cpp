@@ -2,9 +2,10 @@
 #include "GnuPlotScripting/script.hpp"
 #include "fmt/format.h"
 
-#include "GnuPlotScripting/data_std_vector.hpp"
+#include "GnuPlotScripting/data_vector.hpp"
 
 #include <type_traits>
+#include <valarray>
 
 using namespace GnuPlotScripting;
 
@@ -47,7 +48,9 @@ int
 main()
 {
   std::vector<double> v1(10, 5);
-  Data_Vector test_1(v1);
+  std::valarray<int> v2(10);
+  std::string v3("01234567891");
+  Data_Vector test_1(v1, v2, v3);
 
   Script_File test("test.gp");
 

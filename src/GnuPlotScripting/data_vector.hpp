@@ -8,7 +8,20 @@
 
 namespace GnuPlotScripting
 {
-
+  // NOTE: support any kind of "vector" (not only std::vector). The
+  // required methods are:
+  // - size()
+  // - operator[]
+  //
+  // By example
+  //
+  // std::vector<double> v1(10, 5);
+  // std::valarray<int> v2(10);
+  // std::string v3("01234567891");
+  // Data_Vector test_1(v1, v2, v3);
+  //
+  // works.
+  //
   class Data_Vector final : public Data
   {
     template <typename VECTOR, typename... VECTORs>
