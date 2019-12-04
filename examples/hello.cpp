@@ -1,48 +1,11 @@
-#include <iostream>
-#include "GnuPlotScripting/script.hpp"
-#include "fmt/format.h"
-
 #include "GnuPlotScripting/data_vector.hpp"
+#include "GnuPlotScripting/script.hpp"
 
+#include <iostream>
 #include <type_traits>
 #include <valarray>
 
 using namespace GnuPlotScripting;
-
-template <typename... ARGS>
-void
-foo(ARGS&&... args)
-{
-  auto register_data = [](const auto& arg) {
-    using arg_type = std::decay_t<decltype(arg)>;
-    if constexpr (std::is_base_of_v<Data, arg_type>) std::cerr << "\n got one";
-  };
-  (register_data(args), ...);
-}
-
-template <typename T>
-void
-printType()
-{
-  std::cerr << __PRETTY_FUNCTION__ << std::endl;
-}
-
-struct Test
-{
-  Test() = delete;
-
-  // template <typename T, typename... Ts>
-  // Test(const T& t, const Ts&... ts)
-  // {
-  //   printType<T>();
-  // }
-
-  // template <typename T>
-  // Test(const T& t)
-  // {
-  //   printType<T>();
-  // }
-};
 
 int
 main()
@@ -50,11 +13,11 @@ main()
   std::vector<double> v1(10, 5);
   std::valarray<int> v2(10);
   std::string v3("01234567891");
-  Data_Vector test_1(v1, v2, v3);
+  Data_Vector data(v1, v2, v3);
 
-  Script_File test("test.gp");
+  Script_File script("script.gp");
 
-  test.free_form("plot sin(x) t \"super\"");
-  test.free_form("replot {} w l t \"ca marche?\"", test_1);
-  test.free_form("replot {} u ($1)+2 w l lw 3 t \"oui!?\"", test_1);
+  script.free_form("plot sin(x) t \"super\"");
+  script.free_form("replot {} w l t \"ca marche?\"", data);
+  script.free_form("replot {} u ($1)+2 w l lw 3 t \"oui!?\"", data);
 }

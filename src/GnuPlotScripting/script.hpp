@@ -57,19 +57,18 @@ namespace GnuPlotScripting
 
       _pimpl->writeln(fmt::format(std::forward<ARGS>(args)...));
     }
-
-    // template <typename... ARGS>
-    // void plot(const Data& d,ARGS&&... args)
-    // {
-    //   pimpl->write(data);
-    //   pimpl->write(
-    // }
   };
 
+  /////////////////
+  // Script_File //
+  /////////////////
+  //
+  // Write script in a file
+  //
   class Script_File final : public Script
   {
    public:
-    Script_File(const std::filesystem::path& out);
+    Script_File(const std::filesystem::path& filename);
   };
 
 }  // namespace GnuPlotScripting
