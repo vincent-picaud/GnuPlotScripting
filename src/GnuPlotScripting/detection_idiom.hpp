@@ -14,14 +14,13 @@ namespace GnuPlotScripting
   {
   };
 
-  // specialization recognizes types that do have a nested ::type member:
   template <class T>
   struct has_random_access_operator<
       T,
       std::void_t<decltype(std::declval<T>()[std::declval<size_t>()])>> : std::true_type
   {
   };
-  
+
   template <class T>
   static constexpr auto has_random_access_operator_v = has_random_access_operator<T>::value;
 
@@ -34,12 +33,11 @@ namespace GnuPlotScripting
   {
   };
 
-  // specialization recognizes types that do have a nested ::type member:
   template <class T>
   struct has_size_method<T, std::void_t<decltype(std::declval<T>().size())>> : std::true_type
   {
   };
-  
+
   template <class T>
   static constexpr auto has_size_method_v = has_size_method<T>::value;
 

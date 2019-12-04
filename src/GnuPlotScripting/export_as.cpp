@@ -29,8 +29,8 @@ namespace GnuPlotScripting
   {
     std::string
     scripting_helper(const std::string& terminal,
-                     const std::string& options,
-                     const char* const filename_or_pipe)
+                     const char* const filename_or_pipe,
+                     const std::string& options)
     {
       return fmt::format(
           "set terminal push\n"
@@ -40,8 +40,8 @@ namespace GnuPlotScripting
           "set terminal pop\n"
           "replot\n",
           terminal,
-          options,
-          filename_or_pipe);
+          filename_or_pipe,
+          options);
     }
 
   }
@@ -59,7 +59,7 @@ namespace GnuPlotScripting
       std::string
       scripted(const char* const filename_or_pipe) const
       {
-        return scripting_helper("png", fmt::format("color {}", color), filename_or_pipe);
+        return scripting_helper("png", filename_or_pipe, fmt::format("color {}", color));
       }
     };
   }

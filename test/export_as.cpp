@@ -7,5 +7,9 @@ using namespace GnuPlotScripting;
 TEST(Export_As, PNG)
 {
   Export_As_PNG png;
-  EXPECT_EQ(png.scripted("file.png"), "jkljl");
+  char ans[] =
+      "set terminal push\nset terminal png\nset output 'file.png' color true\nreplot\nset terminal "
+      "pop\nreplot\n";
+
+  EXPECT_EQ(png.scripted("file.png"), ans);
 }
