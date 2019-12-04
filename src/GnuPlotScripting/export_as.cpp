@@ -9,29 +9,43 @@ namespace GnuPlotScripting
   Export_As::Export_As(pimpl_type&& pimpl) : _pimpl(std::move(pimpl)) { assert(_pimpl); }
 
   std::string
-  Export_As::scripted(const char* const exported_filename_or_pipe) const
+  Export_As::export_as(const std::filesystem::path& filename) const
   {
-    return _pimpl->scripted(exported_filename_or_pipe);
+    return _pimpl->export_as(filename);
   }
 
-  std::string
-  Export_As::scripted(const std::string& exported_filename_or_pipe) const
-  {
-    return scripted(exported_filename_or_pipe.c_str());
-  }
-  std::string
-  Export_As::scripted(const std::filesystem::path& exported_filename) const
-  {
-    return scripted(exported_filename.c_str());
-  }
-
+  //////////////////
+  // Some helpers //
+  //////////////////
+  //
   namespace
   {
+    std::filesystem::path
+    change_filename_extension(const std::filesystem::path& filename,
+                              const std::string& new_extension)
+    {
+      std::string filename_no_ext_as_string = filename.stem();
+
+      if (new_extension.empty())
+      {
+        return filename_no_ext_as_string;
+      }
+
+      if (new_extension.front() != '.') filename_no_ext_as_string += '.';
+
+      filename_no_ext_as_string += new_extension;
+
+      return filename_no_ext_as_string;
+    }
+
     std::string
     scripting_helper(const std::string& terminal,
-                     const char* const filename_or_pipe,
+                     const std::string& extension,
+                     const std::filesystem::path& filename,
                      const std::string& options)
     {
+      std::filesystem::path filename_ext = change_filename_extension(filename, extension);
+
       return fmt::format(
           "set terminal push\n"
           "set terminal {} {}\n"
@@ -41,17 +55,18 @@ namespace GnuPlotScripting
           "replot\n",
           terminal,
           options,
-          filename_or_pipe);
+          filename_ext.native());
+    }
+    std::string
+    scripting_helper(const std::string& terminal,
+                     const std::filesystem::path& filename,
+                     const std::string& options)
+    {
+      return scripting_helper(terminal, terminal, filename, options);
     }
 
-  }
-
-  /////////////////////////////////////
-  // Some helpers for common options //
-  /////////////////////////////////////
-  //
-  namespace
-  {
+    //////////////// Common Options ////////////////
+    //
     std::string
     enhanced(const std::optional<bool>& option)
     {
@@ -80,11 +95,11 @@ namespace GnuPlotScripting
     std::optional<bool> _enhanced;
 
     std::string
-    scripted(const char* const filename_or_pipe) const
+    export_as(const std::filesystem::path& filename) const
     {
       std::string options = (enhanced(_enhanced));
 
-      return scripting_helper("png", filename_or_pipe, options);
+      return scripting_helper("png", filename, options);
     }
   };
 

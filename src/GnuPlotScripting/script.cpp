@@ -53,16 +53,9 @@ namespace GnuPlotScripting
   }
 
   Script&
-  Script::export_as(const Export_As& export_as, const char* const output)
+  Script::export_as(const Export_As& export_as_, const std::filesystem::path& output)
   {
-    _pimpl->write(export_as.scripted(output));
-
-    return *this;
-  }
-  Script&
-  Script::export_as(const Export_As& export_as_, const std::string& output)
-  {
-    export_as(export_as_, output.c_str());
+    _pimpl->write(export_as_.export_as(output));
 
     return *this;
   }
@@ -134,8 +127,7 @@ namespace GnuPlotScripting
   {
     if (global_config().log())
     {
-      global_config().set_log_message(
-          fmt::format("Creating : {}", filename.c_str()).c_str());
+      global_config().set_log_message(fmt::format("Creating : {}", filename.c_str()).c_str());
     }
   }
 }

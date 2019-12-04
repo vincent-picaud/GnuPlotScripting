@@ -11,5 +11,5 @@ TEST(Export_As, PNG)
       "set terminal push\nset terminal png \nset output 'file.png'\nreplot\nset terminal "
       "pop\nreplot\n";
 
-  EXPECT_EQ(png.scripted("file.png"), ans);
+  EXPECT_EQ(png.export_as("file.png"), ans);
 }

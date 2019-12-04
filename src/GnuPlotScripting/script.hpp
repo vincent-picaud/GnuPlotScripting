@@ -62,8 +62,9 @@ namespace GnuPlotScripting
     }
 
     Script& set_title(const char* const title);
-    Script& export_as(const Export_As& export_as, const char* const output);
-    Script& export_as(const Export_As& export_as, const std::string& output);
+
+    // NOTE: automatically set the right filename extension
+    Script& export_as(const Export_As& export_as, const std::filesystem::path& output);
   };
 
   /////////////////

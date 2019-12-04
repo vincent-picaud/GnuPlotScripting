@@ -11,14 +11,7 @@ namespace GnuPlotScripting
    public:
     struct Interface
     {
-      // NOTE: std::string and not restricted to file as we can use:
-      //
-      // set term png
-      // set output '| display png:-'
-      //
-      // SEE: http://gnuplot.sourceforge.net/docs_4.2/node409.html
-      //
-      virtual std::string scripted(const char* const exported_filename_or_pipe) const = 0;
+      virtual std::string export_as(const std::filesystem::path& filename) const = 0;
 
       virtual ~Interface() = default;
     };
@@ -30,9 +23,7 @@ namespace GnuPlotScripting
     Export_As(pimpl_type&& pimpl);
 
    public:
-    std::string scripted(const char* const exported_filename_or_pipe) const;
-    std::string scripted(const std::string& exported_filename_or_pipe) const;
-    std::string scripted(const std::filesystem::path& exported_filename) const;
+    std::string export_as(const std::filesystem::path& filename) const;
   };
 
   class PNG : public Export_As
