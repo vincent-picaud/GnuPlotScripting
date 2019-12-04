@@ -21,9 +21,12 @@ main()
 
   Script_File script("script.gp");
 
+  auto png = PNG();
+  png.set_color(false);
+
   script.fmt_free_form("plot sin(x) t \"super\"");
   script.fmt_free_form("replot {} w l t \"ca marche?\"", data);
   script.fmt_free_form("replot {} u ($1)+2 w l lw 3 t \"oui!?\"", data);
-  script.export_as(Export_As_PNG().set_color(false), "test.png");
-  script.export_as(Export_As_PNG().set_color(false), fmt::format("{}.png", "test2"));
+  script.export_as(PNG().set_color(false), "test.png");
+  script.export_as(png, fmt::format("{}.png", "test2"));
 }

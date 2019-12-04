@@ -35,12 +35,12 @@ namespace GnuPlotScripting
     std::string scripted(const std::filesystem::path& exported_filename) const;
   };
 
-  class Export_As_PNG : public Export_As
+  class PNG : public Export_As
   {
    public:
-    Export_As_PNG();
+    PNG();
 
-    Export_As_PNG& set_color(bool yes_no);
+    PNG& set_color(bool yes_no);
   };
 
 }

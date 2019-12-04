@@ -64,10 +64,10 @@ namespace GnuPlotScripting
     };
   }
 
-  Export_As_PNG::Export_As_PNG() : Export_As{std::make_unique<Export_As_PNG_Interface>()} {}
+  PNG::PNG() : Export_As{std::make_unique<Export_As_PNG_Interface>()} {}
 
-  Export_As_PNG&
-  Export_As_PNG::set_color(bool yes_no)
+  PNG&
+  PNG::set_color(bool yes_no)
   {
     assert(dynamic_cast<Export_As_PNG_Interface*>(_pimpl.get()));
 

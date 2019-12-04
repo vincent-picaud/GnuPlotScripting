@@ -6,7 +6,7 @@ using namespace GnuPlotScripting;
 
 TEST(Export_As, PNG)
 {
-  Export_As_PNG png;
+  PNG png;
   char ans[] =
       "set terminal push\nset terminal png\nset output 'file.png' color true\nreplot\nset terminal "
       "pop\nreplot\n";
