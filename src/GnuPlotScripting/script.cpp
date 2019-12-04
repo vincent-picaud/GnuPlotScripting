@@ -114,7 +114,7 @@ namespace GnuPlotScripting
 
         if (global_config().log())
         {
-          global_config().set_log_message(fmt::format("Running : {}", command).c_str());
+          global_config().set_log_message(fmt::format("Running  : {}", command).c_str());
         }
         int error = std::system(command.c_str());
         if (error)

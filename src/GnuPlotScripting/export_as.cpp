@@ -34,45 +34,92 @@ namespace GnuPlotScripting
     {
       return fmt::format(
           "set terminal push\n"
-          "set terminal {}\n"
-          "set output '{}' {}\n"
+          "set terminal {} {}\n"
+          "set output '{}'\n"
           "replot\n"
           "set terminal pop\n"
           "replot\n",
           terminal,
-          filename_or_pipe,
-          options);
+          options,
+          filename_or_pipe);
     }
 
+  }
+
+  /////////////////////////////////////
+  // Some helpers for common options //
+  /////////////////////////////////////
+  //
+  namespace
+  {
+    std::string
+    enhanced(const std::optional<bool>& option)
+    {
+      if (option.has_value())
+      {
+        if (*option)
+        {
+          return "enhanced ";
+        }
+        else
+        {
+          return "noenhanced ";
+        }
+      }
+      return "";
+    }
   }
 
   ///////////////////
   // Export_As_PNG //
   ///////////////////
   //
-  namespace
+  struct PNG::PNG_Interface final : public Export_As::Interface
   {
-    struct Export_As_PNG_Interface final : public Export_As::Interface
-    {
-      bool color = true;
+    std::string _free_options;
+    std::optional<bool> _enhanced;
 
-      std::string
-      scripted(const char* const filename_or_pipe) const
-      {
-        return scripting_helper("png", filename_or_pipe, fmt::format("color {}", color));
-      }
-    };
+    std::string
+    scripted(const char* const filename_or_pipe) const
+    {
+      std::string options = (enhanced(_enhanced));
+
+      return scripting_helper("png", filename_or_pipe, options);
+    }
+  };
+
+  PNG::PNG_Interface&
+  PNG::impl()
+  {
+    assert(dynamic_cast<PNG_Interface*>(_pimpl.get()));
+
+    return static_cast<PNG_Interface&>(*_pimpl.get());
   }
 
-  PNG::PNG() : Export_As{std::make_unique<Export_As_PNG_Interface>()} {}
+  PNG::PNG() : Export_As{std::make_unique<PNG_Interface>()} {}
 
   PNG&
-  PNG::set_color(bool yes_no)
+  PNG::set_enhanced(bool yes_no)
   {
-    assert(dynamic_cast<Export_As_PNG_Interface*>(_pimpl.get()));
-
-    static_cast<Export_As_PNG_Interface&>(*_pimpl.get()).color = yes_no;
+    impl()._enhanced = yes_no;
 
     return *this;
   }
+  PNG&
+  PNG::set_enhanced()
+  {
+    impl()._enhanced.reset();
+
+    return *this;
+  }
+
+  // PNG&
+  // PNG::set_color(bool yes_no)
+  // {
+  //   assert(dynamic_cast<PNG_Interface*>(_pimpl.get()));
+
+  //   static_cast<PNG_Interface&>(*_pimpl.get()).color = yes_no;
+
+  //   return *this;
+  // }
 }

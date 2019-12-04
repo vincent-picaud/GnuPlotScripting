@@ -37,10 +37,17 @@ namespace GnuPlotScripting
 
   class PNG : public Export_As
   {
+    struct PNG_Interface;
+    PNG_Interface& impl();
+
    public:
     PNG();
 
-    PNG& set_color(bool yes_no);
+    PNG& set_enhanced(bool yes_no);
+    PNG& set_enhanced();  // back to default
+
+    // PNG& set_truecolor(bool yes_no);
+    // PNG& set_truecolor();
   };
 
 }

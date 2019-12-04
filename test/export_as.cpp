@@ -8,7 +8,7 @@ TEST(Export_As, PNG)
 {
   PNG png;
   char ans[] =
-      "set terminal push\nset terminal png\nset output 'file.png' color true\nreplot\nset terminal "
+      "set terminal push\nset terminal png \nset output 'file.png'\nreplot\nset terminal "
       "pop\nreplot\n";
 
   EXPECT_EQ(png.scripted("file.png"), ans);
