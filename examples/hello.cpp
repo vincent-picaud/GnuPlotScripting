@@ -1,10 +1,7 @@
 
-#include "GnuPlotScripting/data_vector.hpp"
-#include "GnuPlotScripting/global_config.hpp"
-#include "GnuPlotScripting/script.hpp"
+#include "GnuPlotScripting/GnuPlotScripting.hpp"
 
 #include <iostream>
-#include <type_traits>
 #include <valarray>
 
 using namespace GnuPlotScripting;

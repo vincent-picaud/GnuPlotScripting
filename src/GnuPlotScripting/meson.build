@@ -6,6 +6,7 @@ GnuPlotScripting_headers = [
   'data_vector.hpp',
   'export_as.hpp',
   'global_config.hpp',
+  'GnuPlotScripting.hpp'
 ]
 GnuPlotScripting_sources = [
   'hello.cpp',
