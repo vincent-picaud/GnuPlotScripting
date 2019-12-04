@@ -44,7 +44,7 @@ namespace GnuPlotScripting
     //
    public:
     template <typename... ARGS>
-    void
+    Script&
     fmt_free_form(ARGS&&... args)
     {
       auto register_data_if_any = [this](const auto& arg) {
@@ -57,10 +57,13 @@ namespace GnuPlotScripting
       (register_data_if_any(args), ...);
 
       _pimpl->writeln(fmt::format(std::forward<ARGS>(args)...));
+
+      return *this;
     }
 
-    void export_as(const Export_As& export_as, const char* const output);
-    void export_as(const Export_As& export_as, const std::string& output);
+    Script& set_title(const char* const title);
+    Script& export_as(const Export_As& export_as, const char* const output);
+    Script& export_as(const Export_As& export_as, const std::string& output);
   };
 
   /////////////////

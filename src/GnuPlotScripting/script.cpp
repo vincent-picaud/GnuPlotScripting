@@ -44,16 +44,27 @@ namespace GnuPlotScripting
     }
   }
 
-  void
+  Script&
+  Script::set_title(const char* const title)
+  {
+    _pimpl->writeln(fmt::format("set title \"{}\"", title));
+
+    return *this;
+  }
+
+  Script&
   Script::export_as(const Export_As& export_as, const char* const output)
   {
     _pimpl->write(export_as.scripted(output));
-  }
 
-  void
+    return *this;
+  }
+  Script&
   Script::export_as(const Export_As& export_as_, const std::string& output)
   {
     export_as(export_as_, output.c_str());
+
+    return *this;
   }
 
   /////////////////
