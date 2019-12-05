@@ -3,6 +3,7 @@
 #include <fmt/format.h>
 
 #include <cassert>
+#include <optional>
 
 namespace GnuPlotScripting
 {

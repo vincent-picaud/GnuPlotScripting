@@ -1,33 +1,33 @@
 
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
 
-#include <algorithm>
 #include <iostream>
-#include <numeric>
-#include <valarray>
 
 using namespace GnuPlotScripting;
 
+// Example from: https://stackoverflow.com/questions/27045964/multiple-palettes-and-empty-labels-from-file-entries-using-matrix-with-image-in/27049991#27049991
+// Another matrix example: https://stackoverflow.com/questions/32458753/gnuplot-2d-plot-of-a-matrix-of-data
 int
 main()
 {
-  global_config().set_log(true);
+  //  global_config().set_log(true);
 
-  const size_t n = 500;
-  std::valarray<double> x(n), y(n);
+  Data_Ascii data(
+      "0.00 0.65 0.65 0.25\n"
+      "0.25 0.00 0.75 0.25\n"
+      "0.50 0.60 0.00 0.25\n"
+      "0.75 0.25 0.10 0.00\n");
 
-  x[0] = 0;
-  std::iota(std::begin(x), std::end(x), 1. / (1. * n));
+  Script_File script("matrix.gp");
 
-  std::transform(std::begin(x), std::end(x), std::begin(y), [](auto x_i) {
-    return x_i == 0 ? 1 : sin(x_i) / x_i;
-  });
+  script.free_form("set autoscale fix");
+  script.free_form("set cbrange [-1:1]");
+  script.free_form("unset colorbox");
+  script.free_form("unset key");
+  script.free_form(
+      "plot {} matrix using 1:2:3 with image, '' matrix using "
+      "1:2:(sprintf('%.2f', $3)) with labels font ',16'",
+      data);
 
-  Data_Vector data(x, y);
-
-  Script_File script("sin_x_div_x.gp");
-
-  // CAVEAT: with TeX
-  script.free_form("plot {} u 1:2 w l t \"{}\"", data, "$\\frac{\\sin(x)}{x}$");
-  script.export_as(PNG().set_free_form("large"), "sin_x_div_x");
+  //  script.free_form("plot {} matrix using 1:2:3 with image", data);
 }

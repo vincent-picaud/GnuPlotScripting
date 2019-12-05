@@ -21,12 +21,13 @@ namespace GnuPlotScripting
     pimpl_type _pimpl;
 
     Data(std::string&& embedded_data);
+    Data(const std::string& embedded_data);
 
    public:
     const std::string& uuid() const;
     const std::string& data() const;
 
-    // used by fmt
+    // used by fmt::format
     operator const char* const() const { return uuid().c_str(); };
   };
 

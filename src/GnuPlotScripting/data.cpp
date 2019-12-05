@@ -43,6 +43,8 @@ namespace GnuPlotScripting
      public:
       Interface_Impl(std::string&& embedded_data)
           : _uuid("$D" + generate_uuid(5)), _data(std::move(embedded_data)){};
+      Interface_Impl(const std::string& embedded_data)
+          : _uuid("$D" + generate_uuid(5)), _data(embedded_data){};
 
       const std::string&
       uuid() const final
@@ -59,6 +61,10 @@ namespace GnuPlotScripting
 
   Data::Data(std::string&& embedded_data)
       : _pimpl(std::make_shared<const Interface_Impl>(std::move(embedded_data)))
+  {
+  }
+  Data::Data(const std::string& embedded_data)
+      : _pimpl(std::make_shared<const Interface_Impl>(embedded_data))
   {
   }
 
