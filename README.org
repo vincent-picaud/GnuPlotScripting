@@ -5,7 +5,7 @@ A small C++17 library that allows easy creation and execution of gnuplot scripts
 * Example 
 
 #+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
-cat $(pwd)/examples/graph.cpp
+cat $(pwd)/examples/matrix.cpp
 #+END_SRC
 
 #+RESULTS:
@@ -22,46 +22,28 @@ using namespace GnuPlotScripting;
 int
 main()
 {
+  //  global_config().set_log(true);
+
   Data_Ascii data(
-      "-1 -1 0    # A\n"
-      "-1  1 0    # B\n"
-      " 1  0 0    # C\n"
-      " 0  0 1.75 # D\n"
-      "\n\n"
-      "-1 -1 0   -1 1 0     \n"
-      "-1 -1 0    1 0 0     \n"
-      "-1 -1 0    0 0 1.750 \n"
-      "-1  1 0    1 0 0     \n"
-      "-1  1 0    0 0 1.75  \n"
-      " 1  0 0    0 0 1.75  \n");
+      "0.00 0.65 0.65 0.25\n"
+      "0.25 0.00 0.75 0.25\n"
+      "0.50 0.60 0.00 0.25\n"
+      "0.75 0.25 0.10 0.00\n");
 
-  global_config().set_file_script_mode(Script_File_Mode_Enum::Silent);
+  Script_File script("matrix.gp");
 
-  {
-    Script_File script_a("graph_3D.gp");
-
-    script_a.free_form("unset border");
-    script_a.free_form("unset tics");
-    script_a.free_form("unset key");
-    script_a.free_form("set view 75,35");
-    script_a.free_form("splot {} index 0 with points pointtype 7 pointsize 3", data);
-    script_a.free_form("replot {} index 1 u 1:2:3:($4-$1):($5-$2):($6-$3) with vectors nohead",
-                       data);
-    script_a.free_form("pause -1");
-  }
-
-  {
-    Script_File script_b("graph_2D.gp");
-
-    script_b.free_form("unset border");
-    script_b.free_form("unset tics");
-    script_b.free_form("unset key");
-    script_b.free_form("plot {} index 0 with points pointtype 7 pointsize 3", data);
-    script_b.free_form("replot {} index 1 u 1:2:($4-$1):($5-$2) with vectors nohead", data);
-    script_b.free_form("pause -1");
-  }
+  script.free_form("set autoscale fix");
+  script.free_form("set cbrange [-1:1]");
+  script.free_form("unset colorbox");
+  script.free_form("unset key");
+  script.free_form(
+      "plot {} matrix using 1:2:3 with image, '' matrix using "
+      "1:2:(sprintf('%.2f', $3)) with labels font ',16'",
+      data);
+  script.export_as(PNG(),"matrix");
 }
 #+END_src
 
+[[file:figures/matrix.png]]
 
 
