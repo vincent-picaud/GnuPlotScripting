@@ -12,5 +12,4 @@ fmt_dep = fmt_proj.get_variable('fmt_dep')
 
 subdir('src')
 subdir('test')
-subdir('bin')
 subdir('examples')
