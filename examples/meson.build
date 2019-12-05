@@ -9,3 +9,7 @@ executable('filled_curves',
 executable('graph',
 	   'graph.cpp',
 	   dependencies : [GnuPlotScripting_dep])
+
+executable('histogram',
+	   'histogram.cpp',
+	   dependencies : [GnuPlotScripting_dep])

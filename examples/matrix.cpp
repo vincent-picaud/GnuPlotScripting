@@ -1,4 +1,3 @@
-
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
 
 #include <iostream>

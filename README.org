@@ -47,3 +47,6 @@ main()
 [[file:figures/matrix.png]]
 
 
+* References
+
+- [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a great book 
