@@ -28,6 +28,5 @@ main()
       "plot {} matrix using 1:2:3 with image, '' matrix using "
       "1:2:(sprintf('%.2f', $3)) with labels font ',16'",
       data);
-
-  //  script.free_form("plot {} matrix using 1:2:3 with image", data);
+  script.export_as(PNG(),"./test");
 }

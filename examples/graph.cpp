@@ -23,22 +23,29 @@ main()
       "-1  1 0    0 0 1.75  \n"
       " 1  0 0    0 0 1.75  \n");
 
-  Script_File script_a("graph_3D.gp");
+  global_config().set_file_script_mode(Script_File_Mode_Enum::Silent);
 
-  script_a.free_form("unset border");
-  script_a.free_form("unset tics");
-  script_a.free_form("unset key");
-  script_a.free_form("set view 75,35");
-  script_a.free_form("splot {} index 0 with points pointtype 7 pointsize 3", data);
-  script_a.free_form("replot {} index 1 u 1:2:3:($4-$1):($5-$2):($6-$3) with vectors nohead", data);
-  script_a.free_form("pause -1");
+  {
+    Script_File script_a("graph_3D.gp");
 
-   Script_File script_b("graph_2D.gp");
+    script_a.free_form("unset border");
+    script_a.free_form("unset tics");
+    script_a.free_form("unset key");
+    script_a.free_form("set view 75,35");
+    script_a.free_form("splot {} index 0 with points pointtype 7 pointsize 3", data);
+    script_a.free_form("replot {} index 1 u 1:2:3:($4-$1):($5-$2):($6-$3) with vectors nohead",
+                       data);
+    script_a.free_form("pause -1");
+  }
 
-  script_b.free_form("unset border");
-  script_b.free_form("unset tics");
-  script_b.free_form("unset key");
-  script_b.free_form("plot {} index 0 with points pointtype 7 pointsize 3", data);
-  script_b.free_form("replot {} index 1 u 1:2:($4-$1):($5-$2) with vectors nohead", data);
-  script_b.free_form("pause -1");
+  {
+    Script_File script_b("graph_2D.gp");
+
+    script_b.free_form("unset border");
+    script_b.free_form("unset tics");
+    script_b.free_form("unset key");
+    script_b.free_form("plot {} index 0 with points pointtype 7 pointsize 3", data);
+    script_b.free_form("replot {} index 1 u 1:2:($4-$1):($5-$2) with vectors nohead", data);
+    script_b.free_form("pause -1");
+  }
 }
