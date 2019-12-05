@@ -28,7 +28,8 @@ gnuplot_histogram(Script& script,
 
   Data_Vector gnuplot_data(data);
 
-  script.free_form("width=({}-{})/{}", max, min, n_bin);
+  const double width = (max - min) / (n_bin + 1.);
+  script.free_form("width={}", width);
   script.free_form("hist(x,width)=width*floor(x/width)+width/2.0");
   script.free_form("set boxwidth width*0.9");
   script.free_form("set style fill solid 0.5");
@@ -40,12 +41,17 @@ main()
 {
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::gamma_distribution<> distribution(2, 1);
+  const double a = 2, b = 1;
+  std::gamma_distribution<> distribution(a, b);
 
   std::vector<double> data(10000);
   for (auto& data_i : data) data_i = distribution(gen);
 
   Script_File script("histogram.gp");
 
+  script.free_form("set title \"Gamma({},{}) distributed sample", a, b);
+  
   gnuplot_histogram(script, data, 100, 0, 3);
+
+  script.export_as(PNG(), "histogram");
 }

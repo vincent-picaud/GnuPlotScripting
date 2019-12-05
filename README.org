@@ -2,7 +2,9 @@
 
 A small C++17 library that allows easy creation and execution of gnuplot scripts.
 
-* Example 
+* Examples 
+
+** Matrix data 
 
 #+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
 cat $(pwd)/examples/matrix.cpp
@@ -10,20 +12,18 @@ cat $(pwd)/examples/matrix.cpp
 
 #+RESULTS:
 #+BEGIN_src cpp :eval never
-
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
 
 #include <iostream>
 
 using namespace GnuPlotScripting;
 
-// Example from: https://stackoverflow.com/questions/27045964/multiple-palettes-and-empty-labels-from-file-entries-using-matrix-with-image-in/27049991#27049991
-// Another matrix example: https://stackoverflow.com/questions/32458753/gnuplot-2d-plot-of-a-matrix-of-data
+// Example from: https://stackoverflow.com/a/27049991/2001017
+// Also see: https://stackoverflow.com/q/32458753/2001017
+//
 int
 main()
 {
-  //  global_config().set_log(true);
-
   Data_Ascii data(
       "0.00 0.65 0.65 0.25\n"
       "0.25 0.00 0.75 0.25\n"
@@ -40,13 +40,81 @@ main()
       "plot {} matrix using 1:2:3 with image, '' matrix using "
       "1:2:(sprintf('%.2f', $3)) with labels font ',16'",
       data);
-  script.export_as(PNG(),"matrix");
+  script.export_as(PNG(), "matrix");
 }
 #+END_src
 
 [[file:figures/matrix.png]]
 
+** Histogram
+
+#+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
+cat $(pwd)/examples/histogram.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_src cpp :eval never
+#include "GnuPlotScripting/GnuPlotScripting.hpp"
+
+#include <iostream>
+#include <random>
+
+using namespace GnuPlotScripting;
+
+template <typename T>
+struct type_identity
+{
+  using type = T;
+};
+template <typename T>
+using type_identity_t = typename type_identity<T>::type;
+
+// Example from:
+// https://stackoverflow.com/a/7454274/2001017
+//
+template <typename T>
+void
+gnuplot_histogram(Script& script,
+                  const std::vector<T>& data,
+                  const size_t n_bin,
+                  type_identity_t<T> min,
+                  type_identity_t<T> max)
+{
+  assert(max > min);
+
+  Data_Vector gnuplot_data(data);
+
+  const double width = (max - min) / (n_bin + 1.);
+  script.free_form("width={}", width);
+  script.free_form("hist(x,width)=width*floor(x/width)+width/2.0");
+  script.free_form("set boxwidth width*0.9");
+  script.free_form("set style fill solid 0.5");
+  script.free_form("plot {} u (hist($1,width)):(1.0) smooth freq w boxes notitle", gnuplot_data);
+}
+
+int
+main()
+{
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  const double a = 2, b = 1;
+  std::gamma_distribution<> distribution(a, b);
+
+  std::vector<double> data(10000);
+  for (auto& data_i : data) data_i = distribution(gen);
+
+  Script_File script("histogram.gp");
+
+  script.free_form("set title \"Gamma({},{}) distributed sample", a, b);
+  gnuplot_histogram(script, data, 100, 0, 3);
+  script.export_as(PNG(), "histogram");
+}
+#+END_src
+
+The generated figure is:
+
+[[file:figures/histogram.png][histogram.png]]
 
 * References
 
-- [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a great book 
+- [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a very well written book 
