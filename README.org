@@ -11,6 +11,23 @@ This is a pre-release version, but I do not think there will breaking
 changes. I have some little stuff to add, like an EPS exporter for instance
 (for the moment there is only the PNG one).
 
+* Installation 
+
+The library currently uses the [[https://mesonbuild.com/][meson]] build system.
+
+If you are not familiar with meson, the compilation procedure is as follows:
+
+#+BEGIN_SRC sh :eval never
+git clone git@github.com:vincent-picaud/GnuPlotScripting.git
+cd GnuPlotScripting/
+meson build
+cd build
+ninja test
+#+END_SRC 
+
+Examples can then be found in the =build/examples/= directory.
+
+
 * Examples 
 
 ** Matrix data 
