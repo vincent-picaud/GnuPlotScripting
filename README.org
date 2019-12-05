@@ -4,8 +4,12 @@ A small C++17 library that allows easy creation and execution of
 gnuplot scripts. The library depends on
 [[https://github.com/fmtlib/fmt][{fmt} library]].
 
+I use it when I want to plot some data with a minimal effort when I
+develop stuff in C++.
+
 This is a pre-release version, but I do not think there will breaking
-changes, but only minor work like adding EPS export for instance.
+changes. I have some little stuff to add, like an EPS exporter for instance
+(for the moment there is only the PNG one).
 
 * Examples 
 
