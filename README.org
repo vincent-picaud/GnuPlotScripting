@@ -44,6 +44,9 @@ main()
 }
 #+END_src
 
+It generates this figure:
+
+
 [[file:figures/matrix.png]]
 
 ** Histogram
@@ -113,7 +116,7 @@ main()
 
 The generated figure is:
 
-[[file:figures/histogram.png][histogram.png]]
+[[file:figures/histogram.png]]
 
 * References
 
