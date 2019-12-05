@@ -3,3 +3,4 @@ subprojects/googletest-release-1.8.0/**
 subprojects/packagecache/**
 subprojects/fmt-6.0.0/**
 *~
+/README.html
