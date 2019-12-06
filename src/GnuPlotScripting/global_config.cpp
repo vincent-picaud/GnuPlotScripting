@@ -7,8 +7,8 @@ namespace GnuPlotScripting
 {
   struct Global_Config::Interface
   {
-    bool _log                               = true;
-    Script_File_Mode_Enum _script_file_mode = Script_File_Mode_Enum::Persistent;
+    bool _log                                              = true;
+    std::optional<Script_File_Mode_Enum> _script_file_mode = Script_File_Mode_Enum::Persistent;
   };
 
   Global_Config::Global_Config() : _pimpl(std::make_unique<Interface>()) {}
@@ -41,8 +41,14 @@ namespace GnuPlotScripting
     _pimpl->_script_file_mode = mode;
     return *this;
   }
+  Global_Config&
+  Global_Config::set_script_file_mode()
+  {
+    _pimpl->_script_file_mode.reset();
+    return *this;
+  }
 
-  Script_File_Mode_Enum
+  std::optional<Script_File_Mode_Enum>
   Global_Config::script_file_mode() const
   {
     return _pimpl->_script_file_mode;

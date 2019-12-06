@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 
 namespace GnuPlotScripting
 {
@@ -38,7 +39,8 @@ namespace GnuPlotScripting
     Global_Config& set_log_message(const char* const msg);
 
     Global_Config& set_script_file_mode(Script_File_Mode_Enum mode);
-    Script_File_Mode_Enum script_file_mode() const;
+    Global_Config& set_script_file_mode();  // reset to default
+    std::optional<Script_File_Mode_Enum> script_file_mode() const;
   };
 
 }
