@@ -27,4 +27,5 @@ main()
       "1:2:(sprintf('%.2f', $3)) with labels font ',16'",
       data);
   script.export_as(PNG(), "matrix");
+  script.export_as(EPSLATEX().set_standalone(true), "matrix");
 }
