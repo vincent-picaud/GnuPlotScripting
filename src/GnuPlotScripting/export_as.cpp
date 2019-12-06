@@ -69,11 +69,11 @@ namespace GnuPlotScripting
     //////////////// Common Options ////////////////
     //
     std::string
-    free_form(const std::optional<std::string>& option)
+    free_form(const std::string& option)
     {
-      if (option.has_value())
+      if (not option.empty())
       {
-        return (*option) + " ";
+        return option + " ";
       }
       return "";
     }
@@ -90,6 +90,57 @@ namespace GnuPlotScripting
         else
         {
           return "noenhanced ";
+        }
+      }
+      return "";
+    }
+
+    std::string
+    clip(const std::optional<bool>& option)
+    {
+      if (option.has_value())
+      {
+        if (*option)
+        {
+          return "clip ";
+        }
+        else
+        {
+          return "noclip ";
+        }
+      }
+      return "";
+    }
+
+    std::string
+    standalone(const std::optional<bool>& option)
+    {
+      if (option.has_value())
+      {
+        if (*option)
+        {
+          return "standalone ";
+        }
+        else
+        {
+          return "input ";
+        }
+      }
+      return "";
+    }
+
+    std::string
+    color(const std::optional<bool>& option)
+    {
+      if (option.has_value())
+      {
+        if (*option)
+        {
+          return "color ";
+        }
+        else
+        {
+          return "monochrome ";
         }
       }
       return "";
@@ -128,15 +179,28 @@ namespace GnuPlotScripting
       }
       return "";
     }
+
+    std::string
+    header(const std::optional<std::string>& option)
+    {
+      if (option.has_value())
+      {
+        return "header \"" + *option + "\" ";
+      }
+      else
+      {
+        return "noheader ";
+      }
+    }
   }
 
-  ///////////////////
-  // Export_As_PNG //
-  ///////////////////
+  /////////
+  // PNG //
+  /////////
   //
   struct PNG::PNG_Interface final : public Export_As::Interface
   {
-    std::optional<std::string> _free_form;
+    std::string _free_form;
     std::optional<bool> _enhanced;
     std::optional<bool> _transparent;
     std::optional<bool> _interlace;
@@ -165,13 +229,6 @@ namespace GnuPlotScripting
   PNG::set_free_form(const std::string& free_form)
   {
     impl()._free_form = free_form;
-
-    return *this;
-  }
-  PNG&
-  PNG::set_free_form()
-  {
-    impl()._free_form.reset();
 
     return *this;
   }
@@ -221,13 +278,95 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  // PNG&
-  // PNG::set_color(bool yes_no)
-  // {
-  //   assert(dynamic_cast<PNG_Interface*>(_pimpl.get()));
+  /////////
+  // EPSLATEX //
+  /////////
+  //
+  struct EPSLATEX::EPSLATEX_Interface final : public Export_As::Interface
+  {
+    std::string _free_form;
+    std::optional<bool> _standalone;
+    std::optional<bool> _color;
+    std::optional<bool> _clip;
+    std::string _header;
 
-  //   static_cast<PNG_Interface&>(*_pimpl.get()).color = yes_no;
+    std::string
+    export_as(const std::filesystem::path& filename) const
+    {
+      std::string options = (free_form(_free_form) + standalone(_standalone) + color(_color) +
+                             clip(_clip) + header(_header));
 
-  //   return *this;
-  // }
+      return scripting_helper("epslatex", ".tex", filename, options);
+    }
+  };
+
+  EPSLATEX::EPSLATEX_Interface&
+  EPSLATEX::impl()
+  {
+    assert(dynamic_cast<EPSLATEX_Interface*>(_pimpl.get()));
+
+    return static_cast<EPSLATEX_Interface&>(*_pimpl.get());
+  }
+
+  EPSLATEX::EPSLATEX() : Export_As{std::make_unique<EPSLATEX_Interface>()} {}
+
+  EPSLATEX&
+  EPSLATEX::set_free_form(const std::string& free_form)
+  {
+    impl()._free_form = free_form;
+
+    return *this;
+  }
+
+  EPSLATEX&
+  EPSLATEX::set_standalone(bool yes_no)
+  {
+    impl()._standalone = yes_no;
+
+    return *this;
+  }
+  EPSLATEX&
+  EPSLATEX::set_standalone()
+  {
+    impl()._standalone.reset();
+
+    return *this;
+  }
+
+  EPSLATEX&
+  EPSLATEX::set_color(bool yes_no)
+  {
+    impl()._color = yes_no;
+
+    return *this;
+  }
+  EPSLATEX&
+  EPSLATEX::set_color()
+  {
+    impl()._color.reset();
+
+    return *this;
+  }
+
+  EPSLATEX&
+  EPSLATEX::set_clip(bool yes_no)
+  {
+    impl()._clip = yes_no;
+
+    return *this;
+  }
+  EPSLATEX&
+  EPSLATEX::set_clip()
+  {
+    impl()._clip.reset();
+
+    return *this;
+  }
+  EPSLATEX&
+  EPSLATEX::set_header(const std::string& header)
+  {
+    impl()._header = header;
+
+    return *this;
+  }
 }

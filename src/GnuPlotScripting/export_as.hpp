@@ -6,6 +6,10 @@
 
 namespace GnuPlotScripting
 {
+  ///////////////
+  // Export_As //
+  ///////////////
+  //
   class Export_As
   {
    public:
@@ -26,6 +30,10 @@ namespace GnuPlotScripting
     std::string export_as(const std::filesystem::path& filename) const;
   };
 
+  /////////
+  // PNG //
+  /////////
+  //
   class PNG : public Export_As
   {
     struct PNG_Interface;
@@ -34,8 +42,7 @@ namespace GnuPlotScripting
    public:
     PNG();
 
-    PNG& set_free_form(const std::string& free_form);
-    PNG& set_free_form();  // back to default
+    PNG& set_free_form(const std::string& free_form = "");
 
     PNG& set_enhanced(bool yes_no);
     PNG& set_enhanced();  // back to default
@@ -45,9 +52,32 @@ namespace GnuPlotScripting
 
     PNG& set_interlace(bool yes_no);
     PNG& set_interlace();  // back to default
+  };
 
-    // PNG& set_truecolor(bool yes_no);
-    // PNG& set_truecolor();
+  //////////////
+  // EPSLATEX //
+  //////////////
+  //
+  class EPSLATEX : public Export_As
+  {
+    struct EPSLATEX_Interface;
+    EPSLATEX_Interface& impl();
+
+   public:
+    EPSLATEX();
+
+    EPSLATEX& set_free_form(const std::string& free_form = "");
+
+    EPSLATEX& set_standalone(bool yes_no);
+    EPSLATEX& set_standalone();  // back to default
+
+    EPSLATEX& set_color(bool yes_no);
+    EPSLATEX& set_color();  // back to default
+
+    EPSLATEX& set_clip(bool yes_no);
+    EPSLATEX& set_clip();  // back to default
+
+    EPSLATEX& set_header(const std::string& header = "");
   };
 
 }
