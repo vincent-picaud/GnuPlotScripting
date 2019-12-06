@@ -1,15 +1,21 @@
-#+TITLE: GnuPlotScripting 
+#+BLOG: wordpress
+#+POSTID: 931
+#+DATE: [2019-12-06 Fri 19:40]
+#+TITLE: Easy Creation of GnuPlot Scripts from C++
+#+TAGS: Cpp, GnuPlot
 
-A small C++17 library that allows easy creation and execution of
+A tiny C++17 library that allows easy creation and execution of
 gnuplot scripts. The library depends on
 [[https://github.com/fmtlib/fmt][{fmt} library]].
 
 I use it when I want to plot some data with a minimal effort when I
 develop stuff in C++.
 
-This is a pre-release version, but I do not think there will breaking
-changes. I have some little stuff to add, like an EPS exporter for instance
-(for the moment there is only the PNG one).
+For the moment the library is only tested under Linux (for the Windows
+version I have only minor fixes like using =_popen= instead of
+=popen=...). I do not expect breaking changes for the API.
+
+Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHub, GnuPlotScripting]].
 
 * Installation 
 
@@ -217,3 +223,7 @@ but also an active gnuplot 3D figure you can rotate etc...
 
 - [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a very well written book 
 - [[http://www.gnuplotting.org/][www.gnuplotting.org]] a lot of great examples
+
+# figures/matrix.png http://pixorblog.files.wordpress.com/2019/12/matrix.png
+# figures/histogram.png http://pixorblog.files.wordpress.com/2019/12/histogram.png
+# figures/graph.png http://pixorblog.files.wordpress.com/2019/12/graph.png
