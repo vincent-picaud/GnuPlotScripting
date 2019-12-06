@@ -13,3 +13,7 @@ executable('graph',
 executable('histogram',
 	   'histogram.cpp',
 	   dependencies : [GnuPlotScripting_dep])
+
+executable('pipe',
+	   'pipe.cpp',
+	   dependencies : [GnuPlotScripting_dep])

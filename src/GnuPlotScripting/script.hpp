@@ -3,6 +3,7 @@
 #include "GnuPlotScripting/data.hpp"
 #include "GnuPlotScripting/export_as.hpp"
 #include "GnuPlotScripting/global_config.hpp"
+#include "GnuPlotScripting/script_pipe_mode_enum.hpp"
 
 #include "fmt/format.h"
 
@@ -44,6 +45,8 @@ namespace GnuPlotScripting
     //////////////// Methods ////////////////
     //
    public:
+    void flush();
+    
     template <typename... ARGS>
     Script&
     free_form(ARGS&&... args)
@@ -79,6 +82,18 @@ namespace GnuPlotScripting
    public:
     Script_File(const std::filesystem::path& filename,
                 Script_File_Mode_Enum script_file_mode = Script_File_Mode_Enum::Persistent);
+  };
+
+  /////////////////
+  // Script_Pipe //
+  /////////////////
+  //
+  // Write script in a pipe
+  //
+  class Script_Pipe final : public Script
+  {
+   public:
+    Script_Pipe(Script_Pipe_Mode_Enum script_pipe_mode = Script_Pipe_Mode_Enum::Persistent);
   };
 
 }  // namespace GnuPlotScripting

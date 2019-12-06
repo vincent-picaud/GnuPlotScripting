@@ -7,7 +7,9 @@ GnuPlotScripting_headers = [
   'data_ascii.hpp',
   'export_as.hpp',
   'global_config.hpp',
-  'GnuPlotScripting.hpp'
+  'GnuPlotScripting.hpp',
+  'script_file_mode_enum.hpp',
+  'script_pipe_mode_enum.hpp',
 ]
 GnuPlotScripting_sources = [
   'hello.cpp',

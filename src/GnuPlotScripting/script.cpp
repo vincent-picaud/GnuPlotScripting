@@ -44,6 +44,12 @@ namespace GnuPlotScripting
     }
   }
 
+  void
+  Script::flush()
+  {
+    _pimpl->flush();
+  }
+
   Script&
   Script::set_title(const char* const title)
   {
@@ -133,14 +139,95 @@ namespace GnuPlotScripting
 
   }
 
-  Script_File::Script_File(
-      const std::filesystem::path& filename,
-      const Script_File_Mode_Enum script_file_mode)
+  Script_File::Script_File(const std::filesystem::path& filename,
+                           const Script_File_Mode_Enum script_file_mode)
       : Script(std::make_unique<Script_File_Interface_Impl>(filename, script_file_mode))
   {
     if (global_config().log())
     {
-      global_config().set_log_message(fmt::format("Creating : {}", filename.c_str()).c_str());
+      global_config().set_log_message(fmt::format("Created  : {}", filename.c_str()).c_str());
     }
   }
+
+  /////////////////
+  // Script_Pipe //
+  /////////////////
+  //
+  // NOTE: not tested under windows, must have to add something like:
+  //      - #ifdef WIN32 _pclose(fp)
+  //      - #ifdef WIN32 _popen("gnuplot.exe", "w")
+  // etc... see https://stackoverflow.com/a/8249232/2001017
+  //
+
+  namespace
+  {
+    struct Script_Pipe_Interface_Impl : public Script::Interface
+    {
+      static void
+      close_pipe(std::FILE* fp)
+      {
+        pclose(fp);
+      }
+      static std::FILE*
+      open_gnuplot_pipe(const Script_Pipe_Mode_Enum persistent)
+      {
+        assert((persistent == Script_Pipe_Mode_Enum::Persistent) or
+               (persistent == Script_Pipe_Mode_Enum::Not_Persistent));
+
+        std::FILE* fp;
+        std::string cmd = "gnuplot";
+        if (persistent == Script_Pipe_Mode_Enum::Persistent)
+        {
+          cmd += " -p";
+        }
+        fp = popen(cmd.c_str(), "w");
+
+        if (fp == nullptr)
+        {
+          if (global_config().log())
+          {
+            global_config().set_log_message(
+                fmt::format("Cannot popen GnuPlot executable {}", cmd).c_str());
+          }
+        }
+        return fp;
+      }
+
+      Script_Pipe_Mode_Enum _script_pipe_mode;
+      std::unique_ptr<FILE, decltype(&close_pipe)> _pipe;
+
+      void
+      write(const std::string& s)
+      {
+        assert(_pipe);
+        fputs(s.c_str(), _pipe.get());
+      }
+
+      void
+      flush()
+      {
+        assert(_pipe);
+        fflush(_pipe.get());
+      }
+
+      Script_Pipe_Interface_Impl(Script_Pipe_Mode_Enum script_pipe_mode)
+          : _script_pipe_mode(script_pipe_mode),
+            _pipe{open_gnuplot_pipe(_script_pipe_mode), &close_pipe}
+      {
+        assert(_pipe);
+      }
+      ~Script_Pipe_Interface_Impl() = default;
+    };
+
+  }
+
+  Script_Pipe::Script_Pipe(Script_Pipe_Mode_Enum script_pipe_mode)
+      : Script(std::make_unique<Script_Pipe_Interface_Impl>(script_pipe_mode))
+  {
+    if (global_config().log())
+    {
+      global_config().set_log_message("Created  : GnuPlot pipe");
+    }
+  }
+
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GnuPlotScripting/script_file_mode_enum.hpp"
+
 #include <memory>
 #include <optional>
 
@@ -8,13 +10,6 @@ namespace GnuPlotScripting
   class Global_Config;
 
   Global_Config& global_config();
-
-  enum class Script_File_Mode_Enum
-  {
-    None,       // never automatically run generated file scripts
-    Silent,     // silently run generated file scripts
-    Persistent  // run generated file scripts using persistent mode GnuPlot
-  };
 
   class Global_Config
   {
