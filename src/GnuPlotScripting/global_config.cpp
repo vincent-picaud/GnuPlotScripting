@@ -36,14 +36,14 @@ namespace GnuPlotScripting
   }
 
   Global_Config&
-  Global_Config::set_file_script_mode(Script_File_Mode_Enum mode)
+  Global_Config::set_script_file_mode(Script_File_Mode_Enum mode)
   {
     _pimpl->_script_file_mode = mode;
     return *this;
   }
 
   Script_File_Mode_Enum
-  Global_Config::file_script_mode() const
+  Global_Config::script_file_mode() const
   {
     return _pimpl->_script_file_mode;
   }

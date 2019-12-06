@@ -37,8 +37,8 @@ namespace GnuPlotScripting
     bool log() const;
     Global_Config& set_log_message(const char* const msg);
 
-    Global_Config& set_file_script_mode(Script_File_Mode_Enum mode);
-    Script_File_Mode_Enum file_script_mode() const;
+    Global_Config& set_script_file_mode(Script_File_Mode_Enum mode);
+    Script_File_Mode_Enum script_file_mode() const;
   };
 
 }

@@ -93,7 +93,7 @@ namespace GnuPlotScripting
         _file.close();
 
         std::string command;
-        switch (global_config().file_script_mode())
+        switch (global_config().script_file_mode())
         {
           case Script_File_Mode_Enum::Persistent:
             command = fmt::format("gnuplot -p \"{}\"", _filename.c_str());
