@@ -81,8 +81,8 @@ It generates this figure:
 
 [[file:figures/matrix.png]]
 
-It also generates a standalone =matrix.eps= file you can process with
-=pdflatex matrix.eps= to get a monochrome =matrix.pdf= file. If you want
+It also generates a standalone =matrix.tex= file you can process with
+=pdflatex matrix.tex= to get a monochrome =matrix.pdf= file. If you want
 colorized pdf simply use:
 #+begin_src cpp :eval never 
 EPSLATEX().set_standalone(true).set_color(true)
