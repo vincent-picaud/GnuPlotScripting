@@ -47,7 +47,7 @@ main()
   std::vector<double> data(10000);
   for (auto& data_i : data) data_i = distribution(gen);
 
-  Script_File script("histogram.gp", Script_File_Mode_Enum::Persistent);
+  Script_File script("histogram.gp");
 
   script.free_form("set title \"Gamma({},{}) distributed sample", a, b);
 

@@ -16,7 +16,7 @@ main()
       "0.50 0.60 0.00 0.25\n"
       "0.75 0.25 0.10 0.00\n");
 
-  Script_File script("matrix.gp", Script_File_Mode_Enum::Persistent);
+  Script_File script("matrix.gp");
 
   script.free_form("set autoscale fix");
   script.free_form("set cbrange [-1:1]");

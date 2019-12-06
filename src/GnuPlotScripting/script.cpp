@@ -135,7 +135,7 @@ namespace GnuPlotScripting
 
   Script_File::Script_File(
       const std::filesystem::path& filename,
-      const Script_File_Mode_Enum script_file_mode = Script_File_Mode_Enum::None)
+      const Script_File_Mode_Enum script_file_mode)
       : Script(std::make_unique<Script_File_Interface_Impl>(filename, script_file_mode))
   {
     if (global_config().log())

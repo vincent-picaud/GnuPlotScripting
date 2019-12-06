@@ -77,7 +77,8 @@ namespace GnuPlotScripting
   class Script_File final : public Script
   {
    public:
-    Script_File(const std::filesystem::path& filename, Script_File_Mode_Enum script_file_mode);
+    Script_File(const std::filesystem::path& filename,
+                Script_File_Mode_Enum script_file_mode = Script_File_Mode_Enum::Persistent);
   };
 
 }  // namespace GnuPlotScripting

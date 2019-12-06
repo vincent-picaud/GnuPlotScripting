@@ -5,9 +5,18 @@
 
 namespace GnuPlotScripting
 {
+  namespace
+  {
+    void
+    default_logger(const char* const msg)
+    {
+      std::cerr << "[GnuPlotScripting] " << msg << std::endl;
+    }
+  }
+
   struct Global_Config::Interface
   {
-    bool _log                                              = true;
+    void (*_f)(const char* const msg)                      = default_logger;
     std::optional<Script_File_Mode_Enum> _script_file_mode = Script_File_Mode_Enum::Persistent;
   };
 
@@ -15,15 +24,15 @@ namespace GnuPlotScripting
   Global_Config::~Global_Config() {}
 
   Global_Config&
-  Global_Config::set_log(bool on_off)
+  Global_Config::set_log(void (*f)(const char* const msg))
   {
-    _pimpl->_log = on_off;
+    _pimpl->_f = f;
     return *this;
   }
   bool
   Global_Config::log() const
   {
-    return _pimpl->_log;
+    return (_pimpl->_f != nullptr);
   }
   Global_Config&
   Global_Config::set_log_message(const char* const msg)

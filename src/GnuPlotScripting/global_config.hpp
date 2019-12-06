@@ -34,7 +34,7 @@ namespace GnuPlotScripting
     Global_Config& operator=(Global_Config&&) = delete;
 
    public:
-    Global_Config& set_log(bool on_off);
+    Global_Config& set_log(void (*)(const char* const msg) = nullptr);
     bool log() const;
     Global_Config& set_log_message(const char* const msg);
 
