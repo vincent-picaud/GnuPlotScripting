@@ -56,7 +56,7 @@ main()
       "0.50 0.60 0.00 0.25\n"
       "0.75 0.25 0.10 0.00\n");
 
-  Script_File script("matrix.gp");
+  Script_File script("matrix.gp", Script_File_Mode_Enum::Persistent);
 
   script.free_form("set autoscale fix");
   script.free_form("set cbrange [-1:1]");
@@ -131,10 +131,12 @@ main()
   std::vector<double> data(10000);
   for (auto& data_i : data) data_i = distribution(gen);
 
-  Script_File script("histogram.gp");
+  Script_File script("histogram.gp", Script_File_Mode_Enum::Persistent);
 
   script.free_form("set title \"Gamma({},{}) distributed sample", a, b);
+
   gnuplot_histogram(script, data, 100, 0, 3);
+
   script.export_as(PNG(), "histogram");
 }
 #+END_src
@@ -175,7 +177,7 @@ main()
       "-1  1 0    0 0 1.75  \n"
       " 1  0 0    0 0 1.75  \n");
 
-  Script_File script_a("graph_3D.gp");
+  Script_File script_a("graph_3D.gp", Script_File_Mode_Enum::Persistent);
 
   script_a.free_form("unset border");
   script_a.free_form("unset tics");
@@ -185,7 +187,7 @@ main()
   script_a.free_form("replot {} index 1 u 1:2:3:($4-$1):($5-$2):($6-$3) with vectors nohead", data);
   script_a.free_form("pause -1");
 
-  Script_File script_b("graph_2D.gp");
+  Script_File script_b("graph_2D.gp", Script_File_Mode_Enum::Persistent);
 
   script_b.free_form("unset border");
   script_b.free_form("unset tics");

@@ -47,10 +47,10 @@ main()
   std::vector<double> data(10000);
   for (auto& data_i : data) data_i = distribution(gen);
 
-  Script_File script("histogram.gp");
+  Script_File script("histogram.gp", Script_File_Mode_Enum::Persistent);
 
   script.free_form("set title \"Gamma({},{}) distributed sample", a, b);
-  
+
   gnuplot_histogram(script, data, 100, 0, 3);
 
   script.export_as(PNG(), "histogram");

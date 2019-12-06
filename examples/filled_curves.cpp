@@ -5,7 +5,7 @@ using namespace GnuPlotScripting;
 int
 main()
 {
-  Script_File script("filled_curve.gp");
+  Script_File script("filled_curve.gp", Script_File_Mode_Enum::Persistent);
 
   script.set_title("Some sqrt stripes on filled graph background")
       .free_form(

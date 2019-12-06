@@ -2,6 +2,7 @@
 
 #include "GnuPlotScripting/data.hpp"
 #include "GnuPlotScripting/export_as.hpp"
+#include "GnuPlotScripting/global_config.hpp"
 
 #include "fmt/format.h"
 
@@ -76,7 +77,7 @@ namespace GnuPlotScripting
   class Script_File final : public Script
   {
    public:
-    Script_File(const std::filesystem::path& filename);
+    Script_File(const std::filesystem::path& filename, Script_File_Mode_Enum script_file_mode);
   };
 
 }  // namespace GnuPlotScripting
