@@ -37,7 +37,7 @@ cat $(pwd)/examples/matrix.cpp
 #+END_SRC
 
 #+RESULTS:
-#+BEGIN_src cpp :eval never
+#+begin_src cpp :eval never
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
 
 #include <iostream>
@@ -56,7 +56,7 @@ main()
       "0.50 0.60 0.00 0.25\n"
       "0.75 0.25 0.10 0.00\n");
 
-  Script_File script("matrix.gp", Script_File_Mode_Enum::Persistent);
+  Script_File script("matrix.gp");
 
   script.free_form("set autoscale fix");
   script.free_form("set cbrange [-1:1]");
@@ -67,12 +67,20 @@ main()
       "1:2:(sprintf('%.2f', $3)) with labels font ',16'",
       data);
   script.export_as(PNG(), "matrix");
+  script.export_as(EPSLATEX().set_standalone(true), "matrix");
 }
-#+END_src
+#+end_src
 
 It generates this figure:
 
 [[file:figures/matrix.png]]
+
+It also generates a standalone =matrix.eps= file you can process with
+=pdflatex matrix.eps= to get a monochrome =matrix.pdf= file. If you want
+colorized pdf simply use:
+#+begin_src cpp :eval never 
+EPSLATEX().set_standalone(true).set_color(true)
+#+end_src
 
 ** Histogram
 
@@ -201,6 +209,8 @@ main()
 It generates this figure:
 
 [[file:figures/graph.png]]
+
+but also an active gnuplot 3D figure you can rotate etc...
 
 
 * References
