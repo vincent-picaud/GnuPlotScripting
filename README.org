@@ -216,3 +216,4 @@ but also an active gnuplot 3D figure you can rotate etc...
 * References
 
 - [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a very well written book 
+- [[http://www.gnuplotting.org/][www.gnuplotting.org]] a lot of great examples
