@@ -18,10 +18,27 @@ namespace GnuPlotScripting
   {
     void (*_f)(const char* const msg)                      = default_logger;
     std::optional<Script_File_Mode_Enum> _script_file_mode = Script_File_Mode_Enum::Persistent;
+    std::string _gnuplot_exe
+#if defined(WIN32)
+        = "gnuplot.exe";
+#else
+        = "gnuplot";
+#endif
   };
 
   Global_Config::Global_Config() : _pimpl(std::make_unique<Interface>()) {}
   Global_Config::~Global_Config() {}
+  const char*
+  Global_Config::gnuplot_exe() const
+  {
+    return _pimpl->_gnuplot_exe.c_str();
+  }
+  Global_Config&
+  Global_Config::set_gnuplot_exe(const char* const gnuplot_executable)
+  {
+    _pimpl->_gnuplot_exe = gnuplot_executable;
+    return *this;
+  }
 
   Global_Config&
   Global_Config::set_log(void (*f)(const char* const msg))

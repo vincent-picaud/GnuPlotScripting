@@ -29,6 +29,9 @@ namespace GnuPlotScripting
     Global_Config& operator=(Global_Config&&) = delete;
 
    public:
+    const char* gnuplot_exe() const;
+    Global_Config& set_gnuplot_exe(const char* const gnuplot_executable);
+    
     Global_Config& set_log(void (*)(const char* const msg) = nullptr);
     bool log() const;
     Global_Config& set_log_message(const char* const msg);
