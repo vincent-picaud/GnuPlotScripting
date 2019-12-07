@@ -17,3 +17,7 @@ executable('histogram',
 executable('pipe',
 	   'pipe.cpp',
 	   dependencies : [GnuPlotScripting_dep])
+
+executable('plot',
+	   'plot.cpp',
+	   dependencies : [GnuPlotScripting_dep])
