@@ -11,9 +11,8 @@ gnuplot scripts. The library depends on
 I use it when I want to plot some data with a minimal effort when I
 develop stuff in C++.
 
-For the moment the library is only tested under Linux (for the Windows
-version I have only minor fixes like using =_popen= instead of
-=popen=...). I do not expect breaking changes for the API.
+For the moment the library is only tested under Linux (it should also
+works under Windows but I have not checked yet).
 
 Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHub, GnuPlotScripting]].
 
