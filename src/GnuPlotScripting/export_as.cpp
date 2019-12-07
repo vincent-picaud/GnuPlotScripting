@@ -52,8 +52,7 @@ namespace GnuPlotScripting
           "set terminal {} {}\n"
           "set output '{}'\n"
           "replot\n"
-          "set terminal pop\n"
-          "replot\n",
+          "set terminal pop\n",
           terminal,
           options,
           filename_ext.native());

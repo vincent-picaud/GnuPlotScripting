@@ -9,7 +9,7 @@ TEST(Export_As, PNG)
   PNG png;
   char ans[] =
       "set terminal push\nset terminal png \nset output 'file.png'\nreplot\nset terminal "
-      "pop\nreplot\n";
+      "pop\n";
 
-  EXPECT_EQ(png.export_as("file.png"), ans);
+   EXPECT_EQ(png.export_as("file.png"), ans);
 }

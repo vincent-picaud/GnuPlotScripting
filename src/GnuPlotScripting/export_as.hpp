@@ -12,7 +12,7 @@ namespace GnuPlotScripting
   //
   class Export_As
   {
-   public:
+   protected:
     struct Interface
     {
       virtual std::string export_as(const std::filesystem::path& filename) const = 0;
@@ -20,13 +20,20 @@ namespace GnuPlotScripting
       virtual ~Interface() = default;
     };
 
-   protected:
     using pimpl_type = std::unique_ptr<Interface>;
     pimpl_type _pimpl;
 
     Export_As(pimpl_type&& pimpl);
 
    public:
+    // generates commands, by example:
+    //
+    // set terminal push
+    // set terminal png
+    // set output 'filename.png'
+    // replot
+    // set terminal pop
+    //
     std::string export_as(const std::filesystem::path& filename) const;
   };
 
