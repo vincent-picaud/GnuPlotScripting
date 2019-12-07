@@ -153,7 +153,7 @@ namespace GnuPlotScripting
   // Script_Pipe //
   /////////////////
   //
-  // NOTE: not tested under windows, must have to add something like:
+  // NOTE: I tried to consider WIN32, but I have not checked it actually works
   //      - #ifdef WIN32 _pclose(fp)
   //      - #ifdef WIN32 _popen("gnuplot.exe", "w")
   // etc... see https://stackoverflow.com/a/8249232/2001017
@@ -166,7 +166,11 @@ namespace GnuPlotScripting
       static void
       close_pipe(std::FILE* fp)
       {
+#if defined(WIN32)
+        _pclose(fp);
+#else
         pclose(fp);
+#endif
       }
       static std::FILE*
       open_gnuplot_pipe(const Script_Pipe_Mode_Enum persistent)
@@ -180,7 +184,12 @@ namespace GnuPlotScripting
         {
           cmd += " -p";
         }
+
+#if defined(WIN32)
+        fp = _popen(cmd.c_str(), "w");
+#else
         fp = popen(cmd.c_str(), "w");
+#endif
 
         if (fp == nullptr)
         {
@@ -200,14 +209,23 @@ namespace GnuPlotScripting
       write(const std::string& s)
       {
         assert(_pipe);
+#if defined(WIN32)
+        _fputs(s.c_str(), _pipe.get());
+#else
         fputs(s.c_str(), _pipe.get());
+#endif
       }
 
       void
       flush()
+
       {
         assert(_pipe);
+#if defined(WIN32)
+        _fflush(_pipe.get());
+#else
         fflush(_pipe.get());
+#endif
       }
 
       Script_Pipe_Interface_Impl(Script_Pipe_Mode_Enum script_pipe_mode)
