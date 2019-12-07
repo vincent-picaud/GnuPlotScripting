@@ -1,5 +1,4 @@
 GnuPlotScripting_headers = [
-  'hello.hpp',
   'script.hpp',
   'data.hpp',
   'detection_idiom.hpp',
@@ -12,7 +11,6 @@ GnuPlotScripting_headers = [
   'script_pipe_mode_enum.hpp',
 ]
 GnuPlotScripting_sources = [
-  'hello.cpp',
   'script.cpp',
   'data.cpp',
   'export_as.cpp',
