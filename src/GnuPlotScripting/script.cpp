@@ -113,10 +113,10 @@ namespace GnuPlotScripting
         switch (*script_file_mode)
         {
           case Script_File_Mode_Enum::Persistent:
-            command = fmt::format("gnuplot -p \"{}\"", _filename.c_str());
+            command = fmt::format("{} -p \"{}\"", global_config().gnuplot_exe(), _filename.c_str());
             break;
           case Script_File_Mode_Enum::Silent:
-            command = fmt::format("gnuplot \"{}\"", _filename.c_str());
+            command = fmt::format("{} \"{}\"", global_config().gnuplot_exe(), _filename.c_str());
             break;
           default:
             return;
@@ -175,7 +175,7 @@ namespace GnuPlotScripting
                (persistent == Script_Pipe_Mode_Enum::Not_Persistent));
 
         std::FILE* fp;
-        std::string cmd = "gnuplot";
+        std::string cmd = global_config().gnuplot_exe();
         if (persistent == Script_Pipe_Mode_Enum::Persistent)
         {
           cmd += " -p";
