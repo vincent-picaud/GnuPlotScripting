@@ -51,14 +51,6 @@ namespace GnuPlotScripting
   }
 
   Script&
-  Script::set_title(const char* const title)
-  {
-    _pimpl->writeln(fmt::format("set title \"{}\"", title));
-
-    return *this;
-  }
-
-  Script&
   Script::export_as(const Export_As& export_as_, const std::filesystem::path& output)
   {
     _pimpl->write(export_as_.export_as(output));

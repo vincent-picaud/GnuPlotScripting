@@ -46,7 +46,7 @@ namespace GnuPlotScripting
     //
    public:
     void flush();
-    
+
     template <typename... ARGS>
     Script&
     free_form(ARGS&&... args)
@@ -64,8 +64,6 @@ namespace GnuPlotScripting
 
       return *this;
     }
-
-    Script& set_title(const char* const title);
 
     // NOTE: automatically set the right filename extension
     Script& export_as(const Export_As& export_as, const std::filesystem::path& output);
