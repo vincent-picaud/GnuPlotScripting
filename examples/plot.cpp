@@ -26,7 +26,9 @@ main()
 
   Script_File script("plot.gp");
 
-  Data_Vector data(time, angle, stdvar);
+  Data_Vector data(
+      time, angle, stdvar);  // <- you can stack as many vector/valarray etc.. as you want
+                             //    only size() and operator[] are required.
 
   script.free_form("set title 'Cavendish Data'");
   script.free_form("set xlabel 'Time (s)'");
@@ -37,5 +39,5 @@ main()
   script.free_form("theta(t) = theta0 + a * exp(-t / tau) * sin(2 * pi * t / T + phi)");
   script.free_form("fit theta(x) {} using 1:2:3 via a, tau, phi, T, theta0", data);
   script.free_form("replot theta(x) lw {} lc {} title 'best-fit curve'", 2, 4);
-  script.export_as(PNG(),"plot");
+  script.export_as(PNG(), "plot");
 }

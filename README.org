@@ -71,7 +71,9 @@ main()
 
   Script_File script("plot.gp");
 
-  Data_Vector data(time, angle, stdvar);
+  Data_Vector data(
+      time, angle, stdvar);  // <- you can stack as many vector/valarray etc.. as you want
+                             //    only size() and operator[] are required.
 
   script.free_form("set title 'Cavendish Data'");
   script.free_form("set xlabel 'Time (s)'");
@@ -82,13 +84,19 @@ main()
   script.free_form("theta(t) = theta0 + a * exp(-t / tau) * sin(2 * pi * t / T + phi)");
   script.free_form("fit theta(x) {} using 1:2:3 via a, tau, phi, T, theta0", data);
   script.free_form("replot theta(x) lw {} lc {} title 'best-fit curve'", 2, 4);
-  script.export_as(PNG(),"plot");
+  script.export_as(PNG(), "plot");
 }
 #+END_src
 
 It generates this figure:
 
 [[file:figures/plot.png]]
+
+*Note:* the generated =plot.gp= gnutplot script embeds the data and you
+ can replay it whenever you want:
+#+BEGIN_SRC sh :eval never
+gnuplot plot.pg -
+#+END_SRC 
 
 ** Matrix data 
 
@@ -97,7 +105,7 @@ cat $(pwd)/examples/matrix.cpp
 #+END_SRC
 
 #+RESULTS:
-#+begin_src cpp :eval never
+#+BEGIN_src cpp :eval never
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
 
 #include <iostream>
@@ -129,7 +137,7 @@ main()
   script.export_as(PNG(), "matrix");
   script.export_as(EPSLATEX().set_standalone(true), "matrix");
 }
-#+end_src
+#+END_src
 
 It generates this figure:
 
@@ -199,7 +207,7 @@ main()
   std::vector<double> data(10000);
   for (auto& data_i : data) data_i = distribution(gen);
 
-  Script_File script("histogram.gp", Script_File_Mode_Enum::Persistent);
+  Script_File script("histogram.gp");
 
   script.free_form("set title \"Gamma({},{}) distributed sample", a, b);
 
@@ -245,7 +253,7 @@ main()
       "-1  1 0    0 0 1.75  \n"
       " 1  0 0    0 0 1.75  \n");
 
-  Script_File script_a("graph_3D.gp", Script_File_Mode_Enum::Persistent);
+  Script_File script_a("graph_3D.gp");
 
   script_a.free_form("unset border");
   script_a.free_form("unset tics");
@@ -255,7 +263,7 @@ main()
   script_a.free_form("replot {} index 1 u 1:2:3:($4-$1):($5-$2):($6-$3) with vectors nohead", data);
   script_a.free_form("pause -1");
 
-  Script_File script_b("graph_2D.gp", Script_File_Mode_Enum::Persistent);
+  Script_File script_b("graph_2D.gp");
 
   script_b.free_form("unset border");
   script_b.free_form("unset tics");
@@ -281,3 +289,5 @@ but also an active gnuplot 3D figure you can rotate etc...
 # figures/matrix.png http://pixorblog.files.wordpress.com/2019/12/matrix.png
 # figures/histogram.png http://pixorblog.files.wordpress.com/2019/12/histogram.png
 # figures/graph.png http://pixorblog.files.wordpress.com/2019/12/graph.png
+
+# figures/plot.png http://pixorblog.files.wordpress.com/2019/12/plot.png
