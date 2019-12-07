@@ -351,7 +351,7 @@ std::valarray<double> v3(10);
 Data_Vector data(v1,v2,v3);
 #+END_SRC
 
-*Data_Ascii*: use data already put in form into a
+*Data_Ascii*: uses data already put in form into a
 std::string. By example:
 #+BEGIN_SRC cpp :eval never
 Data_Ascii data(
