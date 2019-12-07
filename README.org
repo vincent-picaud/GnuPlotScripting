@@ -1,3 +1,4 @@
+#+OPTIONS: H:3 toc:t num:t \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:t tags:not-in-toc
 #+BLOG: wordpress
 #+POSTID: 931
 #+DATE: [2019-12-06 Fri 19:40]
@@ -329,6 +330,50 @@ main()
 }
 #+END_src
 
+* Documentation
+The library is quite simple and there is only 3 things you must know:
+- Data_XXX are classes to store your data 
+- Script_XXX are script classes to write your scripts
+- global_config() returns a Global_Config object used to define global options.
+
+** =Data= classes
+
+*Data_Vector*: creates column of data from =std::vector=,
+=std::valarray=... In fact only the =size()= method and the =operator[]=
+operator are used and you can use any object defining these two
+methods. By example:
+
+#+BEGIN_SRC cpp :eval never
+std::vector<double> v1(10);
+std::vector<int> v2(10);
+std::valarray<double> v3(10);
+// ...
+Data_Vector data(v1,v2,v3);
+#+END_SRC
+
+*Data_Ascii*: use data already put in form into a
+std::string. By example:
+#+BEGIN_SRC cpp :eval never
+Data_Ascii data(
+    "0.00 0.65 0.65 0.25\n"
+    "0.25 0.00 0.75 0.25\n"
+    "0.50 0.60 0.00 0.25\n"
+    "0.75 0.25 0.10 0.00\n");
+#+END_SRC
+
+It is really easy to define your your own =Data= class. By example
+=Data_Ascii= code is as simple as:
+#+BEGIN_SRC cpp :eval never
+class Data_Ascii final : public Data
+{
+ public:
+  Data_Ascii(const std::string& data) : Data(data) {}
+};
+#+END_SRC
+** =Script= classes
+TODO
+** =Global_Config= class
+TODO
 * References
 
 - [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a very well written book 
