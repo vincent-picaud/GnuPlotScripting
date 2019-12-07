@@ -6,12 +6,6 @@
 
 namespace GnuPlotScripting
 {
-  // NOTE: directly use data defined by a string
-  //
-  // By example
-
-  // works.
-  //
   class Data_Ascii final : public Data
   {
    public:
