@@ -516,8 +516,9 @@ This class allows you to define or overwrite globally some options
 const char* gnuplot_exe() const;
 Global_Config& set_gnuplot_exe(const char* const gnuplot_executable);
 
-Global_Config& set_log(void (*)(const char* const msg) = nullptr);
-bool log() const;
+Global_Config& set_log(const std::function<void(const char* const msg)>&);
+Global_Config& set_log(); // removes logger
+bool log() const; // checks if there is an active logger
 Global_Config& set_log_message(const char* const msg);
 
 Global_Config& set_script_file_mode(Script_File_Mode_Enum mode);
