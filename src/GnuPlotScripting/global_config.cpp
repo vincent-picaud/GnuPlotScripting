@@ -16,8 +16,8 @@ namespace GnuPlotScripting
 
   struct Global_Config::Interface
   {
-    void (*_f)(const char* const msg)                      = default_logger;
-    std::optional<Script_File_Mode_Enum> _script_file_mode = Script_File_Mode_Enum::Persistent;
+    void (*_f)(const char* const msg) = default_logger;
+    std::optional<Script_File_Mode_Enum> _script_file_mode{};
     std::string _gnuplot_exe
 #if defined(WIN32)
         = "gnuplot.exe";
@@ -54,10 +54,10 @@ namespace GnuPlotScripting
   Global_Config&
   Global_Config::set_log_message(const char* const msg)
   {
-    assert(log());
-
-    std::cerr << "[GnuPlotScripting] " << msg << std::endl;
-
+    if (log())
+    {
+      _pimpl->_f(msg);
+    }
     return *this;
   }
 

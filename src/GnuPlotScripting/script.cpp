@@ -92,13 +92,12 @@ namespace GnuPlotScripting
       {
         _file.close();
 
-        std::optional<Script_File_Mode_Enum> script_file_mode = global_config().script_file_mode();
-        if (!script_file_mode.has_value())
+        std::optional<Script_File_Mode_Enum> script_file_mode = _script_file_mode;
+        if (global_config().script_file_mode().has_value())
         {
-          // If global does not have defined value,
+          // If global has defined value, overwrite with it
           // use our local one
-          // TODO...
-          script_file_mode = Script_File_Mode_Enum::Persistent;
+          script_file_mode = *global_config().script_file_mode();
         }
         assert(script_file_mode.has_value());
         std::string command;

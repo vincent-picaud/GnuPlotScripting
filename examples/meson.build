@@ -21,3 +21,7 @@ executable('pipe',
 executable('plot',
 	   'plot.cpp',
 	   dependencies : [GnuPlotScripting_dep])
+
+executable('global_config',
+	   'global_config.cpp',
+	   dependencies : [GnuPlotScripting_dep])
