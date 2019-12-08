@@ -5,14 +5,6 @@
 
 using namespace GnuPlotScripting;
 
-template <typename T>
-struct type_identity
-{
-  using type = T;
-};
-template <typename T>
-using type_identity_t = typename type_identity<T>::type;
-
 // Example from:
 // https://stackoverflow.com/a/7454274/2001017
 //
@@ -21,15 +13,22 @@ void
 gnuplot_histogram(Script& script,
                   const std::vector<T>& data,
                   const size_t n_bin,
-                  type_identity_t<T> min,
-                  type_identity_t<T> max)
+                  const typename std::vector<T>::value_type min,
+                  const typename std::vector<T>::value_type max)
 {
   assert(max > min);
+  assert(n_bin > 0);
 
   Data_Vector gnuplot_data(data);
 
-  const double width = (max - min) / (n_bin + 1.);
+  const double width = (max - min) / n_bin;
   script.free_form("width={}", width);
+  script.free_form("set title 'Histogram min={}, max={}, Δbin={}, #bins={}, #sample={}'",
+                   min,
+                   max,
+                   width,
+                   n_bin,
+                   data.size());
   script.free_form("hist(x,width)=width*floor(x/width)+width/2.0");
   script.free_form("set boxwidth width*0.9");
   script.free_form("set style fill solid 0.5");
@@ -48,8 +47,6 @@ main()
   for (auto& data_i : data) data_i = distribution(gen);
 
   Script_File script("histogram.gp");
-
-  script.free_form("set title \"Gamma({},{}) distributed sample", a, b);
 
   gnuplot_histogram(script, data, 100, 0, 3);
 
