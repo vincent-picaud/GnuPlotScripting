@@ -556,7 +556,15 @@ for (size_t i = 1; i < 5; i++)
 #+BEGIN_SRC cpp :eval never
 global_config().set_script_file_mode(Script_File_Mode_Enum::Persistent);
 #+END_SRC
-   in your code.
+   *before* 
+#+BEGIN_SRC cpp :eval never
+for (size_t i = 1; i < 5; i++)
+{
+  ...
+}
+#+END_SRC
+   in your code. This will force all =Script_File= to use
+   =Script_File_Mode_Enum::Persistent=
  
 * References
 
