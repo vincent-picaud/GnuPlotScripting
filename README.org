@@ -561,3 +561,6 @@ global_config().set_script_file_mode(Script_File_Mode_Enum::Persistent);
 # figures/graph.png http://pixorblog.files.wordpress.com/2019/12/graph.png
 
 # figures/plot.png http://pixorblog.files.wordpress.com/2019/12/plot.png
+
+* FAQ
+-> your question here

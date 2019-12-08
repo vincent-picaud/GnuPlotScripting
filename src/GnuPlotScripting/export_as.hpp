@@ -15,6 +15,8 @@ namespace GnuPlotScripting
    protected:
     struct Interface
     {
+      virtual Interface* clone() const = 0;
+
       virtual std::string export_as(const std::filesystem::path& filename) const = 0;
 
       virtual ~Interface() = default;
@@ -45,9 +47,12 @@ namespace GnuPlotScripting
   {
     struct PNG_Interface;
     PNG_Interface& impl();
+    const PNG_Interface& impl() const;
 
    public:
     PNG();
+    PNG(const PNG&);
+    PNG& operator=(const PNG&);
 
     PNG& set_free_form(const std::string& free_form = "");
 
@@ -69,9 +74,12 @@ namespace GnuPlotScripting
   {
     struct EPSLATEX_Interface;
     EPSLATEX_Interface& impl();
+    const EPSLATEX_Interface& impl() const;
 
    public:
     EPSLATEX();
+    EPSLATEX(const EPSLATEX&);
+    EPSLATEX& operator=(const EPSLATEX&);
 
     EPSLATEX& set_free_form(const std::string& free_form = "");
 

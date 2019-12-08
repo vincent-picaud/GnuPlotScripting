@@ -204,6 +204,12 @@ namespace GnuPlotScripting
     std::optional<bool> _transparent;
     std::optional<bool> _interlace;
 
+    PNG::PNG_Interface*
+    clone() const
+    {
+      return new PNG::PNG_Interface(*this);
+    };
+
     std::string
     export_as(const std::filesystem::path& filename) const
     {
@@ -221,8 +227,23 @@ namespace GnuPlotScripting
 
     return static_cast<PNG_Interface&>(*_pimpl.get());
   }
+  const PNG::PNG_Interface&
+  PNG::impl() const
+  {
+    assert(dynamic_cast<PNG_Interface*>(_pimpl.get()));
+
+    return static_cast<PNG_Interface&>(*_pimpl.get());
+  }
 
   PNG::PNG() : Export_As{std::make_unique<PNG_Interface>()} {}
+
+  PNG::PNG(const PNG& to_copy) : Export_As{pimpl_type(to_copy.impl().clone())} {}
+  PNG&
+  PNG::operator=(const PNG& to_copy)
+  {
+    _pimpl = pimpl_type(to_copy.impl().clone());
+    return *this;
+  }
 
   PNG&
   PNG::set_free_form(const std::string& free_form)
@@ -289,6 +310,12 @@ namespace GnuPlotScripting
     std::optional<bool> _clip;
     std::string _header;
 
+    EPSLATEX::EPSLATEX_Interface*
+    clone() const
+    {
+      return new EPSLATEX::EPSLATEX_Interface(*this);
+    };
+
     std::string
     export_as(const std::filesystem::path& filename) const
     {
@@ -306,8 +333,23 @@ namespace GnuPlotScripting
 
     return static_cast<EPSLATEX_Interface&>(*_pimpl.get());
   }
+  const EPSLATEX::EPSLATEX_Interface&
+  EPSLATEX::impl() const
+  {
+    assert(dynamic_cast<EPSLATEX_Interface*>(_pimpl.get()));
+
+    return static_cast<EPSLATEX_Interface&>(*_pimpl.get());
+  }
 
   EPSLATEX::EPSLATEX() : Export_As{std::make_unique<EPSLATEX_Interface>()} {}
+
+  EPSLATEX::EPSLATEX(const EPSLATEX& to_copy) : Export_As{pimpl_type(to_copy.impl().clone())} {}
+  EPSLATEX&
+  EPSLATEX::operator=(const EPSLATEX& to_copy)
+  {
+    _pimpl = pimpl_type(to_copy.impl().clone());
+    return *this;
+  }
 
   EPSLATEX&
   EPSLATEX::set_free_form(const std::string& free_form)
