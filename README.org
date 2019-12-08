@@ -19,6 +19,13 @@ works under Windows but I have not checked yet).
 
 Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHub, GnuPlotScripting]].
 
+* News
+
+  - Note taken on [2019-12-08 Sun 11:21] \\
+    This is the pre-release 0.0.1. I am going to wait a little bit before
+    finalizing the final version. This library is simple and the API is
+    not expected to change.
+
 * Installation 
 
 The library currently uses the [[https://mesonbuild.com/][meson]] build system.
