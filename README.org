@@ -332,6 +332,47 @@ main()
 }
 #+END_src
 
+** Global config demonstration
+
+This last example shows how to use =Global_Config=.
+
+#+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
+cat $(pwd)/examples/global_config.cpp
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_src cpp :eval never
+#include "GnuPlotScripting/GnuPlotScripting.hpp"
+
+#include <iostream>
+
+using namespace GnuPlotScripting;
+
+void
+this_is_my_logger(const char *const msg)
+{
+  std::cerr << "============> My logger " << msg << std::endl;
+}
+
+int
+main()
+{
+  global_config().set_log(this_is_my_logger);
+  // If you want to remove logger:  global_config().set_log();
+
+  // If you want to globally overwrite Script_File_Mode_Enum::Silent do:
+  global_config().set_script_file_mode(Script_File_Mode_Enum::Persistent);
+  // comment me to switch back to the locally defined mode (here Silent)
+
+  for (size_t i = 0; i < 5; i++)
+  {
+    Script_File script(fmt::format("script_{}.gp", i), Script_File_Mode_Enum::Silent);
+
+    script.free_form("plot sin({0}*x) t 'sin({0}*x)'", i);
+  }
+}
+#+END_src
+
 * Documentation
 The library is quite simple and there is only 3 things you must know:
 - Data_XXX are classes to store your data 
@@ -451,10 +492,10 @@ Another possibility is to add a pose in your gnuplot script:
 script.free_form("pause -1");
 #+END_SRC
 
-*** =Script_Pipe== class
+*** =Script_Pipe= class
 
-Here instead of writting into a file, we open a pipe with =popen=. This
-allows you to direcly command GnuPlot during your code execution. Note
+Here instead of writing into a file, we open a pipe with =popen=. This
+allows you to directly command GnuPlot during your code execution. Note
 that this is only a *unidirectional* channel.
 
 The constructor is:
@@ -468,10 +509,54 @@ as for =Script_File= class, =script_pipe_mode= defines what happens at destructi
 
 ** =Global_Config= class
 
-This is a class that allows you to define or overwrite globally some options
+This class allows you to define or overwrite globally some options
 
-TODO
+#+BEGIN_SRC cpp :eval never
+const char* gnuplot_exe() const;
+Global_Config& set_gnuplot_exe(const char* const gnuplot_executable);
 
+Global_Config& set_log(void (*)(const char* const msg) = nullptr);
+bool log() const;
+Global_Config& set_log_message(const char* const msg);
+
+Global_Config& set_script_file_mode(Script_File_Mode_Enum mode);
+Global_Config& set_script_file_mode();  // reset to default
+std::optional<Script_File_Mode_Enum> script_file_mode() const;
+#+END_SRC
+
+- =set/gnuplot_exe()= functions allow you to define GnuPlot executable
+  filename, by default this is =gnuplot= or =gnuplot.exe= for windows.
+- =set/log()= functions allow you to stop or redirect logs, by example:
+#+BEGIN_SRC cpp :eval never
+void my_log(const char* const msg)
+{
+  std::cerr << "My logger " << msg << std::endl;
+}
+
+global_config().set_log(my_log);
+#+END_SRC
+- =set_script_file_mode()= functions are more interesting as they allow
+  you to overwrite globally what happens at =Script_File= destruction
+  time. A typical use case is as follows:
+
+  Imagine that your code will silently generate a lot of scripts:
+
+#+BEGIN_SRC cpp :eval never
+for (size_t i = 0; i < 5; i++)
+{
+  Script_File script(fmt::format("script_{}.gp", i), Script_File_Mode_Enum::Silent);
+
+  script.free_form("plot sin({0}*x) t 'sin({0}*x)'", i);
+}
+#+END_SRC
+  
+   However at debug time, you want to force visualization to see what
+   happens. In that case you simply have to add
+#+BEGIN_SRC cpp :eval never
+global_config().set_script_file_mode(Script_File_Mode_Enum::Persistent);
+#+END_SRC
+   in your code.
+ 
 * References
 
 - [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a very well written book 
