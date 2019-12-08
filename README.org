@@ -5,9 +5,11 @@
 #+TITLE: Easy Creation of GnuPlot Scripts from C++
 #+TAGS: Cpp, GnuPlot
 
-A tiny C++17 library that allows easy creation and execution of
-gnuplot scripts. The library depends on
-[[https://github.com/fmtlib/fmt][{fmt} library]].
+A simple C++17 library that allows easy creation and execution of
+gnuplot scripts. These scripts will embed their data and can be
+replayed/modified later. 
+
+The library depends on [[https://github.com/fmtlib/fmt][{fmt} library]].
 
 I use it when I want to plot some data with a minimal effort when I
 develop stuff in C++.
@@ -338,10 +340,11 @@ The library is quite simple and there is only 3 things you must know:
 
 ** =Data= classes
 
-*Data_Vector*: creates column of data from =std::vector=,
-=std::valarray=... In fact only the =size()= method and the =operator[]=
-operator are used and you can use any object defining these two
-methods. By example:
+*** =Data_Vector=
+
+Creates columns of data from =std::vector=, =std::valarray=... In fact
+only the =size()= method and the =operator[]= operator are used and you
+can use any object defining these two methods. By example:
 
 #+BEGIN_SRC cpp :eval never
 std::vector<double> v1(10);
@@ -351,8 +354,9 @@ std::valarray<double> v3(10);
 Data_Vector data(v1,v2,v3);
 #+END_SRC
 
-*Data_Ascii*: uses data already put in form into a
-std::string. By example:
+*** =Data_Ascii= 
+
+uses data already put in form into a =std::string=. By example:
 #+BEGIN_SRC cpp :eval never
 Data_Ascii data(
     "0.00 0.65 0.65 0.25\n"
@@ -361,7 +365,7 @@ Data_Ascii data(
     "0.75 0.25 0.10 0.00\n");
 #+END_SRC
 
-It is really easy to define your your own =Data= class. By example
+It is really easy to define your own =Data= class. By example
 =Data_Ascii= code is as simple as:
 #+BEGIN_SRC cpp :eval never
 class Data_Ascii final : public Data
@@ -370,10 +374,104 @@ class Data_Ascii final : public Data
   Data_Ascii(const std::string& data) : Data(data) {}
 };
 #+END_SRC
+
+Also note that the =Data= base class provides a uuid that insures that
+data is embedded only once in the gnuplot script.
+
+By example, when you write:
+
+#+BEGIN_SRC cpp :eval never
+script.free_form("plot {} u 1:2",data);
+script.free_form("replot {} u 1:3",data);
+script.free_form("replot {} u 1:4",data);
+#+END_SRC
+
+data is copied into the script file only once.
+
 ** =Script= classes
-TODO
+
+There are two script classes:
+- =Script_File= creates a file to store the script. 
+- =Script_Pipe= creates a pipe to push data directly to GnuPlot, in that
+  case no file is created.
+They inherits from the =Script= base class that provides the following methods:
+#+BEGIN_SRC cpp :eval never
+template <typename... ARGS>
+Script& free_form(ARGS&&... args);
+
+Script& export_as(const Export_As& export_as, const std::filesystem::path& output);
+
+void flush();
+#+END_SRC
+
+- =free_form= allows you to write free form using the =fmt= library, by example:
+#+BEGIN_SRC cpp :eval never
+script.free_form("plot '{}' u {}:{}","data_file.dat",1,2);
+#+END_SRC
+
+- =flush()= forces buffer to be flushed
+
+- =export_as()= generates script code to export the figure in the given format, by example:
+
+#+BEGIN_SRC cpp :eval never
+script.export_as(EPSLATEX.set_standalone(true),"filename");
+#+END_SRC
+
+*Note:* 
+- the right extension for =filename= is automatically added
+(here this would be =.tex=).
+- for the moment only two export formats are defined =PNG=, =EPSLATEX=. I
+  will add more in the future.
+
+*** =Script_File= class 
+
+The only relevant part is the constructor:
+#+BEGIN_SRC cpp :eval never
+Script_File(const std::filesystem::path& filename,
+            Script_File_Mode_Enum script_file_mode = Script_File_Mode_Enum::Persistent);
+#+END_SRC
+- =Filename= is the gnuplot script file name (you are free to use the
+  file extension you want, on my side I use the =.gp= extension).
+- =script_file_mode= is important as it defines what happens at destruction time
+  - =Script_File_Mode_Enum::None= does nothing
+  - =Script_File_Mode_Enum::Silent= silently runs GnuPlot (this will generate your exported figures)
+  - =Script_File_Mode_Enum::Persistent= runs GnuPlot in persistent mode,
+    it will generates your figures and left a window opened that
+    allows you to see the result. This is only an opened window and
+    *not* an active gnuplot session (you *cannot* interact with the plot).
+
+*Note:* to get an active GnuPlot session, you can replay your script with:
+#+BEGIN_SRC sh :eval never
+gnuplot filename.gp -
+#+END_SRC
+(note the final '-', see GnuPlot documentation for further details).
+
+Another possibility is to add a pose in your gnuplot script:
+#+BEGIN_SRC cpp :eval never
+script.free_form("pause -1");
+#+END_SRC
+
+*** =Script_Pipe== class
+
+Here instead of writting into a file, we open a pipe with =popen=. This
+allows you to direcly command GnuPlot during your code execution. Note
+that this is only a *unidirectional* channel.
+
+The constructor is:
+#+BEGIN_SRC cpp :eval never
+Script_Pipe(Script_Pipe_Mode_Enum script_pipe_mode = Script_Pipe_Mode_Enum::Persistent);
+#+END_SRC
+
+as for =Script_File= class, =script_pipe_mode= defines what happens at destruction time:
+- =Script_Pipe_Mode_Enum::Not_Persistent= does not keep an opened window
+- =Script_Pipe_Mode_Enum::Persistent= keeps an opened, but inactive, window
+
 ** =Global_Config= class
+
+This is a class that allows you to define or overwrite globally some options
+
 TODO
+
 * References
 
 - [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a very well written book 
