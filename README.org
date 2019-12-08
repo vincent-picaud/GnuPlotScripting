@@ -563,7 +563,7 @@ for (size_t i = 1; i < 5; i++)
   ...
 }
 #+END_SRC
-   in your code. This will force all =Script_File= to use
+   This will force all =Script_File= to use
    =Script_File_Mode_Enum::Persistent=
  
 * References
