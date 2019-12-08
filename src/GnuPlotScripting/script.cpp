@@ -113,14 +113,14 @@ namespace GnuPlotScripting
             return;
         }
 
-        if (global_config().log())
+        if (global_config().has_logger())
         {
           global_config().set_log_message(fmt::format("Running  : {}", command).c_str());
         }
         int error = std::system(command.c_str());
         if (error)
         {
-          if (global_config().log())
+          if (global_config().has_logger())
           {
             global_config().set_log_message(fmt::format("Got error code : {}", error).c_str());
           }
@@ -134,7 +134,7 @@ namespace GnuPlotScripting
                            const Script_File_Mode_Enum script_file_mode)
       : Script(std::make_unique<Script_File_Interface_Impl>(filename, script_file_mode))
   {
-    if (global_config().log())
+    if (global_config().has_logger())
     {
       global_config().set_log_message(fmt::format("Created  : {}", filename.c_str()).c_str());
     }
@@ -184,7 +184,7 @@ namespace GnuPlotScripting
 
         if (fp == nullptr)
         {
-          if (global_config().log())
+          if (global_config().has_logger())
           {
             global_config().set_log_message(
                 fmt::format("Cannot popen GnuPlot executable {}", cmd).c_str());
@@ -233,7 +233,7 @@ namespace GnuPlotScripting
   Script_Pipe::Script_Pipe(Script_Pipe_Mode_Enum script_pipe_mode)
       : Script(std::make_unique<Script_Pipe_Interface_Impl>(script_pipe_mode))
   {
-    if (global_config().log())
+    if (global_config().has_logger())
     {
       global_config().set_log_message("Created  : GnuPlot pipe");
     }

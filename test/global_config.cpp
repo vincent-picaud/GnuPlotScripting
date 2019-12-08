@@ -6,7 +6,7 @@ using namespace GnuPlotScripting;
 
 TEST(Global_Config_As, basic_use)
 {
-  EXPECT_EQ(global_config().log(), true);
-  global_config().set_log();
-  EXPECT_EQ(global_config().log(), false);
+  EXPECT_EQ(global_config().has_logger(), true);
+  global_config().set_logger();
+  EXPECT_EQ(global_config().has_logger(), false);
 }

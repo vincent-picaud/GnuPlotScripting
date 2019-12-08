@@ -41,26 +41,32 @@ namespace GnuPlotScripting
   }
 
   Global_Config&
-  Global_Config::set_log()
+  Global_Config::set_logger()
   {
     _pimpl->_f = std::function<void(const char* const msg)>{};
     return *this;
   }
   Global_Config&
-  Global_Config::set_log(const std::function<void(const char* const msg)>& f)
+  Global_Config::set_default_logger()
+  {
+    _pimpl->_f = std::function<void(const char* const msg)>{default_logger};
+    return *this;
+  }
+  Global_Config&
+  Global_Config::set_logger(const std::function<void(const char* const msg)>& f)
   {
     _pimpl->_f = f;
     return *this;
   }
   bool
-  Global_Config::log() const
+  Global_Config::has_logger() const
   {
     return (_pimpl->_f != nullptr);
   }
   Global_Config&
   Global_Config::set_log_message(const char* const msg)
   {
-    if (log())
+    if (has_logger())
     {
       _pimpl->_f(msg);
     }

@@ -33,14 +33,15 @@ namespace GnuPlotScripting
     const char* gnuplot_exe() const;
     Global_Config& set_gnuplot_exe(const char* const gnuplot_executable);
 
-    Global_Config& set_log();
-    Global_Config& set_log(const std::function<void(const char* const msg)>& f);
-
-    bool log() const;
+    Global_Config& set_logger();          // removes logger
+    Global_Config& set_default_logger();  // reuses default one
+    Global_Config& set_logger(
+        const std::function<void(const char* const msg)>& f);  // defines your own
+    bool has_logger() const;
     Global_Config& set_log_message(const char* const msg);
 
-    Global_Config& set_script_file_mode(Script_File_Mode_Enum mode);
-    Global_Config& set_script_file_mode();  // reset to default
+    Global_Config& set_script_file_mode(Script_File_Mode_Enum mode);  // overwrite with mode
+    Global_Config& set_script_file_mode();  // reset (does not overwrite anything)
     std::optional<Script_File_Mode_Enum> script_file_mode() const;
   };
 

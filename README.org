@@ -355,13 +355,25 @@ using namespace GnuPlotScripting;
 int
 main()
 {
-  global_config().set_log(
-      [](const char *const msg) { std::cerr << "============> My logger " << msg << std::endl; });
-  // If you want to remove logger:  global_config().set_log();
+  global_config().set_logger(
+      [](const char *const msg) { std::cerr << "====> My logger " << msg << std::endl; });
+  // If you want to remove logger:  global_config().set_logger();
+  // If you want to restore the default one: global_config().set_default_logger();
 
-  // If you want to globally overwrite Script_File_Mode_Enum::Silent do:
+  // If you want to globally overwrite Script_File_Mode_Enum to Persistent, do:
   global_config().set_script_file_mode(Script_File_Mode_Enum::Persistent);
 
+  for (size_t i = 1; i < 5; i++)
+  {
+    Script_File script(fmt::format("script_{}.gp", i), Script_File_Mode_Enum::Silent);
+
+    script.free_form("plot sin({0}*x) t 'sin({0}*x)'", i);
+  }
+
+  // To stop overwriting local choice:
+  global_config().set_script_file_mode();
+
+  // Now this will silently run scripts
   for (size_t i = 1; i < 5; i++)
   {
     Script_File script(fmt::format("script_{}.gp", i), Script_File_Mode_Enum::Silent);
@@ -485,7 +497,7 @@ gnuplot filename.gp -
 #+END_SRC
 (note the final '-', see GnuPlot documentation for further details).
 
-Another possibility is to add a pose in your gnuplot script:
+Another possibility is to add a pause in your gnuplot script:
 #+BEGIN_SRC cpp :eval never
 script.free_form("pause -1");
 #+END_SRC
@@ -513,32 +525,31 @@ This class allows you to define or overwrite globally some options
 const char* gnuplot_exe() const;
 Global_Config& set_gnuplot_exe(const char* const gnuplot_executable);
 
-Global_Config& set_log(const std::function<void(const char* const msg)>&);
-Global_Config& set_log(); // removes logger
-bool log() const; // checks if there is an active logger
+Global_Config& set_logger();          // removes logger
+Global_Config& set_default_logger();  // reuses default one
+Global_Config& set_logger(const std::function<void(const char* const msg)>& f);  // defines your own
+bool has_logger() const;
 Global_Config& set_log_message(const char* const msg);
 
-Global_Config& set_script_file_mode(Script_File_Mode_Enum mode);
-Global_Config& set_script_file_mode();  // reset to default
+Global_Config& set_script_file_mode(
+    Script_File_Mode_Enum mode);        // globally overwrite local 'script_file_mode'
+Global_Config& set_script_file_mode();  // stop overwriting local 'script_file_mode'
 std::optional<Script_File_Mode_Enum> script_file_mode() const;
 #+END_SRC
 
 - =set/gnuplot_exe()= functions allow you to define GnuPlot executable
   filename, by default this is =gnuplot= or =gnuplot.exe= for windows.
-- =set/log()= functions allow you to stop or redirect logs, by example:
+- =set/logger()= functions allow you to stop or redirect logs, by example:
 #+BEGIN_SRC cpp :eval never
-void my_log(const char* const msg)
-{
-  std::cerr << "My logger " << msg << std::endl;
-}
-
-global_config().set_log(my_log);
+global_config().set_logger([](const char *const msg) {
+  std::cerr << "====> My logger " << msg << std::endl;
+});
 #+END_SRC
 - =set_script_file_mode()= functions are more interesting as they allow
   you to overwrite globally what happens at =Script_File= destruction
   time. A typical use case is as follows:
 
-  Imagine that your code will silently generate a lot of scripts:
+  Imagine that your code silently generates a lot of scripts:
 
 #+BEGIN_SRC cpp :eval never
 for (size_t i = 1; i < 5; i++)
