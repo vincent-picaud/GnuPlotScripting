@@ -2,6 +2,7 @@
 
 #include "GnuPlotScripting/script_file_mode_enum.hpp"
 
+#include <functional>
 #include <memory>
 #include <optional>
 
@@ -31,8 +32,10 @@ namespace GnuPlotScripting
    public:
     const char* gnuplot_exe() const;
     Global_Config& set_gnuplot_exe(const char* const gnuplot_executable);
-    
-    Global_Config& set_log(void (*)(const char* const msg) = nullptr);
+
+    Global_Config& set_log();
+    Global_Config& set_log(const std::function<void(const char* const msg)>& f);
+
     bool log() const;
     Global_Config& set_log_message(const char* const msg);
 
