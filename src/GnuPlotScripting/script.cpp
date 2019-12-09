@@ -225,7 +225,13 @@ namespace GnuPlotScripting
       {
         assert(_pipe);
       }
-      ~Script_Pipe_Interface_Impl() = default;
+      ~Script_Pipe_Interface_Impl()
+      {
+        if (global_config().has_logger())
+        {
+          global_config().set_log_message("Closed   : GnuPlot pipe");
+        }
+      }
     };
 
   }
