@@ -5,6 +5,10 @@
 #+TITLE: Easy Creation of GnuPlot Scripts from C++
 #+TAGS: Cpp, GnuPlot
 
+Build status: [[https://travis-ci.org/vincent-picaud/GnuPlotScript][file:https://travis-ci.org/vincent-picaud/GnuPlotScripting.svg?branch=master]]
+
+* What is it?
+
 A simple C++17 library that allows easy creation and execution of
 gnuplot scripts. These scripts will embed their data and can be
 replayed/modified later. 
@@ -19,16 +23,21 @@ works under Windows but I have not checked yet).
 
 Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHub, GnuPlotScripting]].
 
-* News
 
-  - Note taken on [2019-12-08 Sun 20:21] \\
+** News
+
+  - [2019-12-08 Sun 20:21] \\
     Some minor fixes + doc concerning Global_Config logger methods ->
     v0.0.2. I will wait to have some feedback to know if it works under
     Windows & MacOS.
-  - Note taken on [2019-12-08 Sun 11:21] \\
+  - [2019-12-08 Sun 11:21] \\
     This is the pre-release 0.0.1. I am going to wait a little bit before
     finalizing the final version. This library is simple and the API is
     not expected to change.
+
+** Contributors 
+
+  - [[https://github.com/Gjacquenot][Guillaume Jacquenot]]: Travis CI
 
 * Installation 
 
