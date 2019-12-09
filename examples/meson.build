@@ -25,3 +25,7 @@ executable('plot',
 executable('global_config',
 	   'global_config.cpp',
 	   dependencies : [GnuPlotScripting_dep])
+
+executable('available_export_formats',
+	   'available_export_formats.cpp',
+	   dependencies : [GnuPlotScripting_dep])

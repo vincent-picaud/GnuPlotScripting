@@ -197,9 +197,9 @@ namespace GnuPlotScripting
   SETTER(PNG, transparent);
   SETTER(PNG, interlace);
 
-  /////////
+  //////////////
   // EPSLATEX //
-  /////////
+  //////////////
   //
   struct EPSLATEX::EPSLATEX_Interface final : public Export_As::Interface
   {
@@ -271,4 +271,94 @@ namespace GnuPlotScripting
 
     return *this;
   }
+
+  /////////
+  // SVG //
+  /////////
+  //
+  struct SVG::SVG_Interface final : public Export_As::Interface
+  {
+    std::string _free_form;
+    std::optional<bool> _t_dynamic_f_fixed;
+    std::optional<bool> _t_solid_f_dashed;
+    std::optional<bool> _enhanced;
+
+    SVG::SVG_Interface*
+    clone() const
+    {
+      return new SVG::SVG_Interface(*this);
+    };
+
+    std::string
+    export_as(const std::filesystem::path& filename) const
+    {
+      std::string options =
+          (free_form(_free_form) + boolean_option(_t_dynamic_f_fixed, "dynamic ", "fixed ") +
+           boolean_option(_t_solid_f_dashed, "solid ", "dashed ") +
+           boolean_option(_enhanced, "enhanced ", "noenhanced "));
+
+      return scripting_helper("svg", filename, options);
+    }
+  };
+
+  SVG::SVG_Interface&
+  SVG::impl()
+  {
+    assert(dynamic_cast<SVG_Interface*>(_pimpl.get()));
+
+    return static_cast<SVG_Interface&>(*_pimpl.get());
+  }
+  const SVG::SVG_Interface&
+  SVG::impl() const
+  {
+    assert(dynamic_cast<SVG_Interface*>(_pimpl.get()));
+
+    return static_cast<SVG_Interface&>(*_pimpl.get());
+  }
+
+  SVG::SVG() : Export_As{std::make_unique<SVG_Interface>()} {}
+
+  SVG::SVG(const SVG& to_copy) : Export_As{pimpl_type(to_copy.impl().clone())} {}
+  SVG&
+  SVG::operator=(const SVG& to_copy)
+  {
+    _pimpl = pimpl_type(to_copy.impl().clone());
+    return *this;
+  }
+
+  SVG&
+  SVG::set_free_form(const std::string& free_form)
+  {
+    impl()._free_form = free_form;
+
+    return *this;
+  }
+  SVG&
+  SVG::set_dynamic()
+  {
+    impl()._t_dynamic_f_fixed = true;
+    return *this;
+  }
+  SVG&
+  SVG::set_fixed()
+  {
+    impl()._t_dynamic_f_fixed = false;
+    return *this;
+  }
+
+  SVG&
+  SVG::set_solid()
+  {
+    impl()._t_solid_f_dashed = true;
+    return *this;
+  }
+  SVG&
+  SVG::set_dashed()
+  {
+    impl()._t_solid_f_dashed = false;
+    return *this;
+  }
+
+  SETTER(SVG, enhanced);
+
 }

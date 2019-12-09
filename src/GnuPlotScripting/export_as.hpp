@@ -95,4 +95,31 @@ namespace GnuPlotScripting
     EPSLATEX& set_header(const std::string& header = "");
   };
 
+  /////////
+  // SVG //
+  /////////
+  //
+  class SVG : public Export_As
+  {
+    struct SVG_Interface;
+    SVG_Interface& impl();
+    const SVG_Interface& impl() const;
+
+   public:
+    SVG();
+    SVG(const SVG&);
+    SVG& operator=(const SVG&);
+
+    SVG& set_free_form(const std::string& free_form = "");
+
+    SVG& set_dynamic();
+    SVG& set_fixed();
+
+    SVG& set_solid();
+    SVG& set_dashed();
+
+    SVG& set_enhanced(bool yes_no);
+    SVG& set_enhanced();  // back to default
+  };
+
 }
