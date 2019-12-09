@@ -78,105 +78,23 @@ namespace GnuPlotScripting
     }
 
     std::string
-    enhanced(const std::optional<bool>& option)
+    boolean_option(const std::optional<bool>& option,
+                   const char* const form_true,
+                   const char* const form_false,
+                   const char* const form_undef = "")
     {
       if (option.has_value())
       {
         if (*option)
         {
-          return "enhanced ";
+          return form_true;
         }
         else
         {
-          return "noenhanced ";
+          return form_false;
         }
       }
-      return "";
-    }
-
-    std::string
-    clip(const std::optional<bool>& option)
-    {
-      if (option.has_value())
-      {
-        if (*option)
-        {
-          return "clip ";
-        }
-        else
-        {
-          return "noclip ";
-        }
-      }
-      return "";
-    }
-
-    std::string
-    standalone(const std::optional<bool>& option)
-    {
-      if (option.has_value())
-      {
-        if (*option)
-        {
-          return "standalone ";
-        }
-        else
-        {
-          return "input ";
-        }
-      }
-      return "";
-    }
-
-    std::string
-    color(const std::optional<bool>& option)
-    {
-      if (option.has_value())
-      {
-        if (*option)
-        {
-          return "color ";
-        }
-        else
-        {
-          return "monochrome ";
-        }
-      }
-      return "";
-    }
-
-    std::string
-    transparent(const std::optional<bool>& option)
-    {
-      if (option.has_value())
-      {
-        if (*option)
-        {
-          return "transparent ";
-        }
-        else
-        {
-          return "notransparent ";
-        }
-      }
-      return "";
-    }
-
-    std::string
-    interlace(const std::optional<bool>& option)
-    {
-      if (option.has_value())
-      {
-        if (*option)
-        {
-          return "interlace ";
-        }
-        else
-        {
-          return "nointerlace ";
-        }
-      }
-      return "";
+      return form_undef;
     }
 
     std::string
@@ -213,8 +131,10 @@ namespace GnuPlotScripting
     std::string
     export_as(const std::filesystem::path& filename) const
     {
-      std::string options = (free_form(_free_form) + enhanced(_enhanced) +
-                             transparent(_transparent) + interlace(_interlace));
+      std::string options =
+          (free_form(_free_form) + boolean_option(_enhanced, "enhanced ", "noenhanced ") +
+           boolean_option(_transparent, "transparent ", "notransparent ") +
+           boolean_option(_interlace, "interlace ", "nointerlace "));
 
       return scripting_helper("png", filename, options);
     }
@@ -319,8 +239,10 @@ namespace GnuPlotScripting
     std::string
     export_as(const std::filesystem::path& filename) const
     {
-      std::string options = (free_form(_free_form) + standalone(_standalone) + color(_color) +
-                             clip(_clip) + header(_header));
+      std::string options =
+          (free_form(_free_form) + boolean_option(_standalone, "standalone ", "input ") +
+           boolean_option(_color, "color ", "monochrome ") +
+           boolean_option(_clip, "clip ", "noclip ") + header(_header));
 
       return scripting_helper("epslatex", ".tex", filename, options);
     }
