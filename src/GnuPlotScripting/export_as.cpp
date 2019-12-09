@@ -111,6 +111,20 @@ namespace GnuPlotScripting
     }
   }
 
+#define SETTER(CLASS, KEYWORD)             \
+  CLASS& CLASS::set_##KEYWORD(bool yes_no) \
+  {                                        \
+    impl()._##KEYWORD = yes_no;            \
+                                           \
+    return *this;                          \
+  }                                        \
+  CLASS& CLASS::set_##KEYWORD()            \
+  {                                        \
+    impl()._##KEYWORD.reset();             \
+                                           \
+    return *this;                          \
+  }
+
   /////////
   // PNG //
   /////////
@@ -173,50 +187,9 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  PNG&
-  PNG::set_enhanced(bool yes_no)
-  {
-    impl()._enhanced = yes_no;
-
-    return *this;
-  }
-  PNG&
-  PNG::set_enhanced()
-  {
-    impl()._enhanced.reset();
-
-    return *this;
-  }
-
-  PNG&
-  PNG::set_transparent(bool yes_no)
-  {
-    impl()._transparent = yes_no;
-
-    return *this;
-  }
-  PNG&
-  PNG::set_transparent()
-  {
-    impl()._transparent.reset();
-
-    return *this;
-  }
-
-  PNG&
-  PNG::set_interlace(bool yes_no)
-  {
-    impl()._interlace = yes_no;
-
-    return *this;
-  }
-  PNG&
-  PNG::set_interlace()
-  {
-    impl()._interlace.reset();
-
-    return *this;
-  }
+  SETTER(PNG, enhanced);
+  SETTER(PNG, transparent);
+  SETTER(PNG, interlace);
 
   /////////
   // EPSLATEX //
@@ -281,50 +254,10 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  EPSLATEX&
-  EPSLATEX::set_standalone(bool yes_no)
-  {
-    impl()._standalone = yes_no;
+  SETTER(EPSLATEX, standalone);
+  SETTER(EPSLATEX, color);
+  SETTER(EPSLATEX, clip);
 
-    return *this;
-  }
-  EPSLATEX&
-  EPSLATEX::set_standalone()
-  {
-    impl()._standalone.reset();
-
-    return *this;
-  }
-
-  EPSLATEX&
-  EPSLATEX::set_color(bool yes_no)
-  {
-    impl()._color = yes_no;
-
-    return *this;
-  }
-  EPSLATEX&
-  EPSLATEX::set_color()
-  {
-    impl()._color.reset();
-
-    return *this;
-  }
-
-  EPSLATEX&
-  EPSLATEX::set_clip(bool yes_no)
-  {
-    impl()._clip = yes_no;
-
-    return *this;
-  }
-  EPSLATEX&
-  EPSLATEX::set_clip()
-  {
-    impl()._clip.reset();
-
-    return *this;
-  }
   EPSLATEX&
   EPSLATEX::set_header(const std::string& header)
   {
