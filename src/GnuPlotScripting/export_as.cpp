@@ -1,4 +1,5 @@
 #include "GnuPlotScripting/export_as.hpp"
+#include "GnuPlotScripting/global_config.hpp"
 
 #include <fmt/format.h>
 
@@ -46,6 +47,11 @@ namespace GnuPlotScripting
                      const std::string& options)
     {
       std::filesystem::path filename_ext = change_filename_extension(filename, extension);
+
+      if (global_config().has_logger())
+      {
+        global_config().set_log_message(fmt::format("Exporting: {}", filename_ext.c_str()).c_str());
+      }
 
       return fmt::format(
           "set terminal push\n"
