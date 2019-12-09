@@ -17,4 +17,5 @@ main()
   script.export_as(TGIF(), "available_export_formats");
   script.export_as(PNGCairo(), "available_export_formats_cairo");
   script.export_as(PNGCairo().set_color(false), "available_export_formats_cairo_nocolor");
+  script.export_as(PDFCairo(), "available_export_formats_pdfcairo");
 }

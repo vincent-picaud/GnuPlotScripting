@@ -180,4 +180,28 @@ namespace GnuPlotScripting
     PNGCairo& set_color(bool yes_no);
     PNGCairo& set_color();  // back to default
   };
+
+  //////////////
+  // PDFCairo //
+  //////////////
+  //
+  class PDFCairo : public Export_As
+  {
+    struct PDFCairo_Interface;
+    PDFCairo_Interface& impl();
+    const PDFCairo_Interface& impl() const;
+
+   public:
+    PDFCairo();
+    PDFCairo(const PDFCairo&);
+    PDFCairo& operator=(const PDFCairo&);
+
+    PDFCairo& set_free_form(const std::string& free_form = "");
+
+    PDFCairo& set_enhanced(bool yes_no);
+    PDFCairo& set_enhanced();  // back to default
+
+    PDFCairo& set_color(bool yes_no);
+    PDFCairo& set_color();  // back to default
+  };
 }

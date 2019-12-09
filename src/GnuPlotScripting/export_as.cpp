@@ -474,8 +474,7 @@ namespace GnuPlotScripting
       std::string options =
           (free_form(_free_form) + boolean_option(_enhanced, "enhanced ", "noenhanced ") +
            boolean_option(_transparent, "transparent ", "notransparent ") +
-           boolean_option(_crop, "crop ", "nocrop ")+
-           boolean_option(_color, "color ", "mono "));
+           boolean_option(_crop, "crop ", "nocrop ") + boolean_option(_color, "color ", "mono "));
 
       return scripting_helper("pngcairo", "png", filename, options);
     }
@@ -518,5 +517,68 @@ namespace GnuPlotScripting
   SETTER(PNGCairo, transparent);
   SETTER(PNGCairo, crop);
   SETTER(PNGCairo, color);
+
+  //////////////
+  // PDFCairo //
+  //////////////
+  //
+  struct PDFCairo::PDFCairo_Interface final : public Export_As::Interface
+  {
+    std::string _free_form;
+    std::optional<bool> _enhanced;
+    std::optional<bool> _color;
+
+    PDFCairo::PDFCairo_Interface*
+    clone() const
+    {
+      return new PDFCairo::PDFCairo_Interface(*this);
+    };
+
+    std::string
+    export_as(const std::filesystem::path& filename) const
+    {
+      std::string options =
+          (free_form(_free_form) + boolean_option(_enhanced, "enhanced ", "noenhanced ") +
+           boolean_option(_color, "color ", "mono "));
+
+      return scripting_helper("pdfcairo", "pdf", filename, options);
+    }
+  };
+
+  PDFCairo::PDFCairo_Interface&
+  PDFCairo::impl()
+  {
+    assert(dynamic_cast<PDFCairo_Interface*>(_pimpl.get()));
+
+    return static_cast<PDFCairo_Interface&>(*_pimpl.get());
+  }
+  const PDFCairo::PDFCairo_Interface&
+  PDFCairo::impl() const
+  {
+    assert(dynamic_cast<PDFCairo_Interface*>(_pimpl.get()));
+
+    return static_cast<PDFCairo_Interface&>(*_pimpl.get());
+  }
+
+  PDFCairo::PDFCairo() : Export_As{std::make_unique<PDFCairo_Interface>()} {}
+
+  PDFCairo::PDFCairo(const PDFCairo& to_copy) : Export_As{pimpl_type(to_copy.impl().clone())} {}
+  PDFCairo&
+  PDFCairo::operator=(const PDFCairo& to_copy)
+  {
+    _pimpl = pimpl_type(to_copy.impl().clone());
+    return *this;
+  }
+
+  PDFCairo&
+  PDFCairo::set_free_form(const std::string& free_form)
+  {
+    impl()._free_form = free_form;
+
+    return *this;
+  }
+
+  SETTER(PDFCairo, enhanced);
+  SETTER(PDFCairo, color);
 
 }
