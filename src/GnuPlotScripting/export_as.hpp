@@ -121,7 +121,7 @@ namespace GnuPlotScripting
     SVG& set_enhanced(bool yes_no);
     SVG& set_enhanced();  // back to default
   };
-  
+
   //////////
   // TGIF //
   //////////
@@ -151,4 +151,33 @@ namespace GnuPlotScripting
     TGIF& set_color();  // back to default
   };
 
+  //////////////
+  // PNGCairo //
+  //////////////
+  //
+  class PNGCairo : public Export_As
+  {
+    struct PNGCairo_Interface;
+    PNGCairo_Interface& impl();
+    const PNGCairo_Interface& impl() const;
+
+   public:
+    PNGCairo();
+    PNGCairo(const PNGCairo&);
+    PNGCairo& operator=(const PNGCairo&);
+
+    PNGCairo& set_free_form(const std::string& free_form = "");
+
+    PNGCairo& set_enhanced(bool yes_no);
+    PNGCairo& set_enhanced();  // back to default
+
+    PNGCairo& set_transparent(bool yes_no);
+    PNGCairo& set_transparent();  // back to default
+
+    PNGCairo& set_crop(bool yes_no);
+    PNGCairo& set_crop();  // back to default
+
+    PNGCairo& set_color(bool yes_no);
+    PNGCairo& set_color();  // back to default
+  };
 }

@@ -450,4 +450,73 @@ namespace GnuPlotScripting
 
   SETTER(TGIF, color);
 
+  //////////////
+  // PNGCairo //
+  //////////////
+  //
+  struct PNGCairo::PNGCairo_Interface final : public Export_As::Interface
+  {
+    std::string _free_form;
+    std::optional<bool> _enhanced;
+    std::optional<bool> _transparent;
+    std::optional<bool> _crop;
+    std::optional<bool> _color;
+
+    PNGCairo::PNGCairo_Interface*
+    clone() const
+    {
+      return new PNGCairo::PNGCairo_Interface(*this);
+    };
+
+    std::string
+    export_as(const std::filesystem::path& filename) const
+    {
+      std::string options =
+          (free_form(_free_form) + boolean_option(_enhanced, "enhanced ", "noenhanced ") +
+           boolean_option(_transparent, "transparent ", "notransparent ") +
+           boolean_option(_crop, "crop ", "nocrop ")+
+           boolean_option(_color, "color ", "mono "));
+
+      return scripting_helper("pngcairo", "png", filename, options);
+    }
+  };
+
+  PNGCairo::PNGCairo_Interface&
+  PNGCairo::impl()
+  {
+    assert(dynamic_cast<PNGCairo_Interface*>(_pimpl.get()));
+
+    return static_cast<PNGCairo_Interface&>(*_pimpl.get());
+  }
+  const PNGCairo::PNGCairo_Interface&
+  PNGCairo::impl() const
+  {
+    assert(dynamic_cast<PNGCairo_Interface*>(_pimpl.get()));
+
+    return static_cast<PNGCairo_Interface&>(*_pimpl.get());
+  }
+
+  PNGCairo::PNGCairo() : Export_As{std::make_unique<PNGCairo_Interface>()} {}
+
+  PNGCairo::PNGCairo(const PNGCairo& to_copy) : Export_As{pimpl_type(to_copy.impl().clone())} {}
+  PNGCairo&
+  PNGCairo::operator=(const PNGCairo& to_copy)
+  {
+    _pimpl = pimpl_type(to_copy.impl().clone());
+    return *this;
+  }
+
+  PNGCairo&
+  PNGCairo::set_free_form(const std::string& free_form)
+  {
+    impl()._free_form = free_form;
+
+    return *this;
+  }
+
+  SETTER(PNGCairo, enhanced);
+  SETTER(PNGCairo, transparent);
+  SETTER(PNGCairo, crop);
+  SETTER(PNGCairo, color);
+
 }
