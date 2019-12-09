@@ -50,7 +50,7 @@ namespace GnuPlotScripting
 
       if (global_config().has_logger())
       {
-        global_config().set_log_message(fmt::format("Exporting: {}", filename_ext.c_str()).c_str());
+        global_config().set_log_message(fmt::format("Exported : {}", filename_ext.c_str()).c_str());
       }
 
       return fmt::format(
