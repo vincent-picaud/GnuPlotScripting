@@ -28,6 +28,10 @@ Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHu
 
 ** News
 
+  - [2019-12-09 Mon 18:34] \\
+    Added SVG, TGIF, PNGCairo and PDFCairo export formats.
+    Tagged as v0.0.3.
+
   - [2019-12-08 Sun 20:21] \\
     Some minor fixes + doc concerning Global_Config logger methods ->
     v0.0.2. I will wait to have some feedback to know if it works under
@@ -350,6 +354,38 @@ main()
   }
 }
 #+END_src
+** Supported export formats
+
+This example silently exports a basic plot in all supported formats:
+
+#+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
+cat $(pwd)/examples/available_export_formats.cpp
+#+END_SRC
+
+#+RESULTS:
+#+begin_src cpp :eval never
+#include "GnuPlotScripting/GnuPlotScripting.hpp"
+
+#include <iostream>
+
+using namespace GnuPlotScripting;
+
+int
+main()
+{
+  Script_File script("available_export_formats.gp", Script_File_Mode_Enum::Silent);
+
+  script.free_form("plot sin(x) t 'sin(x)'");
+
+  script.export_as(PNG(), "available_export_formats");
+  script.export_as(EPSLATEX().set_standalone(true), "available_export_formats");
+  script.export_as(SVG(), "available_export_formats");
+  script.export_as(TGIF(), "available_export_formats");
+  script.export_as(PNGCairo(), "available_export_formats_cairo");
+  script.export_as(PNGCairo().set_color(false), "available_export_formats_cairo_nocolor");
+  script.export_as(PDFCairo(), "available_export_formats_pdfcairo");
+}
+#+end_src
 
 ** Global config demonstration
 
