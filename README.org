@@ -5,7 +5,9 @@
 #+TITLE: Easy Creation of GnuPlot Scripts from C++
 #+TAGS: Cpp, GnuPlot
 
-Build status: [[https://travis-ci.org/vincent-picaud/GnuPlotScript][file:https://travis-ci.org/vincent-picaud/GnuPlotScripting.svg?branch=master]]
+# trick from https://github.com/rexim/org-cliplink/
+
+[[https://travis-ci.org/vincent-picaud/GnuPlotScript][file:https://travis-ci.org/vincent-picaud/GnuPlotScripting.svg?branch=master]]
 
 * What is it?
 
