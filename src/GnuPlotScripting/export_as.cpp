@@ -361,4 +361,93 @@ namespace GnuPlotScripting
 
   SETTER(SVG, enhanced);
 
+  //////////
+  // TGIF //
+  //////////
+  //
+  struct TGIF::TGIF_Interface final : public Export_As::Interface
+  {
+    std::string _free_form;
+    std::optional<bool> _t_portrait_f_landscape;
+    std::optional<bool> _t_solid_f_dashed;
+    std::optional<bool> _color;
+
+    TGIF::TGIF_Interface*
+    clone() const
+    {
+      return new TGIF::TGIF_Interface(*this);
+    };
+
+    std::string
+    export_as(const std::filesystem::path& filename) const
+    {
+      std::string options = (free_form(_free_form) +
+                             boolean_option(_t_portrait_f_landscape, "portrait ", "landscape ") +
+                             boolean_option(_t_solid_f_dashed, "solid ", "dashed ") +
+                             boolean_option(_color, "color ", "monochrome "));
+
+      return scripting_helper("tgif", "obj", filename, options);
+    }
+  };
+
+  TGIF::TGIF_Interface&
+  TGIF::impl()
+  {
+    assert(dynamic_cast<TGIF_Interface*>(_pimpl.get()));
+
+    return static_cast<TGIF_Interface&>(*_pimpl.get());
+  }
+  const TGIF::TGIF_Interface&
+  TGIF::impl() const
+  {
+    assert(dynamic_cast<TGIF_Interface*>(_pimpl.get()));
+
+    return static_cast<TGIF_Interface&>(*_pimpl.get());
+  }
+
+  TGIF::TGIF() : Export_As{std::make_unique<TGIF_Interface>()} {}
+
+  TGIF::TGIF(const TGIF& to_copy) : Export_As{pimpl_type(to_copy.impl().clone())} {}
+  TGIF&
+  TGIF::operator=(const TGIF& to_copy)
+  {
+    _pimpl = pimpl_type(to_copy.impl().clone());
+    return *this;
+  }
+
+  TGIF&
+  TGIF::set_free_form(const std::string& free_form)
+  {
+    impl()._free_form = free_form;
+
+    return *this;
+  }
+  TGIF&
+  TGIF::set_portrait()
+  {
+    impl()._t_portrait_f_landscape = true;
+    return *this;
+  }
+  TGIF&
+  TGIF::set_landscape()
+  {
+    impl()._t_portrait_f_landscape = false;
+    return *this;
+  }
+
+  TGIF&
+  TGIF::set_solid()
+  {
+    impl()._t_solid_f_dashed = true;
+    return *this;
+  }
+  TGIF&
+  TGIF::set_dashed()
+  {
+    impl()._t_solid_f_dashed = false;
+    return *this;
+  }
+
+  SETTER(TGIF, color);
+
 }

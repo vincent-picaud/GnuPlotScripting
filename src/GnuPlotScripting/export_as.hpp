@@ -121,5 +121,34 @@ namespace GnuPlotScripting
     SVG& set_enhanced(bool yes_no);
     SVG& set_enhanced();  // back to default
   };
+  
+  //////////
+  // TGIF //
+  //////////
+  //
+  // see http://bourbon.usc.edu/tgif/
+  //
+  class TGIF : public Export_As
+  {
+    struct TGIF_Interface;
+    TGIF_Interface& impl();
+    const TGIF_Interface& impl() const;
+
+   public:
+    TGIF();
+    TGIF(const TGIF&);
+    TGIF& operator=(const TGIF&);
+
+    TGIF& set_free_form(const std::string& free_form = "");
+
+    TGIF& set_portrait();
+    TGIF& set_landscape();
+
+    TGIF& set_solid();
+    TGIF& set_dashed();
+
+    TGIF& set_color(bool yes_no);
+    TGIF& set_color();  // back to default
+  };
 
 }
