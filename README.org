@@ -33,13 +33,12 @@ Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHu
     Tagged as v0.0.3.
 
   - [2019-12-08 Sun 20:21] \\
-    Some minor fixes + doc concerning Global_Config logger methods ->
-    v0.0.2. I will wait to have some feedback to know if it works under
-    Windows & MacOS.
+    Some minor fixes + doc concerning Global_Config logger methods.
+    Tagged as v0.0.2 
+
   - [2019-12-08 Sun 11:21] \\
-    This is the pre-release 0.0.1. I am going to wait a little bit before
-    finalizing the final version. This library is simple and the API is
-    not expected to change.
+    Initial version.
+    Tagged as v0.0.1 
 
 ** Contributors 
 
@@ -60,7 +59,6 @@ ninja test
 #+END_SRC 
 
 Examples can then be found in the =build/examples/= directory.
-
 
 * Examples 
 
@@ -628,8 +626,11 @@ for (size_t i = 1; i < 5; i++)
  
 * References
 
+- [[http://www.gnuplot.info/][GnuPlot]] official page  
 - [[https://www.manning.com/books/gnuplot-in-action-second-edition][GnuPlot in Action]] a very well written book 
 - [[http://www.gnuplotting.org/][www.gnuplotting.org]] a lot of great examples
+- [[http://folk.uio.no/inf3330/scripting/doc/gnuplot/Kawano/index-e.html][GnuPlot not so Frequently Asked Questions]]
+- [[https://en.wikipedia.org/wiki/Gnuplot][Wikipedia]] the free encyclopedia...
 
 # figures/matrix.png http://pixorblog.files.wordpress.com/2019/12/matrix.png
 # figures/histogram.png http://pixorblog.files.wordpress.com/2019/12/histogram.png
