@@ -170,9 +170,9 @@ namespace GnuPlotScripting
   const PNG::PNG_Interface&
   PNG::impl() const
   {
-    assert(dynamic_cast<PNG_Interface*>(_pimpl.get()));
+    assert(dynamic_cast<const PNG_Interface*>(_pimpl.get()));
 
-    return static_cast<PNG_Interface&>(*_pimpl.get());
+    return static_cast<const PNG_Interface&>(*_pimpl.get());
   }
 
   PNG::PNG() : Export_As{std::make_unique<PNG_Interface>()} {}
@@ -237,9 +237,9 @@ namespace GnuPlotScripting
   const EPSLATEX::EPSLATEX_Interface&
   EPSLATEX::impl() const
   {
-    assert(dynamic_cast<EPSLATEX_Interface*>(_pimpl.get()));
+    assert(dynamic_cast<const EPSLATEX_Interface*>(_pimpl.get()));
 
-    return static_cast<EPSLATEX_Interface&>(*_pimpl.get());
+    return static_cast<const EPSLATEX_Interface&>(*_pimpl.get());
   }
 
   EPSLATEX::EPSLATEX() : Export_As{std::make_unique<EPSLATEX_Interface>()} {}
@@ -311,9 +311,9 @@ namespace GnuPlotScripting
   const SVG::SVG_Interface&
   SVG::impl() const
   {
-    assert(dynamic_cast<SVG_Interface*>(_pimpl.get()));
+    assert(dynamic_cast<const SVG_Interface*>(_pimpl.get()));
 
-    return static_cast<SVG_Interface&>(*_pimpl.get());
+    return static_cast<const SVG_Interface&>(*_pimpl.get());
   }
 
   SVG::SVG() : Export_As{std::make_unique<SVG_Interface>()} {}
@@ -400,9 +400,9 @@ namespace GnuPlotScripting
   const TGIF::TGIF_Interface&
   TGIF::impl() const
   {
-    assert(dynamic_cast<TGIF_Interface*>(_pimpl.get()));
+    assert(dynamic_cast<const TGIF_Interface*>(_pimpl.get()));
 
-    return static_cast<TGIF_Interface&>(*_pimpl.get());
+    return static_cast<const TGIF_Interface&>(*_pimpl.get());
   }
 
   TGIF::TGIF() : Export_As{std::make_unique<TGIF_Interface>()} {}
@@ -490,9 +490,9 @@ namespace GnuPlotScripting
   const PNGCairo::PNGCairo_Interface&
   PNGCairo::impl() const
   {
-    assert(dynamic_cast<PNGCairo_Interface*>(_pimpl.get()));
+    assert(dynamic_cast<const PNGCairo_Interface*>(_pimpl.get()));
 
-    return static_cast<PNGCairo_Interface&>(*_pimpl.get());
+    return static_cast<const PNGCairo_Interface&>(*_pimpl.get());
   }
 
   PNGCairo::PNGCairo() : Export_As{std::make_unique<PNGCairo_Interface>()} {}
@@ -555,9 +555,9 @@ namespace GnuPlotScripting
   const PDFCairo::PDFCairo_Interface&
   PDFCairo::impl() const
   {
-    assert(dynamic_cast<PDFCairo_Interface*>(_pimpl.get()));
+    assert(dynamic_cast<const PDFCairo_Interface*>(_pimpl.get()));
 
-    return static_cast<PDFCairo_Interface&>(*_pimpl.get());
+    return static_cast<const PDFCairo_Interface&>(*_pimpl.get());
   }
 
   PDFCairo::PDFCairo() : Export_As{std::make_unique<PDFCairo_Interface>()} {}
