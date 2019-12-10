@@ -511,15 +511,16 @@ script.free_form("plot '{}' u {}:{}","data_file.dat",1,2);
 
 - =flush()= forces buffer to be flushed
 
-- =export_as()= generates script code to export the figure in the given format, by example:
+- =export_as()= generates script code to export the figure in the given
+  format, by example:
 
 #+BEGIN_SRC cpp :eval never
 script.export_as(EPSLATEX().set_standalone(true),"filename");
 #+END_SRC
-1
+
 *Note:* 
-- the right extension for =filename= is automatically added
-(here this would be =.tex=).
+- the right extension for =filename= is automatically added (here this
+  would be =.tex=).
 - currently supported formats are =PNG=, =EPSLATEX=, =SVG=, =TGIF=,
   =PNGCairo= and =PDFCairo=.  
 
