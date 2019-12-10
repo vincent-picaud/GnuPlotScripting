@@ -40,7 +40,7 @@ namespace GnuPlotScripting
   {
     if (_pimpl)
     {
-      _pimpl->flush();
+      flush();
     }
   }
 

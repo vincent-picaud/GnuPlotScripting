@@ -65,7 +65,7 @@ namespace GnuPlotScripting
       return *this;
     }
 
-    // NOTE: automatically set the right filename extension
+    // NOTE: automatically sets the right filename extension
     Script& export_as(const Export_As& export_as, const std::filesystem::path& output);
   };
 
@@ -73,7 +73,7 @@ namespace GnuPlotScripting
   // Script_File //
   /////////////////
   //
-  // Write script in a file
+  // Writes script in a file
   //
   class Script_File final : public Script
   {
@@ -86,7 +86,7 @@ namespace GnuPlotScripting
   // Script_Pipe //
   /////////////////
   //
-  // Write script in a pipe
+  // Writes script in a pipe
   //
   class Script_Pipe final : public Script
   {
