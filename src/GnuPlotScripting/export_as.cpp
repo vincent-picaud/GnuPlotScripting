@@ -41,10 +41,10 @@ namespace GnuPlotScripting
     }
 
     std::string
-    scripting_helper(const std::string& terminal,
-                     const std::string& extension,
-                     const std::filesystem::path& filename,
-                     const std::string& options)
+    script_generator_helper(const std::string& terminal,
+                            const std::string& extension,
+                            const std::filesystem::path& filename,
+                            const std::string& options)
     {
       std::filesystem::path filename_ext = change_filename_extension(filename, extension);
 
@@ -64,17 +64,17 @@ namespace GnuPlotScripting
           filename_ext.native());
     }
     std::string
-    scripting_helper(const std::string& terminal,
-                     const std::filesystem::path& filename,
-                     const std::string& options)
+    script_generator_helper(const std::string& terminal,
+                            const std::filesystem::path& filename,
+                            const std::string& options)
     {
-      return scripting_helper(terminal, terminal, filename, options);
+      return script_generator_helper(terminal, terminal, filename, options);
     }
 
     //////////////// Common Options ////////////////
     //
     std::string
-    free_form(const std::string& option)
+    free_form_to_string(const std::string& option)
     {
       if (not option.empty())
       {
@@ -84,10 +84,10 @@ namespace GnuPlotScripting
     }
 
     std::string
-    boolean_option(const std::optional<bool>& option,
-                   const char* const form_true,
-                   const char* const form_false,
-                   const char* const form_undef = "")
+    boolean_option_to_string(const std::optional<bool>& option,
+                             const char* const form_true,
+                             const char* const form_false,
+                             const char* const form_undef = "")
     {
       if (option.has_value())
       {
@@ -152,11 +152,12 @@ namespace GnuPlotScripting
     export_as(const std::filesystem::path& filename) const
     {
       std::string options =
-          (free_form(_free_form) + boolean_option(_enhanced, "enhanced ", "noenhanced ") +
-           boolean_option(_transparent, "transparent ", "notransparent ") +
-           boolean_option(_interlace, "interlace ", "nointerlace "));
+          (free_form_to_string(_free_form) +
+           boolean_option_to_string(_enhanced, "enhanced ", "noenhanced ") +
+           boolean_option_to_string(_transparent, "transparent ", "notransparent ") +
+           boolean_option_to_string(_interlace, "interlace ", "nointerlace "));
 
-      return scripting_helper("png", filename, options);
+      return script_generator_helper("png", filename, options);
     }
   };
 
@@ -218,12 +219,12 @@ namespace GnuPlotScripting
     std::string
     export_as(const std::filesystem::path& filename) const
     {
-      std::string options =
-          (free_form(_free_form) + boolean_option(_standalone, "standalone ", "input ") +
-           boolean_option(_color, "color ", "monochrome ") +
-           boolean_option(_clip, "clip ", "noclip ") + header(_header));
+      std::string options = (free_form_to_string(_free_form) +
+                             boolean_option_to_string(_standalone, "standalone ", "input ") +
+                             boolean_option_to_string(_color, "color ", "monochrome ") +
+                             boolean_option_to_string(_clip, "clip ", "noclip ") + header(_header));
 
-      return scripting_helper("epslatex", ".tex", filename, options);
+      return script_generator_helper("epslatex", ".tex", filename, options);
     }
   };
 
@@ -292,12 +293,12 @@ namespace GnuPlotScripting
     std::string
     export_as(const std::filesystem::path& filename) const
     {
-      std::string options =
-          (free_form(_free_form) + boolean_option(_t_dynamic_f_fixed, "dynamic ", "fixed ") +
-           boolean_option(_t_solid_f_dashed, "solid ", "dashed ") +
-           boolean_option(_enhanced, "enhanced ", "noenhanced "));
+      std::string options = (free_form_to_string(_free_form) +
+                             boolean_option_to_string(_t_dynamic_f_fixed, "dynamic ", "fixed ") +
+                             boolean_option_to_string(_t_solid_f_dashed, "solid ", "dashed ") +
+                             boolean_option_to_string(_enhanced, "enhanced ", "noenhanced "));
 
-      return scripting_helper("svg", filename, options);
+      return script_generator_helper("svg", filename, options);
     }
   };
 
@@ -381,12 +382,13 @@ namespace GnuPlotScripting
     std::string
     export_as(const std::filesystem::path& filename) const
     {
-      std::string options = (free_form(_free_form) +
-                             boolean_option(_t_portrait_f_landscape, "portrait ", "landscape ") +
-                             boolean_option(_t_solid_f_dashed, "solid ", "dashed ") +
-                             boolean_option(_color, "color ", "monochrome "));
+      std::string options =
+          (free_form_to_string(_free_form) +
+           boolean_option_to_string(_t_portrait_f_landscape, "portrait ", "landscape ") +
+           boolean_option_to_string(_t_solid_f_dashed, "solid ", "dashed ") +
+           boolean_option_to_string(_color, "color ", "monochrome "));
 
-      return scripting_helper("tgif", "obj", filename, options);
+      return script_generator_helper("tgif", "obj", filename, options);
     }
   };
 
@@ -472,11 +474,13 @@ namespace GnuPlotScripting
     export_as(const std::filesystem::path& filename) const
     {
       std::string options =
-          (free_form(_free_form) + boolean_option(_enhanced, "enhanced ", "noenhanced ") +
-           boolean_option(_transparent, "transparent ", "notransparent ") +
-           boolean_option(_crop, "crop ", "nocrop ") + boolean_option(_color, "color ", "mono "));
+          (free_form_to_string(_free_form) +
+           boolean_option_to_string(_enhanced, "enhanced ", "noenhanced ") +
+           boolean_option_to_string(_transparent, "transparent ", "notransparent ") +
+           boolean_option_to_string(_crop, "crop ", "nocrop ") +
+           boolean_option_to_string(_color, "color ", "mono "));
 
-      return scripting_helper("pngcairo", "png", filename, options);
+      return script_generator_helper("pngcairo", "png", filename, options);
     }
   };
 
@@ -537,11 +541,11 @@ namespace GnuPlotScripting
     std::string
     export_as(const std::filesystem::path& filename) const
     {
-      std::string options =
-          (free_form(_free_form) + boolean_option(_enhanced, "enhanced ", "noenhanced ") +
-           boolean_option(_color, "color ", "mono "));
+      std::string options = (free_form_to_string(_free_form) +
+                             boolean_option_to_string(_enhanced, "enhanced ", "noenhanced ") +
+                             boolean_option_to_string(_color, "color ", "mono "));
 
-      return scripting_helper("pdfcairo", "pdf", filename, options);
+      return script_generator_helper("pdfcairo", "pdf", filename, options);
     }
   };
 
