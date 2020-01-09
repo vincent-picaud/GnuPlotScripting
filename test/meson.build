@@ -3,6 +3,7 @@ test_array = [
   ['data_vector_test','data_vector_exe','data_vector.cpp'],
   ['export_as_test','export_as_exe','export_as.cpp'],
   ['global_config_test','global_config_exe','global_config.cpp'],
+  ['data_supervised_test','data_supervised_exe','data_supervised.cpp'],
 ]
 
 foreach test : test_array
