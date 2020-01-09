@@ -28,6 +28,11 @@ Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHu
 
 ** News
 
+   - [2020-01-09 Thu 22:46] \\
+     - Added =Data_Supervised= class and associated example (see *Density plot*
+       in *Example* section)
+     - Code cleaning (no breaking change!)
+     - Tagged as v0.2.0 (v1.0.0 gets closer :-) )
   - [2019-12-09 Mon 18:34] \\
     Added SVG, TGIF, PNGCairo and PDFCairo export formats.
     Tagged as v0.0.3.
