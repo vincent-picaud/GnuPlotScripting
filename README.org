@@ -563,10 +563,10 @@ Data_Supervised data(Y, X_1, X_2); // note: the category vector Y is always the 
 std::cout << data.data();
 #+END_SRC
 
-*Note:* as AFAK it is not possible to directly plot point with symbols
+*Note:* as AFAK it is not possible to directly plot points with symbols
  retrieved from the the Y column (see [[https://stackoverflow.com/questions/29622885/how-set-point-type-from-data-in-gnuplot][SO
  how-set-point-type-from-data-in-gnuplot]]), hence the =Data_Supervised=
- class sort and group the sample according to their category. By
+ class sorts and groups the sample according to their categories. By
  example the previous code prints:
 
 #+BEGIN_EXAMPLE
@@ -587,12 +587,13 @@ std::cout << data.data();
 
 0.3 0.4 3 
 #+END_EXAMPLE
-Also note that in the embedded data, the Y category column is the last one. The rational is that for:
+Also note that when data is embedded, the =Y= category column is the
+*last one*. The rational is that for:
 #+BEGIN_SRC cpp :eval never
 Data_Supervised data_a(Y, X_1, X_2); 
 Data_Vector data_b(X_1, X_2); 
 #+END_SRC
-then in *both* case, =X_1= column index is 1 and =X_2= column index is 2.
+then in *both* cases, =X_1= column index is 1 and =X_2= column index is 2.
 
 ** =Script= classes
 
