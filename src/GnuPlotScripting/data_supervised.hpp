@@ -55,13 +55,13 @@ namespace GnuPlotScripting
     {
       return _I_size;
     };
+
     // J_size refers to X J_size, Y category is at position J_size + 1
     std::size_t
     J_size() const noexcept
     {
       return _J_size;
     };
-    //    std::size_t index_size() const { return index_
   };
 
   //////////////////////////////////////////////////////////////////
