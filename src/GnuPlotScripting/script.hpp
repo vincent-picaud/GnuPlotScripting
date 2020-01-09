@@ -42,6 +42,8 @@ namespace GnuPlotScripting
     Script(pimpl_type&& pimpl);
     ~Script();
 
+    Script& operator=(const Script&) = default;  // block object slicing
+
     //////////////// Methods ////////////////
     //
    public:
