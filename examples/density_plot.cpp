@@ -1,71 +1,39 @@
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
+#include "GnuPlotScripting/data_supervised.hpp"
 
 #include <array>
+#include <iostream>
 
 using namespace GnuPlotScripting;
 
-// std::array<std::pair<double,int  TinyMatrix<double, 10, 2> X;
-//   X[0] = std::array{0.1, 0.1};
-//   X[1] = std::array{0.3, 0.4};
-//   X[2] = std::array{0.1, 0.5};
-//   X[3] = std::array{0.6, 0.9};
-//   X[4] = std::array{0.4, 0.2};
-//   X[5] = std::array{0.6, 0.3};
-//   X[6] = std::array{0.5, 0.6};
-//   X[7] = std::array{0.9, 0.2};
-//   X[8] = std::array{0.4, 0.4};
-//   X[9] = std::array{0.7, 0.6};
-
-//   TinyMatrix<double, 10, 2> Y;
-//   Y[0] = std::array{1., 0.};
-//   Y[1] = std::array{1., 0.};
-//   Y[2] = std::array{1., 0.};
-//   Y[3] = std::array{1., 0.};
-//   Y[4] = std::array{1., 0.};
-//   Y[5] = std::array{0., 1.};
-//   Y[6] = std::array{0., 1.};
-//   Y[7] = std::array{0., 1.};
-//   Y[8] = std::array{0., 1.};
-//   Y[9] = std::array{0., 1.};
-
-std::array<std::array<double, 2>, 10> X{std::array{0.1, 0.1},
-                                        std::array{0.3, 0.4},
-                                        std::array{0.1, 0.5},
-                                        std::array{0.6, 0.9},
-                                        std::array{0.4, 0.2},
-                                        std::array{0.6, 0.3},
-                                        std::array{0.5, 0.6},
-                                        std::array{0.9, 0.2},
-                                        std::array{0.4, 0.4},
-                                        std::array{0.7, 0.6}};
-
 std::array<double, 10> X_1 = {0.1, 0.3, 0.1, 0.6, 0.4, 0.6, 0.5, 0.9, 0.4, 0.7};
-std::array<double, 10> X_2 = {0.1, 0.3, 0.1, 0.6, 0.4, 0.6, 0.5, 0.9, 0.4, 0.7};
+std::array<double, 10> X_2 = {0.1, 0.4, 0.5, 0.9, 0.2, 0.3, 0.6, 0.2, 0.4, 0.6};
+std::array<int, 10> Y      = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0};
 
 int
 main()
 {
-  Data_Ascii data(
-      "0.00 0.65 0.65 0.25\n"
-      "0.25 0.00 0.75 0.25\n"
-      "0.50 0.60 0.00 0.25\n"
-      "0.75 0.25 0.10 0.00\n");
+  Data_Supervised data(Y, X_1, X_2);
 
   Script_File script("density_plot.gp");
 
   script.free_form("set pm3d map");
+  script.free_form("set palette model RGB defined ( 0 'gray80', 1 'white' )");
+  script.free_form("set contour base");
+  script.free_form("set cntrparam levels discrete 0.5");
+  script.free_form("unset colorbox");  // no palette
 
-//   for (const auto& X_i : X)
-//   {
-//     set style line 1 lc rgb 'black' pt 5   # square
-// set style line 2 lc rgb 'black' pt 7   # circle
-// set style line 3 lc rgb 'black' pt 9   # triangle
-      
-//     pipe.free_form("{} {}", data_i.first, data_i.second);
-//     plot '-' w p ls 1
-//   }
+  // CAVEAT: for contour use pm3d and not image
+  script.free_form("splot 'density_plot_data.txt' u ($1/60):($2/60):3 matrix with pm3d lw 2");
 
-  script.free_form("splot 'density_plot_data.txt' u 1:2:3 matrix with pm3d");
+  for (size_t i = 0; i < 2; i++)
+  {
+    // CAVEAT: to prevent
+    //         <<warning: Cannot contour non grid data. Please use "set dgrid3d">>
+    //         do not forget "nocontour"
+    script.free_form(
+        "replot {0} index {1} u 1:2:3 with points pt '{1}' ps 2 notitle nocontour", data, i);
+  }
 
   return EXIT_SUCCESS;
 }
