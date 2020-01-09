@@ -7,6 +7,7 @@
 #include <cassert>
 #include <numeric>  // iota
 #include <sstream>
+#include <vector>
 
 namespace GnuPlotScripting
 {

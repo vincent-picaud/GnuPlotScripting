@@ -1,5 +1,4 @@
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
-#include "GnuPlotScripting/data_supervised.hpp"
 
 #include <array>
 #include <iostream>
@@ -26,7 +25,8 @@ main()
   script.free_form("unset colorbox");  // no palette
 
   // CAVEAT: for contour use pm3d and not image
-  script.free_form("splot 'density_plot_data.txt' u ($1/60):($2/60):3 matrix with pm3d lw 2 notitle");
+  script.free_form(
+      "splot 'density_plot_data.txt' u ($1/60):($2/60):3 matrix with pm3d lw 2 notitle");
 
   for (size_t i = 0; i < 2; i++)
   {

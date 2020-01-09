@@ -4,6 +4,7 @@ GnuPlotScripting_headers = [
   'detection_idiom.hpp',
   'data_vector.hpp',
   'data_ascii.hpp',
+  'data_supervised.hpp',
   'export_as.hpp',
   'global_config.hpp',
   'GnuPlotScripting.hpp',
