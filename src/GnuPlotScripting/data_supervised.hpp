@@ -109,7 +109,7 @@ namespace GnuPlotScripting
     {
       helper(i);
 
-      if (category_vector[i] != category_vector[i + 1])
+      if (category_vector[indirection[i]] != category_vector[indirection[i + 1]])
       {
         ++index_size;
         buffer << std::endl << std::endl;
