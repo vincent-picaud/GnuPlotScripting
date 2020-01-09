@@ -23,6 +23,8 @@ namespace GnuPlotScripting
     Data(std::string&& embedded_data);
     Data(const std::string& embedded_data);
 
+    Data& operator=(const Data&) = default; // block object slicing
+    
    public:
     const std::string& uuid() const;
     const std::string& data() const;
