@@ -592,6 +592,13 @@ std::cout << data.data();
 
 0.3 0.4 3 
 #+END_EXAMPLE
+Creating these groups allows to use the gnuplot *index* keyword to plot
+all points associated to a given category. By example:
+#+BEGIN_SRC gnuplot :eval never
+replot "$data_uuid" index i u 1:2:3 with points; # plot points of category i
+#+END_SRC
+
+
 Also note that when data is embedded, the =Y= category column is the
 *last one*. The rational is that for:
 #+BEGIN_SRC cpp :eval never
