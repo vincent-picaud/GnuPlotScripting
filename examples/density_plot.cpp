@@ -28,7 +28,7 @@ main()
   script.free_form(
       "splot 'density_plot_data.txt' u ($1/60):($2/60):3 matrix with pm3d lw 2 notitle");
 
-  for (size_t i = 0; i < 2; i++)
+  for (size_t i = 0; i < data.index_size(); i++)
   {
     // CAVEAT: to prevent
     //         <<warning: Cannot contour non grid data. Please use "set dgrid3d">>
