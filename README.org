@@ -305,7 +305,7 @@ It generates this figure:
 but also an active gnuplot 3D figure you can rotate etc...
 ** Density plot
 
-Density plot example
+This demo shows how to use the =Data_Supervised= class.
 
 #+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
 cat $(pwd)/examples/density_plot.cpp
@@ -498,6 +498,41 @@ The library is quite simple and there is only 3 things you must know:
 
 ** =Data= classes
 
+=Data= classes store data that is embedded into the generated gnuplot
+scripts. These classes internally use an =uuid= that insures that data
+is embedded only once. By example, when you write:
+
+#+BEGIN_SRC cpp :eval never
+script.free_form("plot {} u 1:2",data);
+script.free_form("replot {} u 1:3",data);
+script.free_form("replot {} u 1:4",data);
+#+END_SRC
+
+data is copied *only once* into the script file.
+
+*** =Data_Ascii= 
+
+The most basic =Data= classe is the =Data_Ascii= one. It directly uses
+data defined by a =std::string=. By example:
+#+BEGIN_SRC cpp :eval never
+Data_Ascii data(
+    "0.00 0.65 0.65 0.25\n"
+    "0.25 0.00 0.75 0.25\n"
+    "0.50 0.60 0.00 0.25\n"
+    "0.75 0.25 0.10 0.00\n");
+#+END_SRC
+
+*Note:* it is really easy to define your own =Data= class. By example
+=Data_Ascii= code is as simple as:
+#+BEGIN_SRC cpp :eval never
+class Data_Ascii final : public Data
+{
+ public:
+  Data_Ascii(const std::string& data) : Data(data) {}
+};
+#+END_SRC
+
+
 *** =Data_Vector=
 
 Creates columns of data from =std::vector=, =std::valarray=... In fact
@@ -512,39 +547,52 @@ std::valarray<double> v3(10);
 Data_Vector data(v1,v2,v3);
 #+END_SRC
 
-*** =Data_Ascii= 
+*** =Data_Supervised=
 
-uses data already put in form into a =std::string=. By example:
-#+BEGIN_SRC cpp :eval never
-Data_Ascii data(
-    "0.00 0.65 0.65 0.25\n"
-    "0.25 0.00 0.75 0.25\n"
-    "0.50 0.60 0.00 0.25\n"
-    "0.75 0.25 0.10 0.00\n");
-#+END_SRC
-
-It is really easy to define your own =Data= class. By example
-=Data_Ascii= code is as simple as:
-#+BEGIN_SRC cpp :eval never
-class Data_Ascii final : public Data
-{
- public:
-  Data_Ascii(const std::string& data) : Data(data) {}
-};
-#+END_SRC
-
-Also note that the =Data= base class provides a uuid that insures that
-data is embedded only once in the gnuplot script.
-
-By example, when you write:
+The =Data_Supervised= class is similar to the =Data_Vector= except that it
+uses and extra _category_ vector. It can be used to plot points
+associated to a supervised learning task. By example:
 
 #+BEGIN_SRC cpp :eval never
-script.free_form("plot {} u 1:2",data);
-script.free_form("replot {} u 1:3",data);
-script.free_form("replot {} u 1:4",data);
+std::array<double, 10> X_1 = {0.1, 0.3, 0.1, 0.6, 0.4, 0.6, 0.5, 0.9, 0.4, 0.7};  // X_1 feature
+std::array<double, 10> X_2 = {0.1, 0.4, 0.5, 0.9, 0.2, 0.3, 0.6, 0.2, 0.4, 0.6};  // X_2 feature
+std::array<int, 10> Y      = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0};                      // category (=label)
+
+Data_Supervised data(Y, X_1, X_2); // note: the category vector Y is always the _first_ argument
+
+std::cout << data.data();
 #+END_SRC
 
-data is copied into the script file only once.
+*Note:* as AFAK it is not possible to directly plot point with symbols
+ retrieved from the the Y column (see [[https://stackoverflow.com/questions/29622885/how-set-point-type-from-data-in-gnuplot][SO
+ how-set-point-type-from-data-in-gnuplot]]), hence the =Data_Supervised=
+ class sort and group the sample according to their category. By
+ example the previous code prints:
+
+#+BEGIN_EXAMPLE
+0.6 0.3 0 
+0.9 0.2 0 
+0.4 0.4 0 
+
+
+0.1 0.1 1 
+0.1 0.5 1 
+0.6 0.9 1 
+0.4 0.2 1 
+
+
+0.5 0.6 2 
+0.7 0.6 2 
+
+
+0.3 0.4 3 
+#+END_EXAMPLE
+Also note that in the embedded data, the Y category column is the last one. The rational is that for:
+#+BEGIN_SRC cpp :eval never
+Data_Supervised data_a(Y, X_1, X_2); 
+Data_Vector data_b(X_1, X_2); 
+#+END_SRC
+then in *both* case, =X_1= column index is 1 and =X_2= column index is 2.
 
 ** =Script= classes
 
