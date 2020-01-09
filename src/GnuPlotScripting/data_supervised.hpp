@@ -55,6 +55,7 @@ namespace GnuPlotScripting
     {
       return _I_size;
     };
+    // J_size refers to X J_size, Y category is at position J_size + 1
     std::size_t
     J_size() const noexcept
     {
@@ -83,7 +84,9 @@ namespace GnuPlotScripting
     index_size = 1;
     I_size     = vector.size();
     J_size     = 1 + sizeof...(vectors);
+
     assert((I_size == category_vector.size()) && ((I_size == vectors.size()) && ...));
+
     if (I_size == 0) return {};
 
     // Sort sample according to their categories
