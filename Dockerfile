@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:testing
 RUN apt-get update -yq && \
     apt-get install \
         --yes \
