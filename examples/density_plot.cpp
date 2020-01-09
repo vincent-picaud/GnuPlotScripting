@@ -17,6 +17,8 @@ main()
 
   Script_File script("density_plot.gp");
 
+  script.free_form("set title 'Supervised learning'");
+
   script.free_form("set pm3d map");
   script.free_form("set palette model RGB defined ( 0 'gray80', 1 'white' )");
   script.free_form("set contour base");
@@ -34,6 +36,8 @@ main()
     script.free_form(
         "replot {0} index {1} u 1:2:3 with points pt '{1}' ps 2 notitle nocontour", data, i);
   }
+
+  script.export_as(PNG(), "density_plot");
 
   return EXIT_SUCCESS;
 }
