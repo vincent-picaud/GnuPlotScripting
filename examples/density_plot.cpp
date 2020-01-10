@@ -18,7 +18,7 @@ main()
 
   script.free_form("set title 'Supervised learning'");
 
-  script.free_form("set pm3d map");
+  script.free_form("set pm3d map interpolate 2,2");
   script.free_form("set palette model RGB defined ( 0 'gray80', 1 'white' )");
   script.free_form("set contour base");
   script.free_form("set cntrparam levels discrete 0.5");

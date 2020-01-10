@@ -319,7 +319,6 @@ cat $(pwd)/examples/density_plot.cpp
 #+RESULTS:
 #+BEGIN_src cpp :eval never
 #include "GnuPlotScripting/GnuPlotScripting.hpp"
-#include "GnuPlotScripting/data_supervised.hpp"
 
 #include <array>
 #include <iostream>
@@ -339,16 +338,17 @@ main()
 
   script.free_form("set title 'Supervised learning'");
 
-  script.free_form("set pm3d map");
+  script.free_form("set pm3d map interpolate 2,2");
   script.free_form("set palette model RGB defined ( 0 'gray80', 1 'white' )");
   script.free_form("set contour base");
   script.free_form("set cntrparam levels discrete 0.5");
   script.free_form("unset colorbox");  // no palette
 
   // CAVEAT: for contour use pm3d and not image
-  script.free_form("splot 'density_plot_data.txt' u ($1/60):($2/60):3 matrix with pm3d lw 2 notitle");
+  script.free_form(
+      "splot 'density_plot_data.txt' u ($1/60):($2/60):3 matrix with pm3d lw 2 notitle");
 
-  for (size_t i = 0; i < 2; i++)
+  for (size_t i = 0; i < data.index_size(); i++)
   {
     // CAVEAT: to prevent
     //         <<warning: Cannot contour non grid data. Please use "set dgrid3d">>
