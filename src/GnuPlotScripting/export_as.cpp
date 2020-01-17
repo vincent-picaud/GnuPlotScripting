@@ -22,9 +22,10 @@ namespace GnuPlotScripting
   //
   namespace
   {
+    // Note: mutable filename because of final
+    // filename.replace_filename()
     std::filesystem::path
-    change_filename_extension(const std::filesystem::path& filename,
-                              const std::string& new_extension)
+    change_filename_extension(std::filesystem::path filename, const std::string& new_extension)
     {
       std::string filename_no_ext_as_string = filename.stem();
 
@@ -37,7 +38,7 @@ namespace GnuPlotScripting
 
       filename_no_ext_as_string += new_extension;
 
-      return filename_no_ext_as_string;
+      return filename.replace_filename(filename_no_ext_as_string);
     }
 
     std::string
