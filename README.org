@@ -23,27 +23,31 @@ develop stuff in C++.
 For the moment the library is only tested under Linux (it should also
 works under Windows but I have not checked yet).
 
-Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHub, GnuPlotScripting]].
+# Feel free to use it: [[https://github.com/vincent-picaud/GnuPlotScripting][GitHub, GnuPlotScripting]].
 
 
 ** News
 
+   - [2020-01-18 Sat 09:17] \\
+     - Version v1.0.0 release!
+     - More documentation
+     - Fix a bug in export_as(...,path/output_filename): the path was ignored
    - [2020-01-09 Thu 22:46] \\
      - Added =Data_Supervised= class and associated example (see *Density plot*
        in *Example* section)
      - Code cleaning (no breaking change!)
      - Tagged as v0.2.0 (v1.0.0 gets closer :-) )
-  - [2019-12-09 Mon 18:34] \\
-    Added SVG, TGIF, PNGCairo and PDFCairo export formats.
-    Tagged as v0.0.3.
+   - [2019-12-09 Mon 18:34] \\
+     Added SVG, TGIF, PNGCairo and PDFCairo export formats.
+     Tagged as v0.0.3.
 
-  - [2019-12-08 Sun 20:21] \\
-    Some minor fixes + doc concerning Global_Config logger methods.
-    Tagged as v0.0.2 
+   - [2019-12-08 Sun 20:21] \\
+     Some minor fixes + doc concerning Global_Config logger methods.
+     Tagged as v0.0.2 
 
-  - [2019-12-08 Sun 11:21] \\
-    Initial version.
-    Tagged as v0.0.1 
+   - [2019-12-08 Sun 11:21] \\
+     Initial version.
+     Tagged as v0.0.1 
 
 ** Contributors 
 
@@ -64,6 +68,20 @@ ninja test
 #+END_SRC 
 
 Examples can then be found in the =build/examples/= directory.
+
+If you want to install the package:
+#+BEGIN_SRC sh :eval never
+ninja install
+#+END_SRC 
+
+Note that you can define custom installation path, at the beginning of
+the compilation procedure, use:
+
+#+BEGIN_SRC sh :eval never
+meson --prefix=/install_path/ build
+#+END_SRC 
+
+instead of =meson build=.
 
 * Examples 
 
