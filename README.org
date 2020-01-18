@@ -29,7 +29,7 @@ works under Windows but I have not checked yet).
 ** News
 
    - [2020-01-18 Sat 09:17] \\
-     - Version v1.0.0 release!
+     - *Version v1.0.0 release!*
      - More documentation
      - Fix a bug in export_as(...,path/output_filename): the path was ignored
    - [2020-01-09 Thu 22:46] \\
