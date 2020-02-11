@@ -1,4 +1,4 @@
-#+OPTIONS: H:3 toc:t num:t \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:t tags:not-in-toc
+#+OPTIONS: H:3 toc:t \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:t tags:not-in-toc
 #+BLOG: wordpress
 #+POSTID: 931
 #+DATE: [2019-12-06 Fri 19:40]
@@ -8,6 +8,27 @@
 # trick from https://github.com/rexim/org-cliplink/
 
 [[https://travis-ci.org/vincent-picaud/GnuPlotScript][file:https://travis-ci.org/vincent-picaud/GnuPlotScripting.svg?branch=master]]
+
+* Table of contents                                            :TOC:noexport:
+- [[#what-is-it][What is it?]]
+  - [[#news][News]]
+  - [[#contributors][Contributors]]
+- [[#installation][Installation]]
+- [[#examples][Examples]]
+  - [[#plot-and-fit-data][Plot and fit data]]
+  - [[#matrix-data][Matrix data]]
+  - [[#histogram][Histogram]]
+  - [[#graph][Graph]]
+  - [[#density-plot][Density plot]]
+  - [[#pipe-example][Pipe example]]
+  - [[#supported-export-formats][Supported export formats]]
+  - [[#global-config-demonstration][Global config demonstration]]
+- [[#documentation][Documentation]]
+  - [[#data-classes][=Data= classes]]
+  - [[#script-classes][=Script= classes]]
+  - [[#global_config-class][=Global_Config= class]]
+- [[#references][References]]
+- [[#faq][FAQ]]
 
 * What is it?
 
