@@ -5,7 +5,7 @@ RUN apt-get update -yq && \
         --no-install-recommends \
         ca-certificates \
         g++ \
-        make \
+        git \
         meson \
         && \
     apt-get autoclean && \
