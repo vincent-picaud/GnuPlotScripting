@@ -1,6 +1,7 @@
 #include "GnuPlotScripting/script.hpp"
 #include "GnuPlotScripting/global_config.hpp"
 
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <set>
