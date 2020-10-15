@@ -23,15 +23,14 @@ namespace GnuPlotScripting
     Data(std::string&& embedded_data);
     Data(const std::string& embedded_data);
 
-    Data& operator=(const Data&) = default; // block object slicing
-    
+    Data& operator=(const Data&) = default;  // block object slicing
+
    public:
     const std::string& uuid() const;
     const std::string& data() const;
 
     // used by fmt::format
-    operator const char* const() const { return uuid().c_str(); };
+    operator const char*() const { return uuid().c_str(); };
   };
 
 }
-

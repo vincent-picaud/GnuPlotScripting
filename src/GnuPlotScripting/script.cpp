@@ -19,7 +19,7 @@ namespace GnuPlotScripting
   {
     write(s);
     write("\n");
-  };
+  }
 
   void
   Script::Interface::write(const Data& d)
@@ -31,7 +31,7 @@ namespace GnuPlotScripting
       writeln("EOD");
       _uuid_set.insert(d.uuid());
     }
-  };
+  }
 
   //////////////// Script ////////////////
   //
