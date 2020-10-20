@@ -17,7 +17,7 @@
 - [[#examples][Examples]]
   - [[#plot-and-fit-data][Plot and fit data]]
   - [[#ascii-matrix-data][Ascii matrix data]]
-  - [[#new-matrix-data][[NEW] Matrix data]]
+  - [[#new-matrix-data][(NEW) Matrix data]]
   - [[#histogram][Histogram]]
   - [[#graph][Graph]]
   - [[#density-plot][Density plot]]
@@ -227,7 +227,7 @@ colorized pdf simply use:
 EPSLATEX().set_standalone(true).set_color(true)
 #+end_src
 
-** [NEW] Matrix data 
+** (NEW) Matrix data 
 
 You can also use the =Array_2= container to temporary store your data
 
@@ -631,7 +631,7 @@ class Data_Ascii final : public Data
 #+END_SRC
 
 
-*** [NEW] =Data_Array_2=
+*** (NEW) =Data_Array_2=
 
 Data to plot is defined using an basic two-dimensional array container, Array_2.
 
