@@ -1,21 +1,24 @@
 GnuPlotScripting_headers = [
-  'script.hpp',
+  'GnuPlotScripting.hpp',
+  'array_2.hpp',
   'data.hpp',
-  'detection_idiom.hpp',
-  'data_vector.hpp',
   'data_ascii.hpp',
+  'data_array_2.hpp',
   'data_supervised.hpp',
+  'data_vector.hpp',
+  'detection_idiom.hpp',
   'export_as.hpp',
   'global_config.hpp',
-  'GnuPlotScripting.hpp',
+  'script.hpp',
   'script_file_mode_enum.hpp',
   'script_pipe_mode_enum.hpp',
 ]
 GnuPlotScripting_sources = [
-  'script.cpp',
   'data.cpp',
+  'data_array_2.cpp',
   'export_as.cpp',
   'global_config.cpp',
+  'script.cpp',
 ]
 
 GnuPlotScripting_lib = library('GnuPlotScripting',

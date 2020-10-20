@@ -5,3 +5,5 @@ subprojects/fmt-7.0.1/**
 *~
 /README.html
 /subprojects/fmt-6.0.0/
+/compile_commands.json
+/.clangd/
