@@ -25,7 +25,6 @@ main()
   Script_File script("array_2.gp");
 
   script.free_form("set autoscale fix");
-  //  script.free_form("set cbrange [-1:1]");
   script.free_form("plot {} matrix using 1:2:3 with image", data);
   script.export_as(PNG(), "array_2");
 }
