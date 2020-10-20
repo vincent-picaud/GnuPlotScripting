@@ -3,4 +3,4 @@ dist: trusty
 services:
   - docker
 script:
-  - make
+  - make -f Makefile_travis
