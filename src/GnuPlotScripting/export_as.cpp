@@ -195,9 +195,9 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  SETTER(PNG, enhanced);
-  SETTER(PNG, transparent);
-  SETTER(PNG, interlace);
+  SETTER(PNG, enhanced)
+  SETTER(PNG, transparent)
+  SETTER(PNG, interlace)
 
   //////////////
   // EPSLATEX //
@@ -262,9 +262,9 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  SETTER(EPSLATEX, standalone);
-  SETTER(EPSLATEX, color);
-  SETTER(EPSLATEX, clip);
+  SETTER(EPSLATEX, standalone)
+  SETTER(EPSLATEX, color)
+  SETTER(EPSLATEX, clip)
 
   EPSLATEX&
   EPSLATEX::set_header(const std::string& header)
@@ -361,7 +361,7 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  SETTER(SVG, enhanced);
+  SETTER(SVG, enhanced)
 
   //////////
   // TGIF //
@@ -451,7 +451,7 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  SETTER(TGIF, color);
+  SETTER(TGIF, color)
 
   //////////////
   // PNGCairo //
@@ -518,10 +518,10 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  SETTER(PNGCairo, enhanced);
-  SETTER(PNGCairo, transparent);
-  SETTER(PNGCairo, crop);
-  SETTER(PNGCairo, color);
+  SETTER(PNGCairo, enhanced)
+  SETTER(PNGCairo, transparent)
+  SETTER(PNGCairo, crop)
+  SETTER(PNGCairo, color)
 
   //////////////
   // PDFCairo //
@@ -583,7 +583,7 @@ namespace GnuPlotScripting
     return *this;
   }
 
-  SETTER(PDFCairo, enhanced);
-  SETTER(PDFCairo, color);
+  SETTER(PDFCairo, enhanced)
+  SETTER(PDFCairo, color)
 
 }
