@@ -16,7 +16,8 @@
 - [[#installation][Installation]]
 - [[#examples][Examples]]
   - [[#plot-and-fit-data][Plot and fit data]]
-  - [[#matrix-data][Matrix data]]
+  - [[#ascii-matrix-data][Ascii matrix data]]
+  - [[#new-matrix-data][[NEW] Matrix data]]
   - [[#histogram][Histogram]]
   - [[#graph][Graph]]
   - [[#density-plot][Density plot]]
@@ -24,9 +25,9 @@
   - [[#supported-export-formats][Supported export formats]]
   - [[#global-config-demonstration][Global config demonstration]]
 - [[#documentation][Documentation]]
-  - [[#data-classes][=Data= classes]]
-  - [[#script-classes][=Script= classes]]
-  - [[#global_config-class][=Global_Config= class]]
+  - [[#data-classes][Data classes]]
+  - [[#script-classes][Script classes]]
+  - [[#global_config-class][Global_Config class]]
 - [[#references][References]]
 - [[#faq][FAQ]]
 
@@ -48,7 +49,12 @@ works under Windows but I have not checked yet).
 
 
 ** News
-
+   
+   - [2020-10-20 Tue] \\
+     - *Version v1.1.0*!
+     - some compilation warning fixes
+     - a new Data_Array_2 class
+     
    - [2020-01-18 Sat 09:17] \\
      - *Version v1.0.0 release!*
      - More documentation
@@ -169,7 +175,7 @@ It generates this figure:
 gnuplot plot.pg -
 #+END_SRC 
 
-** Matrix data 
+** Ascii matrix data 
 
 #+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
 cat $(pwd)/examples/matrix.cpp
@@ -220,6 +226,54 @@ colorized pdf simply use:
 #+begin_src cpp :eval never 
 EPSLATEX().set_standalone(true).set_color(true)
 #+end_src
+
+** [NEW] Matrix data 
+
+You can also use the =Array_2= container to temporary store your data
+
+#+BEGIN_SRC sh :wrap "src cpp :eval never" :results output :exports results
+cat $(pwd)/examples/array_2.cpp
+#+END_SRC
+
+#+RESULTS:
+#+begin_src cpp :eval never
+#include "GnuPlotScripting/array_2.hpp"
+#include "GnuPlotScripting/GnuPlotScripting.hpp"
+
+#include <iostream>
+
+using namespace GnuPlotScripting;
+
+int
+main()
+{
+  const double X = 2, Y = 2;
+  const std::size_t I = 100, J = 120;
+
+  const auto f = [=](const std::size_t i, const std::size_t j) {
+    const double x = (2 * i / double(I - 1) - 1) * X;
+    const double y = (2 * j / double(J - 1) - 1) * Y;
+
+    return exp(-x * x - y * y);
+  };
+
+  Array_2 array_2(I, J, f);
+
+  Data_Array_2 data(array_2);
+
+  Script_File script("array_2.gp");
+
+  script.free_form("set autoscale fix");
+  //  script.free_form("set cbrange [-1:1]");
+  script.free_form("plot {} matrix using 1:2:3 with image", data);
+  script.export_as(PNG(), "array_2");
+  script.export_as(EPSLATEX().set_standalone(true), "array_2");
+}
+#+end_src
+
+It generates this figure:
+
+[[file:figures/array_2.png][file:figures/array_2.png]]
 
 ** Histogram
 
@@ -540,7 +594,7 @@ The library is quite simple and there is only 3 things you must know:
 - Script_XXX are script classes to write your scripts
 - global_config() returns a Global_Config object used to define global options.
 
-** =Data= classes
+** Data classes
 
 =Data= classes store data that is embedded into the generated gnuplot
 scripts. These classes internally use an =uuid= that insures that data
@@ -576,6 +630,21 @@ class Data_Ascii final : public Data
 };
 #+END_SRC
 
+
+*** [NEW] =Data_Array_2=
+
+Data to plot is defined using an basic two-dimensional array container, Array_2.
+
+
+#+BEGIN_SRC cpp :eval never
+Array_2 array_2(row_size,column_size);
+
+// fill component: array_2(i,j)= ...
+
+Data_Array_2 data(array_2);
+
+// plot data
+#+END_SRC
 
 *** =Data_Vector=
 
@@ -646,7 +715,7 @@ Data_Vector data_b(X_1, X_2);
 #+END_SRC
 then in *both* cases, =X_1= column index is 1 and =X_2= column index is 2.
 
-** =Script= classes
+** Script classes
 
 There are two script classes:
 - =Script_File= creates a file to store the script. 
@@ -725,7 +794,7 @@ as for =Script_File= class, =script_pipe_mode= defines what happens at destructi
 - =Script_Pipe_Mode_Enum::Not_Persistent= does not keep an opened window
 - =Script_Pipe_Mode_Enum::Persistent= keeps an opened, but inactive, window
 
-** =Global_Config= class
+** Global_Config class
 
 This class allows you to define or overwrite globally some options
 
