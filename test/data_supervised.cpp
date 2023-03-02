@@ -1,6 +1,6 @@
 #include "GnuPlotScripting/data_supervised.hpp"
-
 #include <gtest/gtest.h>
+#include <array>
 
 using namespace GnuPlotScripting;
 
